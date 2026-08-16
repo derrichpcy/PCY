@@ -139,8 +139,8 @@
             background-color: var(--card-bg);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 0.5rem 0.85rem;
-            border-radius: 20px;
+            padding: 0.45rem 0.70rem;
+            border-radius: 6px;
             cursor: pointer;
             white-space: nowrap;
             font-weight: 500;
@@ -743,7 +743,7 @@
             
             loadCart();
             renderTabs();
-            renderProducts();
+            filterProducts();
             updateCartBadge();
             
             document.getElementById('companyNameInput').addEventListener('input', persistForm);
@@ -1083,7 +1083,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-brand">PCY</div>
-            <p class="footer-text">Be Sourced, Be Selected</p>
+            <p class="footer-text">"Be Sourced, Be Selected"</p>
             <div class="footer-meta">
                 <span>© 2026 PCY. All rights reserved.</span>
             </div>
