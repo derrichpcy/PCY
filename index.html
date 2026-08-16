@@ -249,6 +249,14 @@
             background-color: var(--primary-hover);
         }
 
+        .btn-added {
+            background-color: #10b981 !important; /* Success Green */
+            color: #ffffff !important;
+            border-color: #10b981 !important;
+            transform: scale(0.98);
+            transition: all 0.2s ease-in-out;
+        }
+
         /* --- Cart Modal --- */
         .cart-overlay {
             position: fixed;
@@ -460,7 +468,6 @@
             display: none;
             margin-bottom: 0.4rem;
         }
-        
     </style>
 </head>
 <body>
@@ -470,7 +477,7 @@
         <div class="header-top">
             <h1>PCY</h1>
             <div class="cart-icon-wrapper" onclick="toggleCart()">
-                🛒 <span id="cartBadge">0</span>
+                 🛒 <span id="cartBadge">0</span>
             </div>
         </div>
         <div class="search-container">
@@ -493,7 +500,7 @@
         <div class="cart-drawer">
             <div class="cart-header">
                 <h2>My Order List</h2>
-                <button class="close-cart" onclick="toggleCart()">✖</button>
+                <button class="close-cart" onclick="toggleCart()">&times;</button>
             </div>
             
             <div class="cart-items" id="cartItemsContainer">
@@ -510,7 +517,7 @@
                     <input type="date" id="deliveryDateInput" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.9rem; outline: none;">
                 </div>
                 <button class="whatsapp-btn" onclick="sendToWhatsApp()">
-                    💬 Send Order List via WhatsApp
+                     Send Order List via WhatsApp
                 </button>
             </div>
         </div>
@@ -604,7 +611,7 @@
                                 <label>Weight (KG)</label>
                                 <input type="number" id="weight-${p.id}" value="1" min="0.5" step="0.5">
                             </div>
-                            <button class="add-to-order-btn" onclick="addToOrder(${p.id})">Add to Order</button>
+                            <button class="add-to-order-btn" onclick="addToOrder(${p.id}, this)">Add to Order</button>
                         </div>
                     </div>
                 `;
@@ -619,7 +626,7 @@
 
             if (sizeBox.style.display === "none" || sizeBox.style.display === "") {
                 sizeBox.style.display = "block";
-                btnElement.textContent = "− Remove Size";
+                btnElement.textContent = "Remove Size";
             } else {
                 sizeBox.style.display = "none";
                 btnElement.textContent = "+ Add Specific Size";
@@ -644,20 +651,19 @@
                 weight: weight
             });
 
-            updateCartBadge();
-
-            // Dark Blue Button Feedback (No green, keeping primary brand color)
             const originalText = buttonElement.textContent;
+            buttonElement.classList.add('btn-added'); 
             buttonElement.textContent = "Added ✓";
-            buttonElement.style.opacity = "0.8";
             buttonElement.disabled = true;
-
+            
+            updateCartBadge();
+            
             setTimeout(() => {
+                buttonElement.classList.remove('btn-added'); 
                 buttonElement.textContent = originalText;
-                buttonElement.style.opacity = "1";
                 buttonElement.disabled = false;
             }, 1200);
-
+            
             // Reset fields and collapse size box back down
             if(weightInput) weightInput.value = "1";
             if(sizeInput) sizeInput.value = "";
@@ -709,7 +715,7 @@
                 const el = document.createElement("div");
                 el.className = "cart-item";
                 el.innerHTML = `
-                    <button class="remove-btn" onclick="removeFromCart(${item.cartUniqueId})" title="Remove item">✖</button>
+                    <button class="remove-btn" onclick="removeFromCart(${item.cartUniqueId})" title="Remove item">&times;</button>
                     <div class="cart-item-name">${index + 1}. ${item.name}</div>
                     <div class="cart-item-inputs">
                         <div class="input-group">
@@ -777,13 +783,13 @@
         }
     </script>
     <footer>
-    <div class="footer-content">
-        <div class="footer-brand">PCY</div>
-        <p class="footer-text">Be Sourced, Be Selected</p>
-        <div class="footer-meta">
-            <span>© 2026 PCY. All rights reserved.</span>
+        <div class="footer-content">
+            <div class="footer-brand">PCY</div>
+            <p class="footer-text">Be Sourced, Be Selected</p>
+            <div class="footer-meta">
+                <span>© 2026 PCY. All rights reserved.</span>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
 </body>
 </html>
