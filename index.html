@@ -214,6 +214,7 @@
 
         .product-img {
             width: 100%;
+            height: auto;
             aspect-ratio: 1 / 1;
             object-fit: cover;
             background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 50%, #f0f0f0 75%);
@@ -597,6 +598,22 @@
         .size-input-container {
             display: none;
             margin-bottom: 0.4rem;
+        }
+
+        .size-input-container input {
+            width: 100%;
+            padding: 0.65rem 0.75rem;
+            font-size: 1rem;
+            min-height: 44px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: #ffffff;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .size-input-container input:focus {
+            border-color: var(--primary);
         }
     </style>
 </head>
