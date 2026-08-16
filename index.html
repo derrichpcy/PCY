@@ -6,15 +6,15 @@
     <title>Seafood Catalog & Inquiry</title>
     <style>
         :root {
-            --primary: #0077b6;
-            --primary-hover: #023e8a;
-            --bg-color: #f8f9fa;
-            --text-main: #333;
-            --text-muted: #6c757d;
-            --card-bg: #fff;
-            --border: #e9ecef;
-            --danger: #ef233c;
-            --success: #25D366; /* WhatsApp Green */
+            --primary: #071628;
+            --primary-hover: #0F2A4A;
+            --bg-color: #FAF9F5;
+            --text-main: #2D2D2A;
+            --text-muted: #6B7280;
+            --card-bg: #ffffff;
+            --border: #e5e3da;
+            --danger: #991b1b;
+            --success: #166534; /* WhatsApp Green */
         }
 
         * {
@@ -154,7 +154,7 @@
 
         .product-img {
             width: 100%;
-            height: 200px;
+            aspect-ratio: 1 / 1;
             object-fit: cover;
         }
 
@@ -409,30 +409,30 @@
     <!-- JavaScript Data & Logic -->
     <script>
         // --- 1. DATA STRUCTURE ---
-        const WHATSAPP_NUMBER = "60123456789"; 
+        const WHATSAPP_NUMBER = "601174293823"; 
 
         const categories = ["Semua", "Ikan", "Sotong", "Udang", "Kerang", "Ketam"];
         let currentCategory = "Semua";
 
         // Array of 50 item slots (Pre-populated with 5 active examples using Unsplash placeholders)
         const products = [
-        { id: 1, name: "Ikan Bakulan", category: "Ikan", imgUrl: "images/bakulan.png" },
-        { id: 2, name: "Ikan Bawal Emas", category: "Ikan", imgUrl: "images/bawal-emas.png" },
-        { id: 3, name: "Ikan Bawal Hitam", category: "Ikan", imgUrl: "images/bawal-hitam.png" },
-        { id: 4, name: "Isi Dori", category: "Ikan", imgUrl: "images/isi-dori.png" },
-        { id: 5, name: "Isi Jenahak", category: "Ikan", imgUrl: "images/isi-jenahak.png" },
-        { id: 6, name: "Isi Merah", category: "Ikan", imgUrl: "images/isi-merah.png" },
-        { id: 7, name: "Ikan Keli", category: "Ikan", imgUrl: "images/keli.png" },
-        { id: 8, name: "Ketam Kalok", category: "Ketam", imgUrl: "images/ketam-kalok.png" },
-        { id: 9, name: "Ketam Suri", category: "Ketam", imgUrl: "images/ketam-suri.png" },
-        { id: 10, name: "Ikan Patin", category: "Ikan", imgUrl: "images/patin.png" },
-        { id: 11, name: "Ikan Putih", category: "Ikan", imgUrl: "images/putih.png" },
-        { id: 12, name: "Sotong Bunga", category: "Sotong", imgUrl: "images/sotong-bunga.png" },
-        { id: 13, name: "Sotong Cincin", category: "Sotong", imgUrl: "images/sotong-cincin.png" },
-        { id: 14, name: "Sotong Tube", category: "Sotong", imgUrl: "images/sotong-tube.png" },
-        { id: 15, name: "Talapia Hitam", category: "Ikan", imgUrl: "images/talapia-hitam.png" },
-        { id: 16, name: "Talapia Merah", category: "Ikan", imgUrl: "images/talapia-merah.png" },
-        { id: 17, name: "Ikan Tamban", category: "Ikan", imgUrl: "images/tamban.png" }
+        { id: 1, name: "Bakulan | Tongkol Hitam (Longtail Tuna)", category: "Ikan", imgUrl: "images/bakulan.png" },
+        { id: 2, name: "Bawal Emas (Golden Pomfret)", category: "Ikan", imgUrl: "images/bawal-emas.png" },
+        { id: 3, name: "Bawal Hitam (Black Pomfret)", category: "Ikan", imgUrl: "images/bawal-hitam.png" },
+        { id: 4, name: "Isi Dori (Dory Fillet)", category: "Ikan", imgUrl: "images/isi-dori.png" },
+        { id: 5, name: "Isi Jenahak (Golden Snapper Fillet)", category: "Ikan", imgUrl: "images/isi-jenahak.png" },
+        { id: 6, name: "Isi Merah (Red Snapper Fillet)", category: "Ikan", imgUrl: "images/isi-merah.png" },
+        { id: 7, name: "Keli (Walking Catfish) ", category: "Ikan", imgUrl: "images/keli.png" },
+        { id: 8, name: "Ketam Kalok (Mud Crab)", category: "Ketam", imgUrl: "images/ketam-kalok.png" },
+        { id: 9, name: "Ketam Suri (Flower Crab)", category: "Ketam", imgUrl: "images/ketam-suri.png" },
+        { id: 10, name: "Patin (Silver Catfish | Pangasius)", category: "Ikan", imgUrl: "images/patin.png" },
+        { id: 11, name: "Putih", category: "Ikan", imgUrl: "images/putih.png" },
+        { id: 12, name: "Sotong Bunga (Squid Flower)", category: "Sotong", imgUrl: "images/sotong-bunga.png" },
+        { id: 13, name: "Sotong Cincin (Squid Ring)", category: "Sotong", imgUrl: "images/sotong-cincin.png" },
+        { id: 14, name: "Sotong Tube (Squid Tube)", category: "Sotong", imgUrl: "images/sotong-tube.png" },
+        { id: 15, name: "Talapia Hitam (Black Tilapia", category: "Ikan", imgUrl: "images/talapia-hitam.png" },
+        { id: 16, name: "Talapia Merah (Red Tilapia)", category: "Ikan", imgUrl: "images/talapia-merah.png" },
+        { id: 17, name: "Tamban", category: "Ikan", imgUrl: "images/tamban.png" }
         ];
 
         let cart = []; // Array to store user's selected items
@@ -559,8 +559,8 @@
                     <div class="cart-item-name">${index + 1}. ${item.name}</div>
                     <div class="cart-item-inputs">
                         <div class="input-group">
-                            <label>Preferred Size</label>
-                            <input type="text" placeholder="e.g. L, XL, Cut" value="${item.size}" 
+                            <label>Size</label>
+                            <input type="text" placeholder="e.g. 300/500, 500/700, 5/7, 7/10" value="${item.size}" 
                                    oninput="updateCartItemData(${item.id}, 'size', this.value)">
                         </div>
                         <div class="input-group">
@@ -616,7 +616,7 @@
     let message = `${companyName}\n${deliveryDate}\n`;
 
     cart.forEach((item) => {
-        const itemSize = item.size.trim() === "" ? "Standard" : item.size;
+        const itemSize = item.size.trim() === "" ? "" : `, Size: ${item.size.trim()}`;
         const itemWeight = item.weight || 1;
         
         message += `- ${item.name}, Size: ${itemSize}, ${itemWeight} KG\n`;
