@@ -361,7 +361,7 @@
     <!-- Header & Search -->
     <header>
         <div class="header-top">
-            <h1>Pasar Laut 🌊</h1>
+            <h1>PCY Catalog & Inquiry 🌊</h1>
             <div class="cart-icon-wrapper" onclick="toggleCart()">
                 🛒 <span id="cartBadge">0</span>
             </div>
@@ -394,13 +394,18 @@
             </div>
 
             <div class="cart-footer">
-                <button class="whatsapp-btn" onclick="sendToWhatsApp()">
-                    💬 Send Order List via WhatsApp
-                </button>
-            </div>
-        </div>
+    <div style="margin-bottom: 0.75rem;">
+        <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Company Name</label>
+        <input type="text" id="companyNameInput" placeholder="Enter company name..." style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.9rem; outline: none;">
     </div>
-
+    <div style="margin-bottom: 1rem;">
+        <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Delivery Date</label>
+        <input type="date" id="deliveryDateInput" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.9rem; outline: none;">
+    </div>
+    <button class="whatsapp-btn" onclick="sendToWhatsApp()">
+        💬 Send Order List via WhatsApp
+    </button>
+</div>
     <!-- JavaScript Data & Logic -->
     <script>
         // --- 1. DATA STRUCTURE ---
@@ -411,12 +416,23 @@
 
         // Array of 50 item slots (Pre-populated with 5 active examples using Unsplash placeholders)
         const products = [
-            { id: 1, name: "Ikan Bawal Emas (Golden Pomfret)", category: "Ikan", imgUrl: "https://images.unsplash.com/photo-1511874288307-88eb7e974950?w=500&q=80" },
-            { id: 2, name: "Sotong Katak (Cuttlefish)", category: "Sotong", imgUrl: "https://images.unsplash.com/photo-1614539665809-58b1bbd9cda5?w=500&q=80" },
-            { id: 3, name: "Udang Harimau (Tiger Prawn)", category: "Udang", imgUrl: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=500&q=80" },
-            { id: 4, name: "Kerang Darah (Blood Cockle)", category: "Kerang", imgUrl: "https://images.unsplash.com/photo-1550993527-31fa0175b225?w=500&q=80" },
-            { id: 5, name: "Ketam Bunga (Blue Swimming Crab)", category: "Ketam", imgUrl: "https://images.unsplash.com/photo-1650304388647-f273299c8fbc?w=500&q=80" },
-            // Add items 6 to 50 below...
+        { id: 1, name: "Ikan Bakulan", category: "Ikan", imgUrl: "images/bakulan.png" },
+        { id: 2, name: "Ikan Bawal Emas", category: "Ikan", imgUrl: "images/bawal-emas.png" },
+        { id: 3, name: "Ikan Bawal Hitam", category: "Ikan", imgUrl: "images/bawal-hitam.png" },
+        { id: 4, name: "Isi Dori", category: "Ikan", imgUrl: "images/isi-dori.png" },
+        { id: 5, name: "Isi Jenahak", category: "Ikan", imgUrl: "images/isi-jenahak.png" },
+        { id: 6, name: "Isi Merah", category: "Ikan", imgUrl: "images/isi-merah.png" },
+        { id: 7, name: "Ikan Keli", category: "Ikan", imgUrl: "images/keli.png" },
+        { id: 8, name: "Ketam Kalok", category: "Ketam", imgUrl: "images/ketam-kalok.png" },
+        { id: 9, name: "Ketam Suri", category: "Ketam", imgUrl: "images/ketam-suri.png" },
+        { id: 10, name: "Ikan Patin", category: "Ikan", imgUrl: "images/patin.png" },
+        { id: 11, name: "Ikan Putih", category: "Ikan", imgUrl: "images/putih.png" },
+        { id: 12, name: "Sotong Bunga", category: "Sotong", imgUrl: "images/sotong-bunga.png" },
+        { id: 13, name: "Sotong Cincin", category: "Sotong", imgUrl: "images/sotong-cincin.png" },
+        { id: 14, name: "Sotong Tube", category: "Sotong", imgUrl: "images/sotong-tube.png" },
+        { id: 15, name: "Talapia Hitam", category: "Ikan", imgUrl: "images/talapia-hitam.png" },
+        { id: 16, name: "Talapia Merah", category: "Ikan", imgUrl: "images/talapia-merah.png" },
+        { id: 17, name: "Ikan Tamban", category: "Ikan", imgUrl: "images/tamban.png" }
         ];
 
         let cart = []; // Array to store user's selected items
@@ -579,31 +595,38 @@
         }
 
         function sendToWhatsApp() {
-            if (cart.length === 0) {
-                alert("Please add at least one item to your list before sending.");
-                return;
-            }
+    if (cart.length === 0) {
+        alert("Please add at least one item to your list before sending.");
+        return;
+    }
 
-            let message = "Hello! I would like to check stock / order for these items:\n\n";
+    const companyName = document.getElementById("companyNameInput").value.trim();
+    const deliveryDate = document.getElementById("deliveryDateInput").value.trim();
 
-            cart.forEach((item, index) => {
-                // Ensure values aren't empty fallback
-                const itemSize = item.size.trim() === "" ? "Any" : item.size;
-                const itemWeight = item.weight || 1;
-                
-                message += `${getNumberEmoji(index + 1)} ${item.name}\n`;
-                message += `🔹 Size: ${itemSize}\n`;
-                message += `🔹 Weight: ${itemWeight} KG\n\n`;
-            });
+    if (!companyName) {
+        alert("Please enter a company name.");
+        return;
+    }
 
-            message += "Please quote me the total price based on today's catch.";
+    if (!deliveryDate) {
+        alert("Please select a delivery date.");
+        return;
+    }
 
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-            
-            // Open in new tab
-            window.open(whatsappUrl, "_blank");
-        }
+    let message = `${companyName}\n${deliveryDate}\n`;
+
+    cart.forEach((item) => {
+        const itemSize = item.size.trim() === "" ? "Standard" : item.size;
+        const itemWeight = item.weight || 1;
+        
+        message += `- ${item.name}, Size: ${itemSize}, ${itemWeight} KG\n`;
+    });
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, "_blank");
+}
     </script>
 </body>
 </html>
