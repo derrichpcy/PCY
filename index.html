@@ -27,7 +27,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding-bottom: 80px; /* Space for mobile scrolling */
+            padding-bottom: 80px;
         }
 
         /* --- Header & Search --- */
@@ -102,11 +102,11 @@
             padding: 1rem;
             max-width: 1200px;
             margin: 0 auto;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
         }
         
         .category-tabs::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
+            display: none;
         }
 
         .tab-btn {
@@ -130,7 +130,7 @@
         /* --- Grid Layout --- */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 columns side-by-side on mobile */
+            grid-template-columns: repeat(2, 1fr);
             gap: 0.75rem;
             padding: 1rem;
             max-width: 1200px;
@@ -250,7 +250,7 @@
         }
 
         .btn-added {
-            background-color: #10b981 !important; /* Success Green */
+            background-color: #10b981 !important;
             color: #ffffff !important;
             border-color: #10b981 !important;
             transform: scale(0.98);
@@ -295,11 +295,19 @@
         }
 
         .cart-header {
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .cart-header-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
         }
 
         .close-cart {
@@ -325,20 +333,56 @@
         .cart-item {
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            position: relative;
+            padding: 0.85rem;
+            margin-bottom: 0.75rem;
+            background: #ffffff;
+        }
+
+        .cart-item-top {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .cart-item-img {
+            width: 46px;
+            height: 46px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
         }
 
         .cart-item-name {
+            font-size: 0.85rem;
             font-weight: 600;
-            margin-bottom: 0.75rem;
-            padding-right: 2rem; /* space for delete btn */
+            color: var(--text-main);
+            line-height: 1.25;
+            margin-bottom: 0.25rem;
+        }
+
+        .throw-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0;
+            text-decoration: underline;
+        }
+        .throw-btn:hover {
+            color: #7f1d1d;
         }
 
         .cart-item-inputs {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .input-group {
@@ -348,34 +392,27 @@
         }
 
         .input-group label {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-weight: 600;
             color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             margin-bottom: 0.25rem;
         }
 
         .input-group input {
-            padding: 0.5rem;
+            padding: 0.4rem 0.5rem;
             border: 1px solid var(--border);
             border-radius: 4px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             width: 100%;
             outline: none;
+            background: #fafaf9;
         }
 
         .input-group input:focus {
             border-color: var(--primary);
-        }
-
-        .remove-btn {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background: none;
-            border: none;
-            color: var(--danger);
-            font-size: 1.2rem;
-            cursor: pointer;
+            background: #ffffff;
         }
 
         .cart-footer {
@@ -390,7 +427,7 @@
             width: 100%;
             padding: 1rem;
             border-radius: 8px;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
@@ -402,14 +439,6 @@
 
         .whatsapp-btn:hover {
             background-color: #20b858;
-        }
-
-        /* --- Media Queries --- */
-        @media (max-width: 600px) {
-            .cart-item-inputs {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
         }
         
         footer {
@@ -427,7 +456,6 @@
         }
         
         .footer-brand {
-            font-family: 'Playfair Display', serif;
             font-size: 1.15rem;
             font-weight: 600;
             letter-spacing: 0.02em;
@@ -448,6 +476,7 @@
             padding-top: 1.25rem;
             letter-spacing: 0.01em;
         }
+
         .toggle-size-btn {
             background: none;
             border: none;
@@ -464,6 +493,7 @@
         .toggle-size-btn:hover {
             color: var(--primary);
         }
+
         .size-input-container {
             display: none;
             margin-bottom: 0.4rem;
@@ -499,7 +529,7 @@
     <div class="cart-overlay" id="cartOverlay" onclick="closeCartOnOutsideClick(event)">
         <div class="cart-drawer">
             <div class="cart-header">
-                <h2>My Order List</h2>
+                <span class="cart-header-title" id="cartItemCountHeader">0 ITEMS</span>
                 <button class="close-cart" onclick="toggleCart()">&times;</button>
             </div>
             
@@ -599,7 +629,6 @@
                         <span class="product-category">${p.category}</span>
                         <h3 class="product-name">${p.name}</h3>
                         <div class="product-controls">
-                            <!-- Progressive Disclosure Toggle for Size -->
                             <div>
                                 <button type="button" class="toggle-size-btn" onclick="toggleSizeField(${p.id}, this)">+ Add Specific Size</button>
                                 <div id="size-box-${p.id}" class="size-input-container">
@@ -630,7 +659,7 @@
             } else {
                 sizeBox.style.display = "none";
                 btnElement.textContent = "+ Add Specific Size";
-                if(sizeInput) sizeInput.value = ""; // Clear input if closed
+                if(sizeInput) sizeInput.value = "";
             }
         }
 
@@ -642,11 +671,11 @@
             const size = sizeInput ? sizeInput.value.trim() : "";
             const weight = weightInput ? parseFloat(weightInput.value) || 1 : 1;
 
-            // Push item instance into cart
             cart.push({
                 cartUniqueId: Date.now() + Math.random(),
                 id: product.id,
                 name: product.name,
+                imgUrl: product.imgUrl,
                 size: size,
                 weight: weight
             });
@@ -664,7 +693,6 @@
                 buttonElement.disabled = false;
             }, 1200);
             
-            // Reset fields and collapse size box back down
             if(weightInput) weightInput.value = "1";
             if(sizeInput) sizeInput.value = "";
             
@@ -680,11 +708,15 @@
 
         function updateCartBadge() {
             const badge = document.getElementById("cartBadge");
+            const headerCount = document.getElementById("cartItemCountHeader");
+            
             if (cart.length > 0) {
                 badge.style.display = "block";
                 badge.textContent = cart.length;
+                headerCount.textContent = `${cart.length} ITEM${cart.length > 1 ? 'S' : ''}`;
             } else {
                 badge.style.display = "none";
+                headerCount.textContent = `0 ITEMS`;
             }
         }
 
@@ -711,16 +743,21 @@
                 return;
             }
 
-            cart.forEach((item, index) => {
+            cart.forEach((item) => {
                 const el = document.createElement("div");
                 el.className = "cart-item";
                 el.innerHTML = `
-                    <button class="remove-btn" onclick="removeFromCart(${item.cartUniqueId})" title="Remove item">&times;</button>
-                    <div class="cart-item-name">${index + 1}. ${item.name}</div>
+                    <div class="cart-item-top">
+                        <img src="${item.imgUrl}" alt="${item.name}" class="cart-item-img">
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <button class="throw-btn" onclick="removeFromCart(${item.cartUniqueId})">Throw</button>
+                        </div>
+                    </div>
                     <div class="cart-item-inputs">
                         <div class="input-group">
                             <label>Size</label>
-                            <input type="text" placeholder="e.g. 300/500, 500/700" value="${item.size}" 
+                            <input type="text" placeholder="e.g. 300/500" value="${item.size}" 
                                    oninput="updateCartItemData(${item.cartUniqueId}, 'size', this.value)">
                         </div>
                         <div class="input-group">
