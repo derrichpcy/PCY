@@ -440,6 +440,27 @@
             padding-top: 1.25rem;
             letter-spacing: 0.01em;
         }
+        .toggle-size-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            cursor: pointer;
+            text-align: left;
+            padding: 0;
+            margin-bottom: 0.2rem;
+            text-decoration: underline;
+            transition: color 0.15s ease;
+        }
+        
+        .toggle-size-btn:hover {
+            color: var(--primary);
+        }
+        .size-input-container {
+            display: none;
+            margin-bottom: 0.4rem;
+        }
+        
     </style>
 </head>
 <body>
@@ -561,7 +582,7 @@
                 grid.innerHTML = `<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted);">No seafood items found.</p>`;
                 return;
             }
-
+            
             filtered.forEach(p => {
                 const card = document.createElement('div');
                 card.className = "product-card";
@@ -571,9 +592,13 @@
                         <span class="product-category">${p.category}</span>
                         <h3 class="product-name">${p.name}</h3>
                         <div class="product-controls">
+                            <!-- Progressive Disclosure Toggle for Size -->
                             <div>
-                                <label>Size</label>
-                                <input type="text" id="size-${p.id}" placeholder="e.g. 300/500">
+                                <button type="button" class="toggle-size-btn" onclick="toggleSizeField(${p.id}, this)">+ Add Specific Size</button>
+                                <div id="size-box-${p.id}" class="size-input-container">
+                                    <label>Size / Grade</label>
+                                    <input type="text" id="size-${p.id}" placeholder="e.g. 300/500">
+                                </div>
                             </div>
                             <div>
                                 <label>Weight (KG)</label>
@@ -588,7 +613,21 @@
         }
 
         // --- CART LOGIC ---
-        function addToOrder(productId) {
+        function toggleSizeField(productId, btnElement) {
+            const sizeBox = document.getElementById(`size-box-${productId}`);
+            const sizeInput = document.getElementById(`size-${productId}`);
+
+            if (sizeBox.style.display === "none" || sizeBox.style.display === "") {
+                sizeBox.style.display = "block";
+                btnElement.textContent = "− Remove Size";
+            } else {
+                sizeBox.style.display = "none";
+                btnElement.textContent = "+ Add Specific Size";
+                if(sizeInput) sizeInput.value = ""; // Clear input if closed
+            }
+        }
+
+        function addToOrder(productId, buttonElement) {
             const product = products.find(p => p.id === productId);
             const sizeInput = document.getElementById(`size-${productId}`);
             const weightInput = document.getElementById(`weight-${productId}`);
@@ -596,9 +635,9 @@
             const size = sizeInput ? sizeInput.value.trim() : "";
             const weight = weightInput ? parseFloat(weightInput.value) || 1 : 1;
 
-            // Push a distinct item entry into the cart array (allows multiple sizes of the same fish)
+            // Push item instance into cart
             cart.push({
-                cartUniqueId: Date.now() + Math.random(), // Unique instance id
+                cartUniqueId: Date.now() + Math.random(),
                 id: product.id,
                 name: product.name,
                 size: size,
@@ -607,12 +646,30 @@
 
             updateCartBadge();
 
-            // Reset card inputs back to default
-            if(sizeInput) sizeInput.value = "";
-            if(weightInput) weightInput.value = "1";
+            // Dark Blue Button Feedback (No green, keeping primary brand color)
+            const originalText = buttonElement.textContent;
+            buttonElement.textContent = "Added ✓";
+            buttonElement.style.opacity = "0.8";
+            buttonElement.disabled = true;
 
-            // Open the drawer or show feedback
-            toggleCart();
+            setTimeout(() => {
+                buttonElement.textContent = originalText;
+                buttonElement.style.opacity = "1";
+                buttonElement.disabled = false;
+            }, 1200);
+
+            // Reset fields and collapse size box back down
+            if(weightInput) weightInput.value = "1";
+            if(sizeInput) sizeInput.value = "";
+            
+            const sizeBox = document.getElementById(`size-box-${productId}`);
+            if(sizeBox) {
+                sizeBox.style.display = "none";
+                const toggleBtn = sizeBox.previousElementSibling;
+                if(toggleBtn && toggleBtn.classList.contains('toggle-size-btn')) {
+                    toggleBtn.textContent = "+ Add Specific Size";
+                }
+            }
         }
 
         function updateCartBadge() {
@@ -719,8 +776,7 @@
             window.open(whatsappUrl, "_blank");
         }
     </script>
-</body>
-<footer>
+    <footer>
     <div class="footer-content">
         <div class="footer-brand">PCY</div>
         <p class="footer-text">Be Sourced, Be Selected</p>
@@ -729,4 +785,5 @@
         </div>
     </div>
 </footer>
+</body>
 </html>
