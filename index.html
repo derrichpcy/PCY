@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seafood Catalog & Inquiry</title>
     
-    <!-- Performance: preconnect to WhatsApp domain -->
     <link rel="preconnect" href="https://wa.me">
     <link rel="dns-prefetch" href="https://wa.me">
 
@@ -36,13 +35,11 @@
             padding-bottom: 80px;
         }
 
-        /* --- Accessibility: visible focus rings --- */
         *:focus-visible {
             outline: 2px solid var(--primary);
             outline-offset: 2px;
         }
 
-        /* --- Reduced motion --- */
         @media (prefers-reduced-motion: reduce) {
             * {
                 animation-duration: 0.01ms !important;
@@ -55,7 +52,7 @@
         header {
             background-color: var(--primary);
             color: white;
-            padding: 1rem;
+            padding: 1rem 1rem 0 1rem;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -103,7 +100,7 @@
 
         .search-container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 0 auto 1rem auto;
         }
 
         .search-container input {
@@ -115,28 +112,23 @@
             outline: none;
         }
 
-        /* --- Categories --- */
+        /* --- Tabs Row (inside header) --- */
+        .tabs-row {
+            background-color: var(--bg-color);
+            margin: 0 -1rem;
+            padding: 0.75rem 1rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
         .category-tabs {
             display: flex;
             gap: 0.5rem;
             overflow-x: auto;
-            padding: 1rem;
             max-width: 1200px;
             margin: 0 auto;
             scrollbar-width: none;
-            position: relative;
-        }
-        
-        /* Fade indicator on right edge */
-        .category-tabs::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 40px;
-            background: linear-gradient(to right, transparent, var(--bg-color));
-            pointer-events: none;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
         }
         
         .category-tabs::-webkit-scrollbar {
@@ -147,18 +139,45 @@
             background-color: var(--card-bg);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.85rem;
             border-radius: 20px;
             cursor: pointer;
             white-space: nowrap;
             font-weight: 500;
             transition: 0.2s;
+            scroll-snap-align: start;
+            display: inline-flex;
+            align-items: center;
         }
 
         .tab-btn.active, .tab-btn:hover {
             background-color: var(--primary);
             color: white;
             border-color: var(--primary);
+        }
+
+        .tab-icon {
+            margin-right: 4px;
+            font-size: 0.9rem;
+            line-height: 1;
+        }
+
+        .tab-count {
+            background: rgba(0,0,0,0.06);
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 5px;
+            font-weight: 700;
+            min-width: 18px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .tab-btn.active .tab-count {
+            background: rgba(255,255,255,0.3);
+            color: white;
         }
 
         /* --- Grid Layout --- */
@@ -170,17 +189,12 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+
         @media (min-width: 768px) {
             .grid-container {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1.25rem;
-                padding: 2rem;
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .grid-container {
                 grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+                padding: 1.5rem;
             }
         }
         
@@ -202,7 +216,6 @@
             width: 100%;
             aspect-ratio: 1 / 1;
             object-fit: cover;
-            /* Lightweight skeleton shimmer while loading */
             background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 50%, #f0f0f0 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
@@ -338,58 +351,6 @@
             border-color: #10b981 !important;
             transform: scale(0.98);
             transition: all 0.2s ease-in-out;
-        }
-
-        /* --- Floating Action Button (Mobile) --- */
-        .fab-cart {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 90;
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .fab-cart.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .fab-badge {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background: var(--danger);
-            color: white;
-            font-size: 0.7rem;
-            font-weight: bold;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @media (min-width: 768px) {
-            .fab-cart {
-                display: none;
-            }
         }
 
         /* --- Cart Modal --- */
@@ -641,7 +602,7 @@
 </head>
 <body>
 
-    <!-- Header & Search -->
+    <!-- Header, Search & Tabs -->
     <header>
         <div class="header-top">
             <h1>PCY</h1>
@@ -653,23 +614,18 @@
             <input type="text" id="searchInput" placeholder="Search seafood / Cari hasil laut..." 
                    oninput="filterProducts()" enterkeyhint="search" aria-label="Search seafood">
         </div>
+        
+        <div class="tabs-row">
+            <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="Product categories">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
     </header>
-
-    <!-- Categories -->
-    <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="Product categories">
-        <!-- Rendered by JS -->
-    </div>
 
     <!-- Main Grid -->
     <div class="grid-container" id="productGrid">
         <!-- Rendered by JS -->
     </div>
-
-    <!-- Floating Action Button (Mobile) -->
-    <button class="fab-cart" id="fabCart" onclick="toggleCart()" aria-label="Open inquiry list">
-        🛒
-        <span class="fab-badge" id="fabBadge">0</span>
-    </button>
 
     <!-- Cart Overlay & Drawer -->
     <div class="cart-overlay" id="cartOverlay" onclick="closeCartOnOutsideClick(event)" role="dialog" aria-modal="true" aria-labelledby="cartItemCountHeader">
@@ -701,11 +657,18 @@
         </div>
     </div>
 
-    <!-- JavaScript Data & Logic -->
     <script>
         const WHATSAPP_NUMBER = "601174293823"; 
 
         const categories = ["Semua", "Ikan", "Sotong", "Udang", "Kerang", "Ketam"];
+        const categoryIcons = {
+            "Semua": "🍤",
+            "Ikan": "🐟",
+            "Sotong": "🦑",
+            "Udang": "🦐",
+            "Kerang": "🐚",
+            "Ketam": "🦀"
+        };
         let currentCategory = "Semua";
 
         const products = [
@@ -731,7 +694,11 @@
         let cart = []; 
         const fallbackImg = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
-        // --- LOCAL STORAGE ---
+        function getCategoryCount(cat) {
+            if (cat === "Semua") return products.length;
+            return products.filter(p => p.category === cat).length;
+        }
+
         function saveCart() {
             localStorage.setItem('pcy_cart', JSON.stringify(cart));
         }
@@ -753,9 +720,7 @@
             localStorage.setItem('pcy_delivery_date', document.getElementById('deliveryDateInput').value);
         }
 
-        // --- INIT ---
         document.addEventListener("DOMContentLoaded", () => {
-            // Set min date to today
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('deliveryDateInput').setAttribute('min', today);
             
@@ -764,22 +729,10 @@
             renderProducts();
             updateCartBadge();
             
-            // Persist form fields on change
             document.getElementById('companyNameInput').addEventListener('input', persistForm);
             document.getElementById('deliveryDateInput').addEventListener('change', persistForm);
-            
-            // FAB scroll listener
-            window.addEventListener('scroll', () => {
-                const fab = document.getElementById('fabCart');
-                if (window.scrollY > 200) {
-                    fab.classList.add('visible');
-                } else {
-                    fab.classList.remove('visible');
-                }
-            });
         });
 
-        // --- SEARCH HIGHLIGHT ---
         function escapeRegExp(string) {
             return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
@@ -792,21 +745,24 @@
 
         function renderTabs() {
             const tabsContainer = document.getElementById("categoryTabs");
-            tabsContainer.innerHTML = categories.map((cat, idx) => 
-                `<button class="tab-btn ${cat === currentCategory ? 'active' : ''}" 
-                        onclick="setCategory('${cat}')"
-                        role="tab" 
-                        aria-selected="${cat === currentCategory}"
-                        id="tab-${idx}">
-                    ${cat}
-                </button>`
-            ).join('');
+            tabsContainer.innerHTML = categories.map((cat, idx) => {
+                const count = getCategoryCount(cat);
+                const icon = categoryIcons[cat] || "";
+                return `<button class="tab-btn ${cat === currentCategory ? 'active' : ''}" 
+                            onclick="setCategory('${cat}')"
+                            role="tab" 
+                            aria-selected="${cat === currentCategory}"
+                            id="tab-${idx}">
+                        <span class="tab-icon" aria-hidden="true">${icon}</span>
+                        ${cat}
+                        <span class="tab-count">${count}</span>
+                    </button>`;
+            }).join('');
         }
 
         function setCategory(cat) {
             currentCategory = cat;
             renderTabs();
-            // Scroll active tab into view smoothly
             setTimeout(() => {
                 const activeBtn = document.querySelector('.tab-btn.active');
                 if (activeBtn) {
@@ -839,13 +795,6 @@
                 const displayName = highlightText(p.name, query);
                 
                 card.innerHTML = `
-                    <!-- 
-                    Bandwidth optimization: When you have WebP versions, use this pattern:
-                    <picture>
-                        <source srcset="${p.imgUrl.replace('.png','.webp')}" type="image/webp">
-                        <img src="${p.imgUrl}" alt="${p.name}" class="product-img" loading="lazy" width="400" height="400" onerror="this.onerror=null; this.src='${fallbackImg}'; this.style.background='#e5e3da';">
-                    </picture>
-                    -->
                     <img src="${p.imgUrl}" alt="${p.name}" class="product-img" loading="lazy" width="400" height="400" onerror="this.onerror=null; this.src='${fallbackImg}'; this.style.background='#e5e3da';">
                     <div class="product-info">
                         <span class="product-category">${p.category}</span>
@@ -874,7 +823,6 @@
             });
         }
 
-        // --- STEPPEPER LOGIC ---
         function adjustWeight(productId, delta) {
             const input = document.getElementById(`weight-${productId}`);
             let val = parseFloat(input.value) || 5;
@@ -891,12 +839,10 @@
             item.weight = val;
             saveCart();
             
-            // Update the display without re-rendering entire list (keeps focus)
             const input = btnElement.parentElement.querySelector('input');
             if (input) input.value = val;
         }
 
-        // --- CART LOGIC ---
         function toggleSizeField(productId, btnElement) {
             const sizeBox = document.getElementById(`size-box-${productId}`);
             const sizeInput = document.getElementById(`size-${productId}`);
@@ -958,25 +904,18 @@
 
         function updateCartBadge() {
             const badge = document.getElementById("cartBadge");
-            const fabBadge = document.getElementById("fabBadge");
             const headerCount = document.getElementById("cartItemCountHeader");
             
             if (cart.length > 0) {
                 badge.style.display = "block";
                 badge.textContent = cart.length;
-                
-                fabBadge.style.display = "flex";
-                fabBadge.textContent = cart.length;
-                
                 headerCount.textContent = `${cart.length} ITEM${cart.length > 1 ? 'S' : ''}`;
             } else {
                 badge.style.display = "none";
-                fabBadge.style.display = "none";
                 headerCount.textContent = `0 ITEMS`;
             }
         }
 
-        // --- FOCUS TRAP FOR DRAWER ---
         let lastFocusedElement = null;
         
         function trapFocus(element) {
@@ -1057,7 +996,7 @@
                         </div>
                         <div class="input-group" style="flex:1.5;">
                             <label>Weight (KG)</label>
-                            <div class="stepper stepper-sm">
+                            <div class="stepper">
                                 <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, -5, this)" aria-label="Decrease weight by 5 kilograms">−</button>
                                 <input type="number" value="${item.weight}" readonly aria-label="Weight in kilograms">
                                 <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, 5, this)" aria-label="Increase weight by 5 kilograms">+</button>
@@ -1088,7 +1027,6 @@
             updateCartBadge();
         }
 
-        // --- WHATSAPP GENERATION ---
         function sendToWhatsApp() {
             if (cart.length === 0) {
                 alert("Please add at least one item to your list before sending.");
