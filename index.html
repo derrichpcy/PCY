@@ -112,6 +112,40 @@
             outline: none;
         }
 
+                .search-wrapper {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--border);
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            padding: 0;
+            line-height: 1;
+        }
+
+        .search-clear:hover {
+            background: #d1cfc7;
+        }
+
+        .search-clear.visible {
+            display: flex;
+        }
+
         /* --- Tabs Row (inside header) --- */
         .tabs-row {
             background-color: var(--bg-color);
@@ -390,6 +424,57 @@
             transition: all 0.2s ease-in-out;
         }
 
+                /* --- Bottom Order Bar --- */
+        .order-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--primary);
+            color: white;
+            padding: 0.85rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 90;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+        }
+
+        .order-bar.visible {
+            transform: translateY(0);
+        }
+
+        .order-bar-info {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .order-bar-info strong {
+            font-size: 1rem;
+        }
+
+        .order-bar-btn {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .order-bar-btn:hover {
+            background: #f0f0f0;
+        }
+
+        body:has(.order-bar.visible) {
+            padding-bottom: 70px;
+        }
+
         /* --- Cart Modal --- */
         .cart-overlay {
             position: fixed;
@@ -663,9 +748,13 @@
                  🛒 <span id="cartBadge">0</span>
             </div>
         </div>
+        
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search seafood / Cari hasil laut..." 
-                   oninput="filterProducts()" enterkeyhint="search" aria-label="Search seafood">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Search seafood / Cari hasil laut..." 
+                       oninput="handleSearchInput()" enterkeyhint="search" aria-label="Search seafood">
+                <button type="button" class="search-clear" id="searchClear" onclick="clearSearch()" aria-label="Clear search">✕</button>
+            </div>
         </div>
         
         <div class="tabs-row">
@@ -803,6 +892,21 @@
         function persistForm() {
             localStorage.setItem('pcy_company', document.getElementById('companyNameInput').value);
             localStorage.setItem('pcy_delivery_date', document.getElementById('deliveryDateInput').value);
+        }
+
+        function handleSearchInput() {
+            const input = document.getElementById("searchInput");
+            const clearBtn = document.getElementById("searchClear");
+            clearBtn.classList.toggle("visible", input.value.length > 0);
+            filterProducts();
+        }
+
+        function clearSearch() {
+            const input = document.getElementById("searchInput");
+            input.value = "";
+            document.getElementById("searchClear").classList.remove("visible");
+            input.focus();
+            filterProducts();
         }
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -1043,6 +1147,21 @@
                 badge.style.display = "none";
                 headerCount.textContent = `0 ITEMS`;
             }
+            updateOrderBar();
+        }
+
+                function updateOrderBar() {
+            const bar = document.getElementById("orderBar");
+            const info = document.getElementById("orderBarInfo");
+            
+            if (cart.length === 0) {
+                bar.classList.remove("visible");
+                return;
+            }
+            
+            const totalKg = cart.reduce((sum, item) => sum + (parseFloat(item.weight) || 0), 0);
+            info.innerHTML = `<strong>${cart.length}</strong> item${cart.length > 1 ? 's' : ''} · <strong>${totalKg.toFixed(1)}</strong> KG`;
+            bar.classList.add("visible");
         }
 
         let lastFocusedElement = null;
@@ -1201,5 +1320,10 @@
             </div>
         </div>
     </footer>
+        <!-- Bottom Order Bar -->
+    <div class="order-bar" id="orderBar">
+        <div class="order-bar-info" id="orderBarInfo">0 items · 0 KG</div>
+        <button class="order-bar-btn" onclick="toggleCart()">View Order →</button>
+    </div>
 </body>
 </html>
