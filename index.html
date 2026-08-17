@@ -180,6 +180,33 @@
             color: white;
         }
 
+                /* --- Section Headers (Semua view only) --- */
+        .section-header {
+            grid-column: 1 / -1;
+            position: sticky;
+            top: 136px; /* Adjust if your sticky header height differs */
+            z-index: 50;
+            background: var(--bg-color);
+            padding: 0.6rem 0.25rem;
+            margin-bottom: 0.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .section-header span {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: none;
+        }
+
         /* --- Results Counter --- */
         .results-count {
             max-width: 1200px;
@@ -841,6 +868,39 @@
             }
         }
 
+        function createProductCard(p, query) {
+            const card = document.createElement('div');
+            card.className = "product-card";
+            const displayName = highlightText(p.name, query);
+            
+            card.innerHTML = `
+                <img src="${p.imgUrl}" alt="${p.name}" class="product-img" loading="lazy" width="400" height="400" onerror="this.onerror=null; this.src='${fallbackImg}'; this.style.background='#e5e3da';">
+                <div class="product-info">
+                    <span class="product-category">${p.category}</span>
+                    <h3 class="product-name">${displayName}</h3>
+                    <div class="product-controls">
+                        <div>
+                            <button type="button" class="toggle-size-btn" onclick="toggleSizeField(${p.id}, this)">+ Add Specific Size</button>
+                            <div id="size-box-${p.id}" class="size-input-container">
+                                <label>Size / Grade</label>
+                                <input type="text" id="size-${p.id}" placeholder="e.g. 300/500">
+                            </div>
+                        </div>
+                        <div>
+                            <label>Weight (KG)</label>
+                            <div class="stepper">
+                                <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, -5)" aria-label="Decrease weight by 5 kilograms">−</button>
+                                <input type="number" id="weight-${p.id}" value="5" min="5" step="5" readonly aria-label="Weight in kilograms">
+                                <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, 5)" aria-label="Increase weight by 5 kilograms">+</button>
+                            </div>
+                        </div>
+                        <button class="add-to-order-btn" onclick="addToOrder(${p.id}, this)">Add to Order</button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
         function filterProducts() {
             const query = document.getElementById("searchInput").value.toLowerCase().trim();
             
@@ -861,38 +921,28 @@
             
             updateResultsCount(filtered.length);
 
-            filtered.forEach(p => {
-                const card = document.createElement('div');
-                card.className = "product-card";
-                const displayName = highlightText(p.name, query);
-                
-                card.innerHTML = `
-                    <img src="${p.imgUrl}" alt="${p.name}" class="product-img" loading="lazy" width="400" height="400" onerror="this.onerror=null; this.src='${fallbackImg}'; this.style.background='#e5e3da';">
-                    <div class="product-info">
-                        <span class="product-category">${p.category}</span>
-                        <h3 class="product-name">${displayName}</h3>
-                        <div class="product-controls">
-                            <div>
-                                <button type="button" class="toggle-size-btn" onclick="toggleSizeField(${p.id}, this)">+ Add Specific Size</button>
-                                <div id="size-box-${p.id}" class="size-input-container">
-                                    <label>Size / Grade</label>
-                                    <input type="text" id="size-${p.id}" placeholder="e.g. 300/500">
-                                </div>
-                            </div>
-                            <div>
-                                <label>Weight (KG)</label>
-                                <div class="stepper">
-                                    <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, -5)" aria-label="Decrease weight by 5 kilograms">−</button>
-                                    <input type="number" id="weight-${p.id}" value="5" min="5" step="5" readonly aria-label="Weight in kilograms">
-                                    <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, 5)" aria-label="Increase weight by 5 kilograms">+</button>
-                                </div>
-                            </div>
-                            <button class="add-to-order-btn" onclick="addToOrder(${p.id}, this)">Add to Order</button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
+            if (currentCategory === "Semua") {
+                // Group by category with sticky section headers
+                categories.slice(1).forEach(cat => {
+                    const catProducts = filtered.filter(p => p.category === cat);
+                    if (catProducts.length === 0) return;
+                    
+                    const icon = categoryIcons[cat] || "";
+                    const header = document.createElement('div');
+                    header.className = 'section-header';
+                    header.innerHTML = `${icon} ${cat} <span>${catProducts.length} item${catProducts.length !== 1 ? 's' : ''}</span>`;
+                    grid.appendChild(header);
+                    
+                    catProducts.forEach(p => {
+                        grid.appendChild(createProductCard(p, query));
+                    });
+                });
+            } else {
+                // Single category: flat grid, no headers
+                filtered.forEach(p => {
+                    grid.appendChild(createProductCard(p, query));
+                });
+            }
         }
 
         function adjustWeight(productId, delta) {
