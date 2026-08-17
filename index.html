@@ -731,17 +731,43 @@
             return products.filter(p => p.category === cat).length;
         }
 
+        let saveTimeout;
         function saveCart() {
-            localStorage.setItem('pcy_cart', JSON.stringify(cart));
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+            const payload = {
+            items: cart,
+            savedAt: new Date().toISOString()
+            };
+            localStorage.setItem('pcy_cart', JSON.stringify(payload));
+            }, 150);
         }
         
-        function loadCart() {
-            const savedCart = localStorage.getItem('pcy_cart');
+            function loadCart() {
             const savedCompany = localStorage.getItem('pcy_company');
             const savedDate = localStorage.getItem('pcy_delivery_date');
             
-            if (savedCart) {
-                try { cart = JSON.parse(savedCart); } catch(e) { cart = []; }
+            const raw = localStorage.getItem('pcy_cart');
+            if (raw) {
+            try {
+            const parsed = JSON.parse(raw);
+            
+            if (Array.isArray(parsed)) {
+            cart = parsed;
+            } else if (parsed.items && parsed.savedAt) {
+            const hoursOld = (Date.now() - new Date(parsed.savedAt)) / 3600000;
+            if (hoursOld > 6) {
+            localStorage.removeItem('pcy_cart');
+            cart = [];
+            } else {
+            cart = parsed.items;
+            }
+            } else {
+            cart = [];
+            }
+            } catch (e) {
+            cart = [];
+            }
             }
             if (savedCompany) document.getElementById('companyNameInput').value = savedCompany;
             if (savedDate) document.getElementById('deliveryDateInput').value = savedDate;
@@ -911,14 +937,21 @@
             const size = sizeInput ? sizeInput.value.trim() : "";
             const weight = weightInput ? parseFloat(weightInput.value) || 5 : 5;
 
-            cart.push({
-                cartUniqueId: Date.now() + Math.random(),
-                id: product.id,
-                name: product.name,
-                imgUrl: product.imgUrl,
-                size: size,
-                weight: weight
-            });
+            // Merge if same product + same size already in cart
+            const existing = cart.find(item => item.id === productId && item.size === size);
+            
+            if (existing) {
+                existing.weight += weight;
+            } else {
+                cart.push({
+                    cartUniqueId: Date.now() + Math.random(),
+                    id: product.id,
+                    name: product.name,
+                    imgUrl: product.imgUrl,
+                    size: size,
+                    weight: weight
+                });
+            }
             
             saveCart();
 
