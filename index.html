@@ -3,302 +3,363 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seafood Catalog & Inquiry</title>
-    
+    <meta name="theme-color" content="#0A1F3D">
+    <title>PCY · Seafood Catalog</title>
+
     <link rel="preconnect" href="https://wa.me">
     <link rel="dns-prefetch" href="https://wa.me">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #071628;
-            --primary-hover: #0F2A4A;
-            --bg-color: #FAF9F5;
-            --text-main: #2D2D2A;
-            --text-muted: #6B7280;
-            --card-bg: #ffffff;
-            --border: #e5e3da;
-            --danger: #991b1b;
-            --success: #166534;
-            --highlight: #fde047;
+            --primary: #0A1F3D;
+            --primary-light: #1A3A6B;
+            --primary-soft: #E8EEF7;
+            --accent: #FF6B35;
+            --accent-hover: #E85A24;
+            --success: #16A34A;
+            --whatsapp: #25D366;
+            --whatsapp-hover: #1EBE57;
+            --bg: #FAFAF7;
+            --bg-elevated: #FFFFFF;
+            --text: #0F172A;
+            --text-muted: #64748B;
+            --text-soft: #94A3B8;
+            --border: #E5E7EB;
+            --border-soft: #F1F5F9;
+            --danger: #DC2626;
+            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.10);
+            --shadow-xl: 0 20px 50px rgba(15, 23, 42, 0.15);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding-bottom: 80px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 100px;
         }
 
         *:focus-visible {
-            outline: 2px solid var(--primary);
+            outline: 2px solid var(--accent);
             outline-offset: 2px;
+            border-radius: 4px;
         }
 
         @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
+            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
 
-        /* --- Header & Search --- */
-        header {
-            background-color: var(--primary);
+        /* ============ HEADER (with sticky search) ============ */
+        .app-header {
+            background: var(--primary);
             color: white;
-            padding: 1rem 1rem 0 1rem;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
         }
 
         .header-top {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto 1rem auto;
-        }
-
-        .header-top h1 {
-            font-size: 1.5rem;
-        }
-
-        .cart-icon-wrapper {
-            position: relative;
-            cursor: pointer;
-            font-size: 1.5rem;
-            background: rgba(255,255,255,0.2);
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: 0.2s;
-        }
-        
-        .cart-icon-wrapper:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        #cartBadge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--danger);
-            color: white;
-            font-size: 0.75rem;
-            font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 50%;
-            display: none;
-        }
-
-        .search-container {
-            max-width: 1200px;
-            margin: 0 auto 1rem auto;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-                .search-wrapper {
-            position: relative;
-            max-width: 1200px;
+            justify-content: space-between;
+            padding: 0.7rem 1.25rem;
+            max-width: 1280px;
             margin: 0 auto;
         }
 
-        .search-clear {
+        .brand {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.01em;
+        }
+
+        .icon-btn {
+            position: relative;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.18);
+            transform: translateY(-1px);
+        }
+
+        .icon-btn svg { width: 20px; height: 20px; }
+
+        .cart-badge {
             position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--border);
+            top: -4px;
+            right: -4px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 9px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--primary);
+        }
+
+        .cart-badge.visible { display: flex; animation: pop 0.3s ease; }
+
+        @keyframes pop {
+            0% { transform: scale(0); }
+            60% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .header-search {
+            padding: 0 1.25rem 0.85rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: 10px;
+            padding: 0.4rem 0.5rem 0.4rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+
+        .search-bar svg {
+            width: 18px;
+            height: 18px;
+            color: var(--text-soft);
+            flex-shrink: 0;
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 0.95rem;
+            color: var(--text);
+            font-family: inherit;
+            padding: 0.45rem 0;
+            min-width: 0;
+        }
+
+        .search-bar input::placeholder { color: var(--text-soft); }
+
+        .search-clear {
+            background: var(--border-soft);
             border: none;
             border-radius: 50%;
-            width: 22px;
-            height: 22px;
+            width: 26px;
+            height: 26px;
             display: none;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 0.7rem;
             color: var(--text-muted);
-            padding: 0;
-            line-height: 1;
+            font-size: 0.8rem;
+            flex-shrink: 0;
         }
 
-        .search-clear:hover {
-            background: #d1cfc7;
+        .search-clear:hover { background: var(--border); }
+        .search-clear.visible { display: flex; }
+
+        /* ============ CATEGORY TABS (rectangular, sticky) ============ */
+        .category-nav {
+            background: white;
+            padding: 0.7rem 0;
+            position: sticky;
+            top: 105px;
+            z-index: 90;
+            border-bottom: 1px solid var(--border-soft);
         }
 
-        .search-clear.visible {
-            display: flex;
-        }
-
-        /* --- Tabs Row (inside header) --- */
-        .tabs-row {
-            background-color: var(--bg-color);
-            margin: 0 -1rem;
-            padding: 0.75rem 1rem;
-            border-top: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .category-tabs {
+        .category-scroll {
             display: flex;
             gap: 0.5rem;
             overflow-x: auto;
-            max-width: 1200px;
+            padding: 0 1.25rem;
+            max-width: 1280px;
             margin: 0 auto;
             scrollbar-width: none;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
         }
-        
-        .category-tabs::-webkit-scrollbar {
-            display: none;
-        }
 
-        .tab-btn {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 0.45rem 0.70rem;
-            border-radius: 6px;
-            cursor: pointer;
-            white-space: nowrap;
-            font-weight: 500;
-            transition: 0.2s;
-            scroll-snap-align: start;
+        .category-scroll::-webkit-scrollbar { display: none; }
+
+        .cat-btn {
             display: inline-flex;
             align-items: center;
+            gap: 0.45rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s;
+            scroll-snap-align: start;
+            font-family: inherit;
         }
 
-        .tab-btn.active, .tab-btn:hover {
-            background-color: var(--primary);
+        .cat-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary-soft);
+        }
+
+        .cat-btn.active {
+            background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
 
-        .tab-icon {
-            margin-right: 4px;
-            font-size: 0.9rem;
-            line-height: 1;
-        }
+        .cat-icon { font-size: 1rem; line-height: 1; }
 
-        .tab-count {
+        .cat-count {
             background: rgba(0,0,0,0.06);
             color: var(--text-muted);
             font-size: 0.65rem;
             padding: 1px 6px;
-            border-radius: 10px;
-            margin-left: 5px;
+            border-radius: 6px;
             font-weight: 700;
-            min-width: 18px;
-            text-align: center;
-            display: inline-block;
         }
 
-        .tab-btn.active .tab-count {
-            background: rgba(255,255,255,0.3);
+        .cat-btn.active .cat-count {
+            background: rgba(255,255,255,0.2);
             color: white;
         }
 
-                /* --- Section Headers (Semua view only) --- */
-        .section-header {
-            grid-column: 1 / -1;
-            position: sticky;
-            top: 136px; /* Adjust if your sticky header height differs */
-            z-index: 50;
-            background: var(--bg-color);
-            padding: 0.6rem 0.25rem;
-            margin-bottom: 0.25rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-main);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .section-header span {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: none;
+        /* ============ RESULTS BAR ============ */
+        .results-bar {
+            max-width: 1280px;
+            margin: 1rem auto 0.25rem;
+            padding: 0 1.25rem;
         }
 
-        /* --- Results Counter --- */
         .results-count {
-            max-width: 1200px;
-            margin: 0.75rem auto 0;
-            padding: 0 1rem;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
+            font-weight: 500;
         }
 
-        /* --- Grid Layout --- */
-        .grid-container {
+        .results-count strong { color: var(--text); font-weight: 700; }
+
+        /* ============ GRID ============ */
+        .product-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-            padding: 1rem;
-            max-width: 1200px;
+            gap: 0.9rem;
+            padding: 0.75rem 1.25rem 1.5rem;
+            max-width: 1280px;
             margin: 0 auto;
         }
 
-        @media (min-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 1rem;
-                padding: 1.5rem;
-            }
+        @media (min-width: 640px) {
+            .product-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
         }
-        
+
+        @media (min-width: 900px) {
+            .product-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        @media (min-width: 1200px) {
+            .product-grid { grid-template-columns: repeat(5, 1fr); }
+        }
+
+        /* ============ PRODUCT CARD ============ */
         .product-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            transition: all 0.2s;
+            position: relative;
         }
+
         .product-card:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            border-color: var(--border);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .product-card.in-cart {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.1);
+        }
+
+        .product-card.in-cart::after {
+            content: 'In Order';
+            position: absolute;
+            top: 0.6rem;
+            left: 0.6rem;
+            background: var(--accent);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .img-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: linear-gradient(135deg, #F8FAFC 0%, #EEF2F7 100%);
+            overflow: hidden;
         }
 
         .product-img {
             width: 100%;
-            height: auto;
-            aspect-ratio: 1 / 1;
+            height: 100%;
             object-fit: cover;
-            background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
+            transition: transform 0.4s;
         }
-        
+
+        .product-card:hover .product-img { transform: scale(1.05); }
+
         @keyframes shimmer {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
 
         .product-info {
-            padding: 0.75rem;
+            padding: 0.7rem 0.85rem 0.85rem;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
@@ -306,257 +367,393 @@
 
         .product-category {
             font-size: 0.65rem;
-            font-weight: 600;
-            color: var(--primary);
+            font-weight: 700;
+            color: var(--primary-light);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.15rem;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.25rem;
         }
 
         .product-name {
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 600;
-            color: var(--text-main);
-            line-height: 1.3;
-            margin-bottom: 0.5rem;
+            color: var(--text);
+            line-height: 1.35;
+            margin-bottom: 0.6rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            min-height: 2.1rem;
+            min-height: 2.2em;
         }
 
         .product-name .highlight {
-            background-color: var(--highlight);
-            color: var(--text-main);
-            border-radius: 2px;
-            padding: 0 1px;
+            background: #FEF3C7;
+            color: var(--text);
+            border-radius: 3px;
+            padding: 0 2px;
+            font-weight: 700;
         }
 
-        .product-controls {
+        .card-controls {
+            margin-top: auto;
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
-            margin-top: auto;
-            padding-top: 0.4rem;
-            border-top: 1px solid var(--border);
+            gap: 0.5rem;
         }
 
-        .product-controls label {
-            font-size: 0.6rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        /* --- Stepper Control --- */
+        /* Stepper with built-in KG unit */
         .stepper {
             display: flex;
-            align-items: center;
-            gap: 0;
-            border: 1px solid var(--border);
-            border-radius: 4px;
+            align-items: stretch;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
             overflow: hidden;
+            background: white;
         }
 
         .stepper-btn {
-            background: #f8f8f6;
+            background: transparent;
             border: none;
-            width: 32px;
-            height: 32px;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-main);
+            width: 34px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             user-select: none;
+            transition: background 0.1s;
         }
 
-        .stepper-btn:hover {
-            background: #eee;
-        }
+        .stepper-btn:hover { background: var(--bg); }
+        .stepper-btn:active { background: var(--primary-soft); }
 
-        .stepper-btn:active {
-            background: #e5e3da;
-        }
-
-        .stepper input {
+        .stepper-value {
             flex: 1;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            border-left: 1.5px solid var(--border);
+            border-right: 1.5px solid var(--border);
+            background: white;
+            min-width: 0;
+        }
+
+        .stepper-input {
+            flex: 1;
             border: none;
-            border-left: 1px solid var(--border);
-            border-right: 1px solid var(--border);
-            padding: 0.35rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-main);
-            background: #fff;
+            outline: none;
+            background: transparent;
+            padding: 0.5rem 0.25rem 0.5rem 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text);
+            min-width: 0;
+            font-family: inherit;
+            text-align: left;
+            -moz-appearance: textfield;
+        }
+
+        .stepper-input::-webkit-outer-spin-button,
+        .stepper-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+        .stepper-unit {
+            padding: 0 0.7rem 0 0.2rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            user-select: none;
+            letter-spacing: 0.04em;
+        }
+
+        /* Size row */
+        .size-row {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .size-input {
+            flex: 1;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 0.4rem 0.6rem;
+            font-size: 0.75rem;
+            font-family: inherit;
+            color: var(--text);
+            background: white;
             outline: none;
             min-width: 0;
         }
 
-        .add-to-order-btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
+        .size-input:focus { border-color: var(--primary); }
+        .size-input::placeholder { color: var(--text-soft); }
+        .size-input.hidden { display: none; }
+
+        .size-toggle {
+            background: none;
+            border: 1.5px dashed var(--border);
+            color: var(--text-muted);
+            font-size: 0.7rem;
             font-weight: 600;
             cursor: pointer;
-            width: 100%;
-            margin-top: 0.2rem;
-            transition: background-color 0.15s ease;
+            padding: 0.4rem 0.55rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-family: inherit;
+            transition: all 0.15s;
         }
 
-        .add-to-order-btn:hover {
-            background-color: var(--primary-hover);
-        }
+        .size-toggle:hover { color: var(--primary); border-color: var(--primary); }
+        .size-toggle.active { display: none; }
 
-        .btn-added {
-            background-color: #10b981 !important;
-            color: #ffffff !important;
-            border-color: #10b981 !important;
-            transform: scale(0.98);
-            transition: all 0.2s ease-in-out;
-        }
-
-                /* --- Bottom Order Bar --- */
-        .order-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        /* Add button */
+        .add-btn {
             background: var(--primary);
             color: white;
-            padding: 0.85rem 1rem;
+            border: none;
+            padding: 0.7rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-family: inherit;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            z-index: 90;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+            justify-content: center;
+            gap: 0.35rem;
+            transition: all 0.15s;
         }
 
-        .order-bar.visible {
-            transform: translateY(0);
+        .add-btn:hover { background: var(--primary-light); }
+        .add-btn:active { transform: scale(0.98); }
+        .add-btn.added { background: var(--success) !important; }
+        .add-btn svg { width: 14px; height: 14px; }
+
+        /* ============ SECTION HEADERS ============ */
+        .section-header {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.75rem 0 0.25rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.01em;
         }
+
+        .section-header .cat-icon { font-size: 1.2rem; }
+        .section-header span {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: auto;
+        }
+
+        /* ============ EMPTY STATE ============ */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .empty-state .empty-icon { font-size: 3rem; margin-bottom: 0.75rem; opacity: 0.5; }
+        .empty-state h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .empty-state p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* ============ BOTTOM ORDER BAR ============ */
+        .order-bar {
+            position: fixed;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            max-width: 540px;
+            margin: 0 auto;
+            background: var(--primary);
+            color: white;
+            border-radius: 14px;
+            padding: 0.7rem 0.75rem 0.7rem 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            z-index: 95;
+            transform: translateY(180%);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .order-bar.visible { transform: translateY(0); }
 
         .order-bar-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             font-size: 0.85rem;
-            font-weight: 500;
         }
 
-        .order-bar-info strong {
-            font-size: 1rem;
+        .order-bar-info .bag-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
+
+        .order-bar-info .bag-icon svg { width: 18px; height: 18px; }
+
+        .order-bar-info .bag-icon::after {
+            content: attr(data-count);
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 700;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        .order-bar-text { line-height: 1.2; }
+        .order-bar-text strong { display: block; font-size: 0.9rem; font-weight: 700; }
+        .order-bar-text small { font-size: 0.7rem; color: rgba(255,255,255,0.7); }
 
         .order-bar-btn {
-            background: white;
-            color: var(--primary);
+            background: var(--accent);
+            color: white;
             border: none;
-            padding: 0.5rem 1.25rem;
-            border-radius: 6px;
+            padding: 0.7rem 1.1rem;
+            border-radius: 9px;
             font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: background 0.15s;
+            white-space: nowrap;
         }
 
-        .order-bar-btn:hover {
-            background: #f0f0f0;
-        }
+        .order-bar-btn:hover { background: var(--accent-hover); }
+        .order-bar-btn svg { width: 14px; height: 14px; }
 
-        body:has(.order-bar.visible) {
-            padding-bottom: 70px;
-        }
-
-        /* --- Cart Modal --- */
+        /* ============ CART DRAWER ============ */
         .cart-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
+            inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             display: flex;
             justify-content: flex-end;
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s;
+            transition: opacity 0.25s;
         }
 
-        .cart-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .cart-overlay.active { opacity: 1; pointer-events: auto; }
 
         .cart-drawer {
-            background: var(--card-bg);
+            background: var(--bg-elevated);
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
             height: 100%;
             display: flex;
             flex-direction: column;
             transform: translateX(100%);
-            transition: transform 0.3s;
-            box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-xl);
         }
 
-        .cart-overlay.active .cart-drawer {
-            transform: translateX(0);
-        }
+        .cart-overlay.active .cart-drawer { transform: translateX(0); }
 
         .cart-header {
             padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--border-soft);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: white;
         }
 
-        .cart-header-title {
-            font-size: 0.85rem;
+        .cart-header-title { display: flex; flex-direction: column; gap: 0.15rem; }
+
+        .cart-header-title h2 {
+            font-size: 1.15rem;
             font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
+            letter-spacing: -0.01em;
         }
+
+        .cart-header-title small { font-size: 0.75rem; color: var(--text-muted); }
 
         .close-cart {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
             cursor: pointer;
-            color: var(--text-main);
-            padding: 0.25rem;
-            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.15s;
         }
+
+        .close-cart:hover { background: var(--border-soft); }
 
         .cart-items {
             flex-grow: 1;
             overflow-y: auto;
-            padding: 1rem;
+            padding: 1rem 1.25rem;
         }
 
         .cart-empty {
             text-align: center;
+            padding: 3rem 1rem;
             color: var(--text-muted);
-            margin-top: 2rem;
+        }
+
+        .cart-empty .empty-icon { font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.4; }
+        .cart-empty h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+        .cart-empty p { font-size: 0.85rem; margin-bottom: 1.25rem; }
+        .cart-empty button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
         }
 
         .cart-item {
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            background: white;
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
             padding: 0.85rem;
-            margin-bottom: 0.75rem;
-            background: #ffffff;
+            margin-bottom: 0.65rem;
+            transition: border-color 0.15s;
         }
+
+        .cart-item:hover { border-color: var(--border); }
 
         .cart-item-top {
             display: flex;
@@ -566,244 +763,311 @@
         }
 
         .cart-item-img {
-            width: 46px;
-            height: 46px;
+            width: 54px;
+            height: 54px;
             object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: var(--bg);
             flex-shrink: 0;
-            background: var(--bg-color);
         }
 
-        .cart-item-details {
-            flex-grow: 1;
-        }
+        .cart-item-details { flex-grow: 1; min-width: 0; }
 
         .cart-item-name {
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             font-weight: 600;
-            color: var(--text-main);
-            line-height: 1.25;
-            margin-bottom: 0.25rem;
+            color: var(--text);
+            line-height: 1.3;
+            margin-bottom: 0.3rem;
         }
 
-        .throw-btn {
+        .cart-item-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: var(--primary-soft);
+            color: var(--primary);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .remove-btn {
             background: none;
             border: none;
-            color: var(--danger);
+            color: var(--text-soft);
             font-size: 0.75rem;
             font-weight: 500;
             cursor: pointer;
-            padding: 0;
-            text-decoration: underline;
+            padding: 0.25rem 0.4rem;
+            border-radius: 6px;
+            transition: all 0.15s;
+            font-family: inherit;
+            white-space: nowrap;
         }
-        .throw-btn:hover {
-            color: #7f1d1d;
-        }
+
+        .remove-btn:hover { color: var(--danger); background: #FEF2F2; }
 
         .cart-item-inputs {
-            display: flex;
-            gap: 0.75rem;
-            align-items: flex-end;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 0.6rem;
+            align-items: end;
         }
 
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
+        .input-group { display: flex; flex-direction: column; gap: 0.3rem; }
 
         .input-group label {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.25rem;
+            letter-spacing: 0.04em;
         }
 
         .input-group input {
-            padding: 0.4rem 0.5rem;
-            border: 1px solid var(--border);
-            border-radius: 4px;
+            padding: 0.5rem 0.65rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
             font-size: 0.85rem;
-            width: 100%;
+            font-family: inherit;
+            color: var(--text);
+            background: white;
             outline: none;
-            background: #fafaf9;
+            width: 100%;
         }
 
-        .input-group input:focus {
-            border-color: var(--primary);
-            background: #ffffff;
-        }
+        .input-group input:focus { border-color: var(--primary); }
 
         .cart-footer {
-            padding: 1.5rem;
-            border-top: 1px solid var(--border);
+            padding: 1.25rem 1.5rem 1.5rem;
+            border-top: 1px solid var(--border-soft);
+            background: white;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+
+        .form-group label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .form-group input {
+            padding: 0.6rem 0.7rem;
+            border: 1.5px solid var(--border);
+            border-radius: 9px;
+            font-size: 0.88rem;
+            font-family: inherit;
+            color: var(--text);
+            background: white;
+            outline: none;
+        }
+
+        .form-group input:focus { border-color: var(--primary); }
+
+        .order-summary {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 0.75rem 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .order-summary strong { color: var(--text); font-weight: 700; }
+        .order-summary .total-kg {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
         }
 
         .whatsapp-btn {
-            background-color: var(--success);
+            background: var(--whatsapp);
             color: white;
             border: none;
             width: 100%;
-            padding: 1rem;
-            border-radius: 8px;
-            font-size: 1.05rem;
-            font-weight: bold;
+            padding: 0.95rem 1rem;
+            border-radius: 11px;
+            font-size: 0.95rem;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 0.5rem;
-            transition: 0.2s;
+            transition: background 0.15s;
+            font-family: inherit;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
         }
 
-        .whatsapp-btn:hover {
-            background-color: #20b858;
+        .whatsapp-btn:hover { background: var(--whatsapp-hover); }
+        .whatsapp-btn svg { width: 20px; height: 20px; }
+
+        .footer-note {
+            font-size: 0.7rem;
+            color: var(--text-soft);
+            text-align: center;
+            margin-top: 0.7rem;
         }
-        
+
+        /* ============ FOOTER ============ */
         footer {
-            background-color: var(--primary);
-            color: var(--bg-color);
-            padding: 3rem 1.5rem;
-            margin-top: 5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--primary);
+            color: white;
+            padding: 2.5rem 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 540px;
+            margin: 0 auto;
             text-align: center;
         }
-        
-        .footer-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
+
         .footer-brand {
-            font-size: 1.15rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            margin-bottom: 0.5rem;
-        }
-        
-        .footer-text {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-        
-        .footer-meta {
-            font-size: 0.75rem;
-            color: #64748b;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding-top: 1.25rem;
-            letter-spacing: 0.01em;
-        }
-
-        .toggle-size-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            cursor: pointer;
-            text-align: left;
-            padding: 0;
-            margin-bottom: 0.2rem;
-            text-decoration: underline;
-            transition: color 0.15s ease;
-        }
-        
-        .toggle-size-btn:hover {
-            color: var(--primary);
-        }
-
-        .size-input-container {
-            display: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
             margin-bottom: 0.4rem;
         }
 
-        .size-input-container input {
-            width: 100%;
-            padding: 0.65rem 0.75rem;
-            font-size: 1rem;
-            min-height: 44px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            background: #ffffff;
-            color: var(--text-main);
-            outline: none;
+        .footer-text {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 1.5rem;
+            font-style: italic;
         }
 
-        .size-input-container input:focus {
-            border-color: var(--primary);
+        .footer-meta {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.5);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.25rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header, Search & Tabs -->
-    <header>
+    <!-- Sticky Header with Search -->
+    <header class="app-header">
         <div class="header-top">
-            <h1>PCY</h1>
-            <div class="cart-icon-wrapper" onclick="toggleCart()" aria-label="Open inquiry list" role="button" tabindex="0">
-                 🛒 <span id="cartBadge">0</span>
-            </div>
+            <div class="brand">PCY</div>
+            <button class="icon-btn" onclick="toggleCart()" aria-label="Open inquiry list">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8 2a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/></svg>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </button>
         </div>
-        
-        <div class="search-container">
-            <div class="search-wrapper">
-                <input type="text" id="searchInput" placeholder="Search seafood / Cari hasil laut..." 
-                       oninput="handleSearchInput()" enterkeyhint="search" aria-label="Search seafood">
+        <div class="header-search">
+            <div class="search-bar">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" id="searchInput" placeholder="Search fish, prawn, squid..." oninput="handleSearchInput()" enterkeyhint="search" aria-label="Search seafood">
                 <button type="button" class="search-clear" id="searchClear" onclick="clearSearch()" aria-label="Clear search">✕</button>
-            </div>
-        </div>
-        
-        <div class="tabs-row">
-            <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="Product categories">
-                <!-- Rendered by JS -->
             </div>
         </div>
     </header>
 
-    <!-- Results Counter -->
-    <div class="results-count" id="resultsCount"></div>
+    <!-- Category Tabs -->
+    <nav class="category-nav">
+        <div class="category-scroll" id="categoryTabs" role="tablist" aria-label="Product categories"></div>
+    </nav>
 
-    <!-- Main Grid -->
-    <div class="grid-container" id="productGrid">
-        <!-- Rendered by JS -->
+    <!-- Results bar -->
+    <div class="results-bar">
+        <div class="results-count" id="resultsCount"></div>
     </div>
 
-    <!-- Cart Overlay & Drawer -->
-    <div class="cart-overlay" id="cartOverlay" onclick="closeCartOnOutsideClick(event)" role="dialog" aria-modal="true" aria-labelledby="cartItemCountHeader">
-        <div class="cart-drawer">
-            <div class="cart-header">
-                <span class="cart-header-title" id="cartItemCountHeader">0 ITEMS</span>
-                <button class="close-cart" onclick="toggleCart()" aria-label="Close inquiry list">&times;</button>
+    <!-- Product Grid -->
+    <div class="product-grid" id="productGrid"></div>
+
+    <!-- Bottom Order Bar -->
+    <div class="order-bar" id="orderBar" role="button" tabindex="0">
+        <div class="order-bar-info">
+            <div class="bag-icon" id="orderBarIcon" data-count="0">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8 2a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/></svg>
             </div>
-            
-            <div class="cart-items" id="cartItemsContainer">
-                <!-- Rendered by JS -->
+            <div class="order-bar-text">
+                <strong id="orderBarCount">0 items</strong>
+                <small id="orderBarWeight">0 KG total</small>
+            </div>
+        </div>
+        <button class="order-bar-btn" onclick="event.stopPropagation(); toggleCart()">
+            Review Order
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cartOverlay" onclick="closeCartOnOutsideClick(event)" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+        <div class="cart-drawer" onclick="event.stopPropagation()">
+            <div class="cart-header">
+                <div class="cart-header-title">
+                    <h2 id="cartTitle">Your Order List</h2>
+                    <small id="cartItemCountHeader">0 items added</small>
+                </div>
+                <button class="close-cart" onclick="toggleCart()" aria-label="Close">✕</button>
             </div>
 
+            <div class="cart-items" id="cartItemsContainer"></div>
+
             <div class="cart-footer">
-                <div style="margin-bottom: 0.75rem;">
-                    <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Company Name</label>
-                    <input type="text" id="companyNameInput" placeholder="Enter company name..." autocomplete="organization"
-                           style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.9rem; outline: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Company Name *</label>
+                        <input type="text" id="companyNameInput" placeholder="e.g. Restoran XYZ" autocomplete="organization">
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Date *</label>
+                        <input type="date" id="deliveryDateInput">
+                    </div>
                 </div>
-                <div style="margin-bottom: 1rem;">
-                    <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Delivery Date</label>
-                    <input type="date" id="deliveryDateInput" 
-                           style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.9rem; outline: none;">
+
+                <div class="order-summary">
+                    <span>Total quantity</span>
+                    <span class="total-kg" id="cartTotalKg">0 KG</span>
                 </div>
+
                 <button class="whatsapp-btn" onclick="sendToWhatsApp()">
-                     Send Order List via WhatsApp
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                    Send via WhatsApp
                 </button>
+                <p class="footer-note">We'll reply with a confirmed quote within minutes.</p>
             </div>
         </div>
     </div>
 
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">PCY</div>
+            <p class="footer-text">"Be Sourced, Be Selected"</p>
+            <div class="footer-meta">© 2026 PCY Seafood. All rights reserved.</div>
+        </div>
+    </footer>
+
     <script>
-        const WHATSAPP_NUMBER = "601174293823"; 
+        const WHATSAPP_NUMBER = "601174293823";
+
+        // Inline SVG placeholder for products without a photo yet
+        const placeholderImg = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">' +
+            '<rect fill="#F1F5F9" width="200" height="200"/>' +
+            '<ellipse cx="90" cy="100" rx="38" ry="20" fill="#CBD5E1"/>' +
+            '<polygon points="128,100 158,80 158,120" fill="#CBD5E1"/>' +
+            '<circle cx="78" cy="96" r="2.5" fill="#fff"/>' +
+            '</svg>'
+        );
 
         const categories = ["Semua", "Ikan", "Sotong", "Udang", "Kerang", "Ketam"];
         const categoryIcons = {
@@ -816,61 +1080,110 @@
         };
         let currentCategory = "Semua";
 
+        // Each product has hidden `keywords` for search. The visible name stays the same.
         const products = [
-            { id: 1, name: "Bakalang | Queenfish", category: "Ikan", imgUrl: "images/bakalang.png" },
-            { id: 2, name: "Bakulan Hitam | Longtail Tuna", category: "Ikan", imgUrl: "images/bakulan-hitam.png" },
-            { id: 3, name: "Bakulan Putih | Mackerel Tuna", category: "Ikan", imgUrl: "images/bakulan-putih.png" },
-            { id: 4, name: "Basung", category: "Ikan", imgUrl: "images/basung.png" },
-            { id: 5, name: "Bawal Emas | Golden Pomfret", category: "Ikan", imgUrl: "images/bawal-emas.png" },
-            { id: 6, name: "Bawal Hitam | Black Pomfret", category: "Ikan", imgUrl: "images/bawal-hitam.png" },
-            { id: 7, name: "Bilis Mata Biru | Silverfish", category: "Ikan", imgUrl: "images/bilis-mata-biru.png" },
-            { id: 8, name: "Geronggong | Torpedo Scad", category: "Ikan", imgUrl: "images/geronggong.png" },
-            { id: 9, name: "Isi Dori | Dory Fillet", category: "Ikan", imgUrl: "images/isi-dori.png" },
-            { id: 10, name: "Isi Jenahak | Golden Snapper Fillet", category: "Ikan", imgUrl: "images/isi-jenahak.png" },
-            { id: 11, name: "Isi Merah | Red Snapper Fillet", category: "Ikan", imgUrl: "images/isi-merah.png" },
-            { id: 12, name: "Isi Siakap | Barramundi Fillet", category: "Ikan", imgUrl: "images/isi-siakap.png" },
-            { id: 13, name: "Jenahak | John Snapper", category: "Ikan", imgUrl: "images/jenahak.png" },
-            { id: 14, name: "Keli | Walking Catfish", category: "Ikan", imgUrl: "images/keli.png" },
-            { id: 15, name: "Kerang | Blood Cockles", category: "Kerang", imgUrl: "images/kerang.png" },
-            { id: 16, name: "Kerapu Hibrid | Hybrid Grouper", category: "Ikan", imgUrl: "images/kerapu-hybrid.png" },
-            { id: 17, name: "Ketam Kalok | Mud Crab", category: "Ketam", imgUrl: "images/ketam-kalok.png" },
-            { id: 18, name: "Ketam Suri | Flower Crab", category: "Ketam", imgUrl: "images/ketam-suri.png" },
-            { id: 19, name: "Ketumbang | Maori Snapper", category: "Ikan", imgUrl: "images/ketumbang.png" },
-            { id: 20, name: "Kupang Hitam | Black Mussels", category: "Kerang", imgUrl: "images/kupang-hitam.png" },
-            { id: 21, name: "Lala Putih | White Clam", category: "Kerang", imgUrl: "images/lala-putih.png" },
-            { id: 22, name: "Lamading | Korean Seerfish", category: "Ikan", imgUrl: "images/lamading.png" },
-            { id: 23, name: "Mata Besar Merah", category: "Ikan", imgUrl: "images/mata-besar-merah.png" },
-            { id: 24, name: "Merah | Red Snapper", category: "Ikan", imgUrl: "images/merah.png" },
-            { id: 25, name: "Patin | Pangasius", category: "Ikan", imgUrl: "images/patin.png" },
-            { id: 26, name: "Putih", category: "Ikan", imgUrl: "images/putih.png" },
-            { id: 27, name: "Rumahan", category: "Ikan", imgUrl: "images/rumahan.png" },
-            { id: 28, name: "Satak | Slipper Lobster", category: "Ikan", imgUrl: "images/satak.png" },
-            { id: 29, name: "Siakap | Barramundi", category: "Ikan", imgUrl: "images/siakap.png" },
-            { id: 30, name: "Siput Buluh | Razor Clam", category: "Kerang", imgUrl: "images/siput buluh.png" },
-            { id: 31, name: "Sotong Bulat", category: "Sotong", imgUrl: "images/sotong-bulat.png" },
-            { id: 32, name: "Sotong Bunga | Squid Flower", category: "Sotong", imgUrl: "images/sotong-bunga.png" },
-            { id: 33, name: "Sotong Cincin | Squid Ring", category: "Sotong", imgUrl: "images/sotong-cincin.png" },
-            { id: 34, name: "Sotong Janggut | Squid Tentacles", category: "Sotong", imgUrl: "images/sotong-janggut.png" },
-            { id: 35, name: "Sotong Kelabutan | Cuttlefish", category: "Sotong", imgUrl: "images/sotong-kelabutan.png" },
-            { id: 36, name: "Sotong Pen", category: "Sotong", imgUrl: "images/sotong-pen.png" },
-            { id: 37, name: "Sotong Tube | Squid Tube", category: "Sotong", imgUrl: "images/sotong-tube.png" },
-            { id: 38, name: "Susu | Milkfish", category: "Ikan", imgUrl: "images/susu.png" },
-            { id: 39, name: "Talapia Hitam | Black Tilapia", category: "Ikan", imgUrl: "images/talapia-hitam.png" },
-            { id: 40, name: "Talapia Merah | Red Tilapia", category: "Ikan", imgUrl: "images/talapia-merah.png" },
-            { id: 41, name: "Tamban", category: "Ikan", imgUrl: "images/tamban.png" },
-            { id: 42, name: "Udang Bunga | Flower Prawn", category: "Udang", imgUrl: "images/udang-bunga.png" },
-            { id: 43, name: "Udang Harimau | Tiger Prawn", category: "Udang", imgUrl: "images/udang-harimau.png" },
-            { id: 44, name: "Udang Pasir | Sand Prawn", category: "Udang", imgUrl: "images/udang-pasir.png" },
-            { id: 45, name: "Udang Vannamei | Vannamei Prawn (HLSO)", category: "Udang", imgUrl: "images/udang-vannamei-hlso.png" },
-            { id: 46, name: "Udang Vannamei | Vannamei Prawn (PTO)", category: "Udang", imgUrl: "images/udang-vannamei-ptopdto.png" },
-            { id: 47, name: "Udang Vannamei | Vannamei Prawn (PDTO)", category: "Udang", imgUrl: "images/udang-vannamei-ptopdto.png" },
-            { id: 48, name: "Udang Vannamei | Vannamei Prawn", category: "Udang", imgUrl: "images/udang-vannamei.png" }
+            // ===== IKAN =====
+            { id: 1,  name: "Bakalang | Queenfish", category: "Ikan", imgUrl: "images/bakalang.png",
+              keywords: ["queenfish", "bakalang"] },
+            { id: 2,  name: "Bakulan Hitam | Longtail Tuna", category: "Ikan", imgUrl: "images/bakulan-hitam.png",
+              keywords: ["longtail tuna", "tongkol hitam", "aya hitam", "kayu hitam"] },
+            { id: 3,  name: "Bakulan Putih | Mackerel Tuna", category: "Ikan", imgUrl: "images/bakulan-putih.png",
+              keywords: ["mackerel tuna", "tongkol putih", "aya kurik", "kayu"] },
+            { id: 4,  name: "Basung", category: "Ikan", imgUrl: "images/basung.png",
+              keywords: ["basong"] },
+            { id: 5,  name: "Bawal Emas | Golden Pomfret", category: "Ikan", imgUrl: "images/bawal-emas.png",
+              keywords: ["golden pomfret", "golden pompano"] },
+            { id: 6,  name: "Bawal Hitam | Black Pomfret", category: "Ikan", imgUrl: "images/bawal-hitam.png",
+              keywords: ["black pomfret", "black pompano"] },
+            { id: 7,  name: "Bilis Mata Biru | Silverfish", category: "Ikan", imgUrl: "images/bilis-mata-biru.png",
+              keywords: ["silverfish", "noodlefish", "whitebait fish"] },
+            { id: 8,  name: "Geronggong | Torpedo Scad", category: "Ikan", imgUrl: "images/geronggong.png",
+              keywords: ["torpedo scad", "cencaru", "hardtail scad"] },
+            { id: 9,  name: "Isi Dori | Dory Fillet", category: "Ikan", imgUrl: "images/isi-dori.png",
+              keywords: ["dory fillet"] },
+            { id: 10, name: "Isi Jenahak | Golden Snapper Fillet", category: "Ikan", imgUrl: "images/isi-jenahak.png",
+              keywords: ["golden snapper fillet", "ang"] },
+            { id: 11, name: "Isi Merah | Red Snapper Fillet", category: "Ikan", imgUrl: "images/isi-merah.png",
+              keywords: ["red snapper fillet", "merah pucat", "ang"] },
+            { id: 12, name: "Isi Siakap | Barramundi Fillet", category: "Ikan", imgUrl: "images/isi-siakap.png",
+              keywords: ["barramundi fillet", "seabass fillet"] },
+            { id: 13, name: "Jenahak | Golden Snapper", category: "Ikan", imgUrl: "images/jenahak.png",
+              keywords: ["golden snapper", "john snapper"] },
+            { id: 14, name: "Keli | Walking Catfish", category: "Ikan", imgUrl: "images/keli.png",
+              keywords: ["walking catfish"] },
+            { id: 15, name: "Kerapu Hibrid | Hybrid Grouper", category: "Ikan", imgUrl: "images/kerapu-hybrid.png",
+              keywords: ["hybrid grouper", "kerapu hibrid"] },
+            { id: 16, name: "Ketam Kalok | Mud Crab", category: "Ketam", imgUrl: "images/ketam-kalok.png",
+              keywords: ["mud crab", "ketam nipah"] },
+            { id: 17, name: "Ketam Suri | Flower Crab", category: "Ketam", imgUrl: "images/ketam-suri.png",
+              keywords: ["flower crab", "blue swimmer crab", "ketam bunga"] },
+            { id: 18, name: "Ketumbang | Maori Snapper", category: "Ikan", imgUrl: "images/ketumbang.png",
+              keywords: ["maori snapper", "blubberlip snapper", "speckled snapper", "blue-spotted seaperch"] },
+            { id: 19, name: "Kupang Hitam | Black Mussels", category: "Kerang", imgUrl: "images/kupang-hitam.png",
+              keywords: ["black mussels", "kerang hitam"] },
+            { id: 20, name: "Lala Putih | White Clam", category: "Kerang", imgUrl: "images/lala-putih.png",
+              keywords: ["white clam", "lala bunga", "flower clam"] },
+            { id: 21, name: "Lamading | Korean Seerfish", category: "Ikan", imgUrl: "images/lamading.png",
+              keywords: ["korean seerfish", "tenggiri papan", "tua pan", "tat pan"] },
+            { id: 22, name: "Mata Besar Merah", category: "Ikan", imgUrl: "images/mata-besar-merah.png",
+              keywords: [] },
+            { id: 23, name: "Merah | Red Snapper", category: "Ikan", imgUrl: "images/merah.png",
+              keywords: ["red snapper", "crimson snapper", "merah pucat"] },
+            { id: 24, name: "Patin | Pangasius", category: "Ikan", imgUrl: "images/patin.png",
+              keywords: ["pangasius", "silver catfish"] },
+            { id: 25, name: "Putih", category: "Ikan", imgUrl: "images/putih.png",
+              keywords: [] },
+            { id: 26, name: "Rumahan", category: "Ikan", imgUrl: "images/rumahan.png",
+              keywords: ["kembung", "pelaling", "mabong"] },
+            { id: 27, name: "Satak | Slipper Lobster", category: "Ikan", imgUrl: "images/satak.png",
+              keywords: ["slipper lobster", "flathead lobster"] },
+            { id: 28, name: "Siakap | Barramundi", category: "Ikan", imgUrl: "images/siakap.png",
+              keywords: ["barramundi", "asian seabass", "seabass"] },
+            { id: 29, name: "Siput Buluh | Razor Clam", category: "Kerang", imgUrl: "images/siput buluh.png",
+              keywords: ["razor clam"] },
+            { id: 30, name: "Sotong Bulat", category: "Sotong", imgUrl: "images/sotong-bulat.png",
+              keywords: ["sotong putih", "苏东"] },
+            { id: 31, name: "Sotong Bunga | Squid Flower", category: "Sotong", imgUrl: "images/sotong-bunga.png",
+              keywords: ["squid flower"] },
+            { id: 32, name: "Sotong Cincin | Squid Ring", category: "Sotong", imgUrl: "images/sotong-cincin.png",
+              keywords: ["squid ring"] },
+            { id: 33, name: "Sotong Janggut | Squid Tentacles", category: "Sotong", imgUrl: "images/sotong-janggut.png",
+              keywords: ["squid tentacle", "squid tentacles"] },
+            { id: 34, name: "Sotong Kelabutan | Cuttlefish", category: "Sotong", imgUrl: "images/sotong-kelabutan.png",
+              keywords: ["cuttlefish", "sotong katak"] },
+            { id: 35, name: "Sotong Pen", category: "Sotong", imgUrl: "images/sotong-pen.png",
+              keywords: [] },
+            { id: 36, name: "Sotong Tube | Squid Tube", category: "Sotong", imgUrl: "images/sotong-tube.png",
+              keywords: ["squid tube"] },
+            { id: 37, name: "Susu | Milkfish", category: "Ikan", imgUrl: "images/susu.png",
+              keywords: ["milkfish", "bahulu"] },
+            { id: 38, name: "Talapia Hitam | Black Tilapia", category: "Ikan", imgUrl: "images/talapia-hitam.png",
+              keywords: ["black tilapia"] },
+            { id: 39, name: "Talapia Merah | Red Tilapia", category: "Ikan", imgUrl: "images/talapia-merah.png",
+              keywords: ["red tilapia", "red hybrid tilapia"] },
+            { id: 40, name: "Tamban | Sardine", category: "Ikan", imgUrl: "images/tamban.png",
+              keywords: ["sardine", "tamban nipis"] },
+            { id: 41, name: "Udang Bunga | Flower Prawn", category: "Udang", imgUrl: "images/udang-bunga.png",
+              keywords: ["flower prawn", "flower shrimp", "花虾"] },
+            { id: 42, name: "Udang Harimau | Tiger Prawn", category: "Udang", imgUrl: "images/udang-harimau.png",
+              keywords: ["tiger prawn", "asian tiger shrimp", "老虎虾", "udang kuning", "yellow prawn", "yellow shrimp", "虾"] },
+            { id: 43, name: "Udang Pasir | Sand Prawn", category: "Udang", imgUrl: "images/udang-pasir.png",
+              keywords: ["sand prawn", "sand shrimp", "虾"] },
+            { id: 44, name: "Udang Vannamei | Vannamei Prawn (HLSO)", category: "Udang", imgUrl: "images/udang-vannamei-hlso.png",
+              keywords: ["vannamei prawn", "headless shell on", "hlso", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
+            { id: 45, name: "Udang Vannamei | Vannamei Prawn (PTO)", category: "Udang", imgUrl: "images/udang-vannamei-ptopdto.png",
+              keywords: ["vannamei prawn", "peeled tail-on", "pto", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
+            { id: 46, name: "Udang Vannamei | Vannamei Prawn (PDTO)", category: "Udang", imgUrl: "images/udang-vannamei-ptopdto.png",
+              keywords: ["vannamei prawn", "peeled deveined tail-on", "pdto", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
+            { id: 47, name: "Udang Vannamei | Vannamei Prawn", category: "Udang", imgUrl: "images/udang-vannamei.png",
+              keywords: ["vannamei prawn", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
+            { id: 48, name: "Kerang | Blood Cockles", category: "Kerang", imgUrl: "images/kerang.png",
+              keywords: ["blood cockles"] }
         ];
 
-        // Sort alphabetically once at init
         products.sort((a, b) => a.name.localeCompare(b.name));
 
-        let cart = []; 
+        let cart = [];
         const fallbackImg = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
         function getCategoryCount(cat) {
@@ -882,39 +1195,30 @@
         function saveCart() {
             clearTimeout(saveTimeout);
             saveTimeout = setTimeout(() => {
-            const payload = {
-            items: cart,
-            savedAt: new Date().toISOString()
-            };
-            localStorage.setItem('pcy_cart', JSON.stringify(payload));
+                localStorage.setItem('pcy_cart', JSON.stringify({ items: cart, savedAt: new Date().toISOString() }));
             }, 150);
         }
-        
-            function loadCart() {
+
+        function loadCart() {
             const savedCompany = localStorage.getItem('pcy_company');
             const savedDate = localStorage.getItem('pcy_delivery_date');
-            
+
             const raw = localStorage.getItem('pcy_cart');
             if (raw) {
-            try {
-            const parsed = JSON.parse(raw);
-            
-            if (Array.isArray(parsed)) {
-            cart = parsed;
-            } else if (parsed.items && parsed.savedAt) {
-            const hoursOld = (Date.now() - new Date(parsed.savedAt)) / 3600000;
-            if (hoursOld > 6) {
-            localStorage.removeItem('pcy_cart');
-            cart = [];
-            } else {
-            cart = parsed.items;
-            }
-            } else {
-            cart = [];
-            }
-            } catch (e) {
-            cart = [];
-            }
+                try {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) {
+                        cart = parsed;
+                    } else if (parsed.items && parsed.savedAt) {
+                        const hoursOld = (Date.now() - new Date(parsed.savedAt)) / 3600000;
+                        if (hoursOld > 6) {
+                            localStorage.removeItem('pcy_cart');
+                            cart = [];
+                        } else {
+                            cart = parsed.items;
+                        }
+                    }
+                } catch (e) { cart = []; }
             }
             if (savedCompany) document.getElementById('companyNameInput').value = savedCompany;
             if (savedDate) document.getElementById('deliveryDateInput').value = savedDate;
@@ -943,12 +1247,12 @@
         document.addEventListener("DOMContentLoaded", () => {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('deliveryDateInput').setAttribute('min', today);
-            
+
             loadCart();
             renderTabs();
             filterProducts();
             updateCartBadge();
-            
+
             document.getElementById('companyNameInput').addEventListener('input', persistForm);
             document.getElementById('deliveryDateInput').addEventListener('change', persistForm);
         });
@@ -965,17 +1269,16 @@
 
         function renderTabs() {
             const tabsContainer = document.getElementById("categoryTabs");
-            tabsContainer.innerHTML = categories.map((cat, idx) => {
+            tabsContainer.innerHTML = categories.map((cat) => {
                 const count = getCategoryCount(cat);
                 const icon = categoryIcons[cat] || "";
-                return `<button class="tab-btn ${cat === currentCategory ? 'active' : ''}" 
+                return `<button class="cat-btn ${cat === currentCategory ? 'active' : ''}" 
                             onclick="setCategory('${cat}')"
                             role="tab" 
-                            aria-selected="${cat === currentCategory}"
-                            id="tab-${idx}">
-                        <span class="tab-icon" aria-hidden="true">${icon}</span>
+                            aria-selected="${cat === currentCategory}">
+                        <span class="cat-icon" aria-hidden="true">${icon}</span>
                         ${cat}
-                        <span class="tab-count">${count}</span>
+                        <span class="cat-count">${count}</span>
                     </button>`;
             }).join('');
         }
@@ -984,10 +1287,8 @@
             currentCategory = cat;
             renderTabs();
             setTimeout(() => {
-                const activeBtn = document.querySelector('.tab-btn.active');
-                if (activeBtn) {
-                    activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-                }
+                const activeBtn = document.querySelector('.cat-btn.active');
+                if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
             }, 10);
             filterProducts();
         }
@@ -995,41 +1296,46 @@
         function updateResultsCount(count) {
             const countEl = document.getElementById("resultsCount");
             if (!countEl) return;
-            
-            if (currentCategory === "Semua" && !document.getElementById("searchInput").value.trim()) {
-                countEl.textContent = `${products.length} items available`;
+            const query = document.getElementById("searchInput").value.trim();
+
+            if (query) {
+                countEl.innerHTML = `<strong>${count}</strong> result${count !== 1 ? 's' : ''} for "${query}"`;
             } else {
-                countEl.textContent = `${count} item${count !== 1 ? 's' : ''} in ${currentCategory}`;
+                countEl.innerHTML = `<strong>${count}</strong> item${count !== 1 ? 's' : ''} in ${currentCategory === 'Semua' ? 'catalog' : currentCategory}`;
             }
+        }
+
+        function isInCart(productId) {
+            return cart.some(item => item.id === productId);
         }
 
         function createProductCard(p, query) {
             const card = document.createElement('div');
-            card.className = "product-card";
+            card.className = "product-card" + (isInCart(p.id) ? " in-cart" : "");
             const displayName = highlightText(p.name, query);
-            
+            const inCart = isInCart(p.id);
+
             card.innerHTML = `
-                <img src="${p.imgUrl}" alt="${p.name}" class="product-img" loading="lazy" width="400" height="400" onerror="this.onerror=null; this.src='${fallbackImg}'; this.style.background='#e5e3da';">
+                <div class="img-wrap">
+                    <img src="${p.imgUrl}" alt="${p.name}" class="product-img" loading="lazy" width="400" height="400" onerror="this.onerror=null; this.src='${fallbackImg}'; this.parentElement.style.background='#e5e3da';">
+                </div>
                 <div class="product-info">
                     <span class="product-category">${p.category}</span>
                     <h3 class="product-name">${displayName}</h3>
-                    <div class="product-controls">
-                        <div>
-                            <button type="button" class="toggle-size-btn" onclick="toggleSizeField(${p.id}, this)">+ Add Specific Size</button>
-                            <div id="size-box-${p.id}" class="size-input-container">
-                                <label>Size / Grade</label>
-                                <input type="text" id="size-${p.id}" placeholder="e.g. 300/500">
+                    <div class="card-controls">
+                        <button type="button" class="size-toggle" data-id="${p.id}" onclick="toggleSizeField(${p.id}, this)">+ Size</button>
+                        <input type="text" class="size-input hidden" id="size-${p.id}" placeholder="Size / grade (e.g. 300/500)">
+                        <div class="stepper" aria-label="Weight in kilograms">
+                            <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, -5)" aria-label="Decrease">−</button>
+                            <div class="stepper-value">
+                                <input type="number" class="stepper-input" id="weight-${p.id}" value="5" min="5" step="1" oninput="clampWeight(${p.id})" aria-label="Weight">
+                                <span class="stepper-unit">KG</span>
                             </div>
+                            <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, 5)" aria-label="Increase">+</button>
                         </div>
-                        <div>
-                            <label>Weight (KG)</label>
-                            <div class="stepper">
-                                <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, -5)" aria-label="Decrease weight by 5 kilograms">−</button>
-                                <input type="number" id="weight-${p.id}" value="5" min="5" step="5" readonly aria-label="Weight in kilograms">
-                                <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, 5)" aria-label="Increase weight by 5 kilograms">+</button>
-                            </div>
-                        </div>
-                        <button class="add-to-order-btn" onclick="addToOrder(${p.id}, this)">Add to Order</button>
+                        <button class="add-btn ${inCart ? 'added' : ''}" onclick="addToOrder(${p.id}, this)">
+                            ${inCart ? '<svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Added' : '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Add to Order'}
+                        </button>
                     </div>
                 </div>
             `;
@@ -1038,45 +1344,47 @@
 
         function filterProducts() {
             const query = document.getElementById("searchInput").value.toLowerCase().trim();
-            
+
             const filtered = products.filter(p => {
                 const matchCategory = currentCategory === "Semua" || p.category === currentCategory;
-                const matchSearch = p.name.toLowerCase().includes(query);
-                return matchCategory && matchSearch;
+                if (!query) return matchCategory;
+                // Search the visible name AND the hidden keywords array
+                const inName = p.name.toLowerCase().includes(query);
+                const inKeywords = (p.keywords || []).some(k => k.toLowerCase().includes(query));
+                return matchCategory && (inName || inKeywords);
             });
 
             const grid = document.getElementById("productGrid");
             grid.innerHTML = '';
 
-            if(filtered.length === 0) {
-                grid.innerHTML = `<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted);">No seafood items found.</p>`;
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h3>No matches found</h3>
+                        <p>Try a different keyword or category</p>
+                    </div>`;
                 updateResultsCount(0);
                 return;
             }
-            
+
             updateResultsCount(filtered.length);
 
             if (currentCategory === "Semua") {
-                // Group by category with sticky section headers
                 categories.slice(1).forEach(cat => {
                     const catProducts = filtered.filter(p => p.category === cat);
                     if (catProducts.length === 0) return;
-                    
+
                     const icon = categoryIcons[cat] || "";
                     const header = document.createElement('div');
                     header.className = 'section-header';
-                    header.innerHTML = `${icon} ${cat} <span>${catProducts.length} item${catProducts.length !== 1 ? 's' : ''}</span>`;
+                    header.innerHTML = `<span class="cat-icon">${icon}</span> ${cat} <span>${catProducts.length} item${catProducts.length !== 1 ? 's' : ''}</span>`;
                     grid.appendChild(header);
-                    
-                    catProducts.forEach(p => {
-                        grid.appendChild(createProductCard(p, query));
-                    });
+
+                    catProducts.forEach(p => grid.appendChild(createProductCard(p, query)));
                 });
             } else {
-                // Single category: flat grid, no headers
-                filtered.forEach(p => {
-                    grid.appendChild(createProductCard(p, query));
-                });
+                filtered.forEach(p => grid.appendChild(createProductCard(p, query)));
             }
         }
 
@@ -1088,29 +1396,26 @@
             input.value = val;
         }
 
-        function adjustCartWeight(cartUniqueId, delta, btnElement) {
-            const item = cart.find(i => i.cartUniqueId === cartUniqueId);
-            if (!item) return;
-            let val = (parseFloat(item.weight) || 5) + delta;
-            if (val < 5) val = 5;
-            item.weight = val;
-            saveCart();
-            
-            const input = btnElement.parentElement.querySelector('input');
-            if (input) input.value = val;
+        function clampWeight(productId) {
+            const input = document.getElementById(`weight-${productId}`);
+            let val = parseFloat(input.value);
+            if (isNaN(val) || val < 5) {
+                // allow empty while typing — only force min on blur
+                if (input.value !== "" && val < 5) input.value = 5;
+                if (input.value === "") input.value = 5;
+            }
         }
 
         function toggleSizeField(productId, btnElement) {
-            const sizeBox = document.getElementById(`size-box-${productId}`);
             const sizeInput = document.getElementById(`size-${productId}`);
-
-            if (sizeBox.style.display === "none" || sizeBox.style.display === "") {
-                sizeBox.style.display = "block";
-                btnElement.textContent = "Remove Size";
+            if (sizeInput.classList.contains('hidden')) {
+                sizeInput.classList.remove('hidden');
+                btnElement.classList.add('active');
+                sizeInput.focus();
             } else {
-                sizeBox.style.display = "none";
-                btnElement.textContent = "+ Add Specific Size";
-                if(sizeInput) sizeInput.value = "";
+                sizeInput.classList.add('hidden');
+                btnElement.classList.remove('active');
+                sizeInput.value = "";
             }
         }
 
@@ -1118,13 +1423,12 @@
             const product = products.find(p => p.id === productId);
             const sizeInput = document.getElementById(`size-${productId}`);
             const weightInput = document.getElementById(`weight-${productId}`);
-            
+
             const size = sizeInput ? sizeInput.value.trim() : "";
             const weight = weightInput ? parseFloat(weightInput.value) || 5 : 5;
 
-            // Merge if same product + same size already in cart
             const existing = cart.find(item => item.id === productId && item.size === size);
-            
+
             if (existing) {
                 existing.weight += weight;
             } else {
@@ -1137,31 +1441,30 @@
                     weight: weight
                 });
             }
-            
+
             saveCart();
 
-            const originalText = buttonElement.textContent;
-            buttonElement.classList.add('btn-added'); 
-            buttonElement.textContent = "Added ✓";
-            buttonElement.disabled = true;
-            
+            const card = buttonElement.closest('.product-card');
+            if (card) card.classList.add('in-cart');
+            buttonElement.classList.add('added');
+            buttonElement.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Added';
+
             updateCartBadge();
-            
+
             setTimeout(() => {
-                buttonElement.classList.remove('btn-added'); 
-                buttonElement.textContent = originalText;
-                buttonElement.disabled = false;
-            }, 1200);
-            
-            if(weightInput) weightInput.value = "5";
-            if(sizeInput) sizeInput.value = "";
-            
-            const sizeBox = document.getElementById(`size-box-${productId}`);
-            if(sizeBox) {
-                sizeBox.style.display = "none";
-                const toggleBtn = sizeBox.previousElementSibling;
-                if(toggleBtn && toggleBtn.classList.contains('toggle-size-btn')) {
-                    toggleBtn.textContent = "+ Add Specific Size";
+                if (!isInCart(productId) || existing) {
+                    buttonElement.classList.remove('added');
+                    buttonElement.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Add to Order';
+                }
+            }, 1500);
+
+            if (weightInput) weightInput.value = "5";
+            if (sizeInput) {
+                sizeInput.value = "";
+                sizeInput.classList.add('hidden');
+                const toggleBtn = sizeInput.previousElementSibling;
+                if (toggleBtn && toggleBtn.classList.contains('size-toggle')) {
+                    toggleBtn.classList.remove('active');
                 }
             }
         }
@@ -1169,36 +1472,40 @@
         function updateCartBadge() {
             const badge = document.getElementById("cartBadge");
             const headerCount = document.getElementById("cartItemCountHeader");
-            
+
             if (cart.length > 0) {
-                badge.style.display = "block";
+                badge.classList.add('visible');
                 badge.textContent = cart.length;
-                headerCount.textContent = `${cart.length} ITEM${cart.length > 1 ? 'S' : ''}`;
+                headerCount.textContent = `${cart.length} item${cart.length > 1 ? 's' : ''} added`;
             } else {
-                badge.style.display = "none";
-                headerCount.textContent = `0 ITEMS`;
+                badge.classList.remove('visible');
+                headerCount.textContent = '0 items added';
             }
             updateOrderBar();
         }
 
-                function updateOrderBar() {
+        function updateOrderBar() {
             const bar = document.getElementById("orderBar");
-            const info = document.getElementById("orderBarInfo");
-            
+            const countEl = document.getElementById("orderBarCount");
+            const weightEl = document.getElementById("orderBarWeight");
+            const iconEl = document.getElementById("orderBarIcon");
+
             if (cart.length === 0) {
                 bar.classList.remove("visible");
                 return;
             }
-            
+
             const totalKg = cart.reduce((sum, item) => sum + (parseFloat(item.weight) || 0), 0);
-            info.innerHTML = `<strong>${cart.length}</strong> item${cart.length > 1 ? 's' : ''} · <strong>${totalKg.toFixed(1)}</strong> KG`;
+            countEl.textContent = `${cart.length} item${cart.length > 1 ? 's' : ''}`;
+            weightEl.textContent = `${totalKg.toFixed(1)} KG total`;
+            iconEl.setAttribute('data-count', cart.length);
             bar.classList.add("visible");
         }
 
         let lastFocusedElement = null;
-        
+
         function trapFocus(element) {
-            const focusable = element.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            const focusable = element.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])');
             const firstFocusable = focusable[0];
             const lastFocusable = focusable[focusable.length - 1];
 
@@ -1221,9 +1528,10 @@
         function toggleCart() {
             const overlay = document.getElementById("cartOverlay");
             const isOpening = !overlay.classList.contains("active");
-            
+
             overlay.classList.toggle("active");
-            
+            document.body.style.overflow = isOpening ? 'hidden' : '';
+
             if (isOpening) {
                 lastFocusedElement = document.activeElement;
                 renderCartItems();
@@ -1238,9 +1546,7 @@
         }
 
         function closeCartOnOutsideClick(e) {
-            if (e.target.id === "cartOverlay") {
-                toggleCart();
-            }
+            if (e.target.id === "cartOverlay") toggleCart();
         }
 
         function renderCartItems() {
@@ -1250,22 +1556,30 @@
             if (cart.length === 0) {
                 container.innerHTML = `
                     <div class="cart-empty">
-                        <p>Your inquiry list is empty.</p>
-                        <button onclick="toggleCart()" style="margin-top:1rem; padding:0.5rem 1rem; background:var(--primary); color:white; border:none; border-radius:6px; cursor:pointer;">Browse Seafood</button>
+                        <div class="empty-icon">🛒</div>
+                        <h3>Your order list is empty</h3>
+                        <p>Browse the catalog and tap "Add to Order" on the items you need.</p>
+                        <button onclick="toggleCart()">Browse Seafood</button>
                     </div>`;
+                document.getElementById("cartTotalKg").textContent = "0 KG";
                 return;
             }
 
+            let totalKg = 0;
+
             cart.forEach((item) => {
+                totalKg += parseFloat(item.weight) || 0;
                 const el = document.createElement("div");
                 el.className = "cart-item";
+                const sizeBadge = item.size ? `<span class="cart-item-meta">Size: ${item.size}</span>` : '';
                 el.innerHTML = `
                     <div class="cart-item-top">
                         <img src="${item.imgUrl}" alt="${item.name}" class="cart-item-img" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImg}'; this.style.background='#e5e3da';">
                         <div class="cart-item-details">
                             <div class="cart-item-name">${item.name}</div>
-                            <button class="throw-btn" onclick="removeFromCart(${item.cartUniqueId})">Throw</button>
+                            ${sizeBadge}
                         </div>
+                        <button class="remove-btn" onclick="removeFromCart(${item.cartUniqueId})">Remove</button>
                     </div>
                     <div class="cart-item-inputs">
                         <div class="input-group">
@@ -1273,30 +1587,54 @@
                             <input type="text" placeholder="e.g. 300/500" value="${item.size}" 
                                    oninput="updateCartItemData(${item.cartUniqueId}, 'size', this.value)">
                         </div>
-                        <div class="input-group" style="flex:1.5;">
-                            <label>Weight (KG)</label>
+                        <div class="input-group">
+                            <label>Weight</label>
                             <div class="stepper">
-                                <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, -5, this)" aria-label="Decrease weight by 5 kilograms">−</button>
-                                <input type="number" value="${item.weight}" readonly aria-label="Weight in kilograms">
-                                <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, 5, this)" aria-label="Increase weight by 5 kilograms">+</button>
+                                <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, -5, this)" aria-label="Decrease">−</button>
+                                <div class="stepper-value">
+                                    <input type="number" class="stepper-input" value="${item.weight}" min="1" step="0.1" oninput="updateCartWeight(${item.cartUniqueId}, this.value)" aria-label="Weight">
+                                    <span class="stepper-unit">KG</span>
+                                </div>
+                                <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, 5, this)" aria-label="Increase">+</button>
                             </div>
                         </div>
                     </div>
                 `;
                 container.appendChild(el);
             });
+
+            document.getElementById("cartTotalKg").textContent = `${totalKg.toFixed(1)} KG`;
         }
 
         function updateCartItemData(cartUniqueId, field, value) {
             const item = cart.find(i => i.cartUniqueId === cartUniqueId);
             if (item) {
-                if (field === 'weight') {
-                    item[field] = parseFloat(value) || 5;
-                } else {
-                    item[field] = value;
-                }
+                item[field] = value;
                 saveCart();
             }
+        }
+
+        function updateCartWeight(cartUniqueId, value) {
+            const item = cart.find(i => i.cartUniqueId === cartUniqueId);
+            if (!item) return;
+            const v = parseFloat(value);
+            item.weight = isNaN(v) ? 5 : Math.max(0, v);
+            saveCart();
+            // Recompute footer total only
+            const totalKg = cart.reduce((sum, it) => sum + (parseFloat(it.weight) || 0), 0);
+            document.getElementById("cartTotalKg").textContent = `${totalKg.toFixed(1)} KG`;
+            updateOrderBar();
+        }
+
+        function adjustCartWeight(cartUniqueId, delta) {
+            const item = cart.find(i => i.cartUniqueId === cartUniqueId);
+            if (!item) return;
+            let val = (parseFloat(item.weight) || 5) + delta;
+            if (val < 1) val = 1;
+            item.weight = val;
+            saveCart();
+            renderCartItems();
+            updateOrderBar();
         }
 
         function removeFromCart(cartUniqueId) {
@@ -1304,11 +1642,12 @@
             saveCart();
             renderCartItems();
             updateCartBadge();
+            filterProducts();
         }
 
         function sendToWhatsApp() {
             if (cart.length === 0) {
-                alert("Please add at least one item to your list before sending.");
+                alert("Please add at least one item before sending.");
                 return;
             }
 
@@ -1316,7 +1655,7 @@
             const deliveryDate = document.getElementById("deliveryDateInput").value.trim();
 
             if (!companyName) {
-                alert("Please enter a company name.");
+                alert("Please enter your company name.");
                 document.getElementById("companyNameInput").focus();
                 return;
             }
@@ -1327,34 +1666,27 @@
                 return;
             }
 
-            let message = `${companyName}\n${deliveryDate}\n`;
+            const totalKg = cart.reduce((sum, item) => sum + (parseFloat(item.weight) || 0), 0);
 
-            cart.forEach((item) => {
-                const itemSize = item.size.trim() === "" ? "" : `, Size: ${item.size.trim()}`;
+            let message = `Hello PCY! 👋\n\n`;
+            message += `*Company:* ${companyName}\n`;
+            message += `*Delivery Date:* ${deliveryDate}\n\n`;
+            message += `*Order List:*\n`;
+
+            cart.forEach((item, idx) => {
+                const itemSize = item.size.trim() === "" ? "" : ` (${item.size.trim()})`;
                 const itemWeight = item.weight || 5;
-                
-                message += `- ${item.name}${itemSize}, ${itemWeight} KG\n`;
+                message += `${idx + 1}. ${item.name}${itemSize} — ${itemWeight} KG\n`;
             });
+
+            message += `\n*Total: ${cart.length} item${cart.length > 1 ? 's' : ''} · ${totalKg.toFixed(1)} KG*`;
+            message += `\n\nPlease confirm availability and pricing. Thank you!`;
 
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-            
+
             window.open(whatsappUrl, "_blank");
         }
     </script>
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">PCY</div>
-            <p class="footer-text">"Be Sourced, Be Selected"</p>
-            <div class="footer-meta">
-                <span>© 2026 PCY. All rights reserved.</span>
-            </div>
-        </div>
-    </footer>
-        <!-- Bottom Order Bar -->
-    <div class="order-bar" id="orderBar">
-        <div class="order-bar-info" id="orderBarInfo">0 items · 0 KG</div>
-        <button class="order-bar-btn" onclick="toggleCart()">View Order →</button>
-    </div>
 </body>
 </html>
