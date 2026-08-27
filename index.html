@@ -28,9 +28,9 @@
             --border-soft: #F1F5F9;
             --danger: #DC2626;
             --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
-            --shadow-md: 0 2px 8px rgba(15, 23, 42, 0.06);
-            --shadow-lg: 0 4px 16px rgba(15, 23, 42, 0.08);
-            --shadow-xl: 0 8px 24px rgba(15, 23, 42, 0.12);
+            --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.10);
+            --shadow-xl: 0 20px 50px rgba(15, 23, 42, 0.15);
         }
 
         * {
@@ -311,12 +311,9 @@
             flex-direction: column;
             transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
             position: relative;
-            contain: content;
             content-visibility: auto;
             contain-intrinsic-size: 0 360px;
         }
-
-        .is-hidden { display: none !important; }
 
         .product-card:hover {
             border-color: var(--border);
@@ -561,11 +558,10 @@
             font-weight: 700;
             color: var(--text);
             letter-spacing: -0.01em;
-            text-align: left;
         }
 
-        .section-header .cat-icon { font-size: 1.2rem; flex-shrink: 0; }
-        .section-header .count {
+        .section-header .cat-icon { font-size: 1.2rem; }
+        .section-header span {
             color: var(--text-muted);
             font-size: 0.75rem;
             font-weight: 500;
@@ -672,7 +668,7 @@
         .cart-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(7, 22, 40, 0.65);
+            background: rgba(7, 22, 40, 0.7);
             display: flex;
             justify-content: flex-end;
             z-index: 1000;
@@ -1202,9 +1198,6 @@
         let cart = [];
         const fallbackImg = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
-        // productId -> { card, section } for fast show/hide on search
-        const productNodes = new Map();
-
         function getCategoryCount(cat) {
             if (cat === "Semua") return products.length;
             return products.filter(p => p.category === cat).length;
@@ -1248,14 +1241,11 @@
             localStorage.setItem('pcy_delivery_date', document.getElementById('deliveryDateInput').value);
         }
 
-        // Debounce search: avoids re-rendering 48 cards on every keystroke
-        let searchDebounce;
         function handleSearchInput() {
             const input = document.getElementById("searchInput");
             const clearBtn = document.getElementById("searchClear");
             clearBtn.classList.toggle("visible", input.value.length > 0);
-            clearTimeout(searchDebounce);
-            searchDebounce = setTimeout(filterProducts, 120);
+            filterProducts();
         }
 
         function clearSearch() {
@@ -1272,7 +1262,7 @@
 
             loadCart();
             renderTabs();
-            buildGrid();
+            filterProducts();
             updateCartBadge();
 
             document.getElementById('companyNameInput').addEventListener('input', persistForm);
@@ -1283,20 +1273,10 @@
             return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
 
-        function escapeHtml(str) {
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
-
         function highlightText(text, query) {
-            if (!query) return escapeHtml(text);
-            const safeText = escapeHtml(text);
+            if (!query) return text;
             const regex = new RegExp(`(${escapeRegExp(query)})`, 'gi');
-            return safeText.replace(regex, '<span class="highlight">$1</span>');
+            return text.replace(regex, '<span class="highlight">$1</span>');
         }
 
         function renderTabs() {
@@ -1322,7 +1302,7 @@
                 const activeBtn = document.querySelector('.cat-btn.active');
                 if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
             }, 10);
-            buildGrid();
+            filterProducts();
         }
 
         function updateResultsCount(count) {
@@ -1341,10 +1321,15 @@
             return cart.some(item => item.id === productId);
         }
 
-        function createProductCard(p) {
+        function createProductCard(p, query) {
             const card = document.createElement('div');
+            // Card gets the .in-cart class (drives the persistent "In Order" badge)
+            // but the button always starts as "Add to Order" — the .added state is
+            // only ever set by the user's click, and reverted by animationend.
+            // This prevents a stale "Added" button when jumping to a new category
+            // (the rebuilt card would otherwise be born with .added but no listener).
             card.className = "product-card" + (isInCart(p.id) ? " in-cart" : "");
-            card.dataset.productId = p.id;
+            const displayName = highlightText(p.name, query);
 
             card.innerHTML = `
                 <div class="img-wrap">
@@ -1352,7 +1337,7 @@
                 </div>
                 <div class="product-info">
                     <span class="product-category">${p.category}</span>
-                    <h3 class="product-name">${escapeHtml(p.name)}</h3>
+                    <h3 class="product-name">${displayName}</h3>
                     <div class="card-controls">
                         <button type="button" class="size-toggle" data-id="${p.id}" onclick="toggleSizeField(${p.id}, this)">+ Size</button>
                         <input type="text" class="size-input hidden" id="size-${p.id}" placeholder="Size / grade (e.g. 300/500)">
@@ -1374,102 +1359,50 @@
             return card;
         }
 
-        // Build the entire grid once. Search just toggles .is-hidden on existing nodes.
-        function buildGrid() {
-            const grid = document.getElementById("productGrid");
-            grid.innerHTML = '';
-            productNodes.clear();
-
-            const sectionsToRender = currentCategory === "Semua"
-                ? categories.slice(1)
-                : [currentCategory];
-
-            sectionsToRender.forEach(cat => {
-                const catProducts = products.filter(p => p.category === cat);
-                if (catProducts.length === 0) return;
-
-                const section = document.createElement('div');
-                section.className = 'category-section';
-                section.dataset.category = cat;
-
-                const header = document.createElement('div');
-                header.className = 'section-header';
-                const icon = categoryIcons[cat] || '';
-                header.innerHTML = `<span class="cat-icon">${icon}</span> ${cat} <span class="count">${catProducts.length} item${catProducts.length !== 1 ? 's' : ''}</span>`;
-                section.appendChild(header);
-
-                catProducts.forEach(p => {
-                    const card = createProductCard(p);
-                    section.appendChild(card);
-                    productNodes.set(p.id, { card, section });
-                });
-
-                grid.appendChild(section);
-            });
-
-            filterProducts();
-        }
-
-        // Toggle visibility of already-rendered cards based on search.
-        // No DOM rebuild — this is the perf win on low-end devices.
         function filterProducts() {
             const query = document.getElementById("searchInput").value.toLowerCase().trim();
-            const grid = document.getElementById("productGrid");
 
-            const sectionCounts = {};
-            let totalVisible = 0;
-
-            products.forEach(p => {
-                const node = productNodes.get(p.id);
-                if (!node) return;
-
+            const filtered = products.filter(p => {
+                const matchCategory = currentCategory === "Semua" || p.category === currentCategory;
+                if (!query) return matchCategory;
+                // Search the visible name AND the hidden keywords array
                 const inName = p.name.toLowerCase().includes(query);
                 const inKeywords = (p.keywords || []).some(k => k.toLowerCase().includes(query));
-                const visible = !query || inName || inKeywords;
-
-                node.card.classList.toggle('is-hidden', !visible);
-
-                // Refresh the highlight in the product name
-                const nameEl = node.card.querySelector('.product-name');
-                if (nameEl) {
-                    nameEl.innerHTML = highlightText(p.name, query);
-                }
-
-                if (visible) {
-                    totalVisible++;
-                    sectionCounts[p.category] = (sectionCounts[p.category] || 0) + 1;
-                }
+                return matchCategory && (inName || inKeywords);
             });
 
-            // Update each section's visibility and its item count
-            grid.querySelectorAll('.category-section').forEach(section => {
-                const cat = section.dataset.category;
-                const count = sectionCounts[cat] || 0;
-                const catTotal = products.filter(p => p.category === cat).length;
+            const grid = document.getElementById("productGrid");
+            grid.innerHTML = '';
 
-                section.classList.toggle('is-hidden', !!query && count === 0);
-
-                const countEl = section.querySelector('.count');
-                if (countEl) {
-                    const displayCount = query ? count : catTotal;
-                    countEl.textContent = `${displayCount} item${displayCount !== 1 ? 's' : ''}`;
-                }
-            });
-
-            // Empty state
-            let empty = grid.querySelector('.empty-state');
-            if (totalVisible === 0 && query) {
-                if (!empty) {
-                    empty = document.createElement('div');
-                    empty.className = 'empty-state';
-                    empty.innerHTML = `<div class="empty-icon">🔍</div><h3>No matches found</h3><p>Try a different keyword or category</p>`;
-                    grid.appendChild(empty);
-                }
-            } else if (empty) {
-                empty.remove();
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h3>No matches found</h3>
+                        <p>Try a different keyword or category</p>
+                    </div>`;
+                updateResultsCount(0);
+                return;
             }
 
-            updateResultsCount(totalVisible);
+            updateResultsCount(filtered.length);
+
+            if (currentCategory === "Semua") {
+                categories.slice(1).forEach(cat => {
+                    const catProducts = filtered.filter(p => p.category === cat);
+                    if (catProducts.length === 0) return;
+
+                    const icon = categoryIcons[cat] || "";
+                    const header = document.createElement('div');
+                    header.className = 'section-header';
+                    header.innerHTML = `<span class="cat-icon">${icon}</span> ${cat} <span>${catProducts.length} item${catProducts.length !== 1 ? 's' : ''}</span>`;
+                    grid.appendChild(header);
+
+                    catProducts.forEach(p => grid.appendChild(createProductCard(p, query)));
+                });
+            } else {
+                filtered.forEach(p => grid.appendChild(createProductCard(p, query)));
+            }
         }
 
         function adjustWeight(productId, delta) {
@@ -1723,16 +1656,11 @@
         }
 
         function removeFromCart(cartUniqueId) {
-            const removedItem = cart.find(i => i.cartUniqueId === cartUniqueId);
             cart = cart.filter(item => item.cartUniqueId !== cartUniqueId);
             saveCart();
             renderCartItems();
             updateCartBadge();
-            // Update the corresponding product card's "in-cart" visual state
-            if (removedItem) {
-                const node = productNodes.get(removedItem.id);
-                if (node) node.card.classList.toggle('in-cart', isInCart(removedItem.id));
-            }
+            filterProducts();
         }
 
         function sendToWhatsApp() {
@@ -1779,14 +1707,10 @@
         }
 
         // Service worker for offline caching.
-        // This DOES NOT use any Netlify database or credits — it caches assets
-        // in the user's browser via the Cache Storage API. It actually REDUCES
-        // Netlify bandwidth on repeat visits.
+        // Browser-side cache only — does not use any Netlify database or credits.
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(() => {
-                    /* silent fail — site works fine without SW */
-                });
+                navigator.serviceWorker.register('./sw.js').catch(() => {});
             });
         }
     </script>
