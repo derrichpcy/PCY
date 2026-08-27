@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0A1F3D">
+    <meta name="theme-color" content="#071628">
     <title>PCY · Seafood Catalog</title>
 
     <link rel="preconnect" href="https://wa.me">
     <link rel="dns-prefetch" href="https://wa.me">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #0A1F3D;
+            --primary: #071628;
             --primary-light: #1A3A6B;
             --primary-soft: #E8EEF7;
-            --accent: #FF6B35;
-            --accent-hover: #E85A24;
+            --accent: #DC2626;
+            --accent-hover: #B91C1C;
             --success: #16A34A;
             --whatsapp: #25D366;
             --whatsapp-hover: #1EBE57;
@@ -31,9 +28,9 @@
             --border-soft: #F1F5F9;
             --danger: #DC2626;
             --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
-            --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
-            --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.10);
-            --shadow-xl: 0 20px 50px rgba(15, 23, 42, 0.15);
+            --shadow-md: 0 2px 8px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 4px 16px rgba(15, 23, 42, 0.08);
+            --shadow-xl: 0 8px 24px rgba(15, 23, 42, 0.12);
         }
 
         * {
@@ -44,7 +41,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.5;
@@ -77,8 +74,6 @@
             align-items: center;
             justify-content: space-between;
             padding: 0.7rem 1.25rem;
-            max-width: 1280px;
-            margin: 0 auto;
         }
 
         .brand {
@@ -138,8 +133,6 @@
 
         .header-search {
             padding: 0 1.25rem 0.85rem;
-            max-width: 1280px;
-            margin: 0 auto;
         }
 
         .search-bar {
@@ -206,11 +199,10 @@
             gap: 0.5rem;
             overflow-x: auto;
             padding: 0 1.25rem;
-            max-width: 1280px;
-            margin: 0 auto;
             scrollbar-width: none;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
+            justify-content: flex-start;
         }
 
         .category-scroll::-webkit-scrollbar { display: none; }
@@ -262,9 +254,9 @@
 
         /* ============ RESULTS BAR ============ */
         .results-bar {
-            max-width: 1280px;
-            margin: 1rem auto 0.25rem;
+            margin: 1rem 0 0.25rem;
             padding: 0 1.25rem;
+            text-align: left;
         }
 
         .results-count {
@@ -278,11 +270,23 @@
         /* ============ GRID ============ */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 0.9rem;
             padding: 0.75rem 1.25rem 1.5rem;
-            max-width: 1280px;
-            margin: 0 auto;
+            justify-content: start;
+            text-align: left;
+        }
+
+        @media (min-width: 640px) {
+            .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+        }
+
+        @media (min-width: 900px) {
+            .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+
+        @media (min-width: 1200px) {
+            .product-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
         }
 
         @media (min-width: 640px) {
@@ -301,13 +305,18 @@
         .product-card {
             background: var(--bg-elevated);
             border: 1px solid var(--border-soft);
-            border-radius: 12px;
+            border-radius: 4px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: all 0.2s;
+            transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
             position: relative;
+            contain: content;
+            content-visibility: auto;
+            contain-intrinsic-size: 0 360px;
         }
+
+        .is-hidden { display: none !important; }
 
         .product-card:hover {
             border-color: var(--border);
@@ -514,7 +523,7 @@
             color: white;
             border: none;
             padding: 0.7rem 0.5rem;
-            border-radius: 10px;
+            border-radius: 4px;
             font-size: 0.82rem;
             font-weight: 700;
             cursor: pointer;
@@ -522,14 +531,23 @@
             font-family: inherit;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
+            text-align: left;
             gap: 0.35rem;
             transition: all 0.15s;
         }
 
         .add-btn:hover { background: var(--primary-light); }
         .add-btn:active { transform: scale(0.98); }
-        .add-btn.added { background: var(--success) !important; }
+        .add-btn.added {
+            background: var(--success);
+            animation: addedFlash 1s ease-out;
+        }
+        @keyframes addedFlash {
+            0%   { background: var(--success); transform: scale(0.97); }
+            40%  { background: var(--success); transform: scale(1); }
+            100% { background: var(--primary);  transform: scale(1); }
+        }
         .add-btn svg { width: 14px; height: 14px; }
 
         /* ============ SECTION HEADERS ============ */
@@ -543,10 +561,11 @@
             font-weight: 700;
             color: var(--text);
             letter-spacing: -0.01em;
+            text-align: left;
         }
 
-        .section-header .cat-icon { font-size: 1.2rem; }
-        .section-header span {
+        .section-header .cat-icon { font-size: 1.2rem; flex-shrink: 0; }
+        .section-header .count {
             color: var(--text-muted);
             font-size: 0.75rem;
             font-weight: 500;
@@ -569,12 +588,10 @@
             position: fixed;
             bottom: 1rem;
             left: 1rem;
-            right: 1rem;
             max-width: 540px;
-            margin: 0 auto;
             background: var(--primary);
             color: white;
-            border-radius: 14px;
+            border-radius: 4px;
             padding: 0.7rem 0.75rem 0.7rem 1.1rem;
             display: flex;
             align-items: center;
@@ -582,7 +599,8 @@
             gap: 0.75rem;
             z-index: 95;
             transform: translateY(180%);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.3s ease-out;
+            will-change: transform;
             box-shadow: var(--shadow-xl);
         }
 
@@ -654,9 +672,7 @@
         .cart-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.55);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            background: rgba(7, 22, 40, 0.65);
             display: flex;
             justify-content: flex-end;
             z-index: 1000;
@@ -1069,13 +1085,13 @@
             '</svg>'
         );
 
-        const categories = ["Semua", "Ikan", "Sotong", "Udang", "Kerangan", "Ketam"];
+        const categories = ["Semua", "Ikan", "Sotong", "Udang", "Kerang", "Ketam"];
         const categoryIcons = {
-            "Semua": "🌀",
+            "Semua": "🍤",
             "Ikan": "🐟",
             "Sotong": "🦑",
             "Udang": "🦐",
-            "Kerangan": "🐚",
+            "Kerang": "🐚",
             "Ketam": "🦀"
         };
         let currentCategory = "Semua";
@@ -1083,101 +1099,101 @@
         // Each product has hidden `keywords` for search. The visible name stays the same.
         const products = [
             // ===== IKAN =====
-            { id: 1,  name: "Bakalang (Queenfish)", category: "Ikan", imgUrl: "images/bakalang.webp",
+            { id: 1,  name: "Bakalang | Queenfish", category: "Ikan", imgUrl: "images/bakalang.png",
               keywords: ["queenfish", "bakalang"] },
-            { id: 2,  name: "Bakulan Hitam (Longtail Tuna)", category: "Ikan", imgUrl: "images/bakulan-hitam.webp",
+            { id: 2,  name: "Bakulan Hitam | Longtail Tuna", category: "Ikan", imgUrl: "images/bakulan-hitam.png",
               keywords: ["longtail tuna", "tongkol hitam", "aya hitam", "kayu hitam"] },
-            { id: 3,  name: "Bakulan Putih (Mackerel Tuna)", category: "Ikan", imgUrl: "images/bakulan-putih.webp",
+            { id: 3,  name: "Bakulan Putih | Mackerel Tuna", category: "Ikan", imgUrl: "images/bakulan-putih.png",
               keywords: ["mackerel tuna", "tongkol putih", "aya kurik", "kayu"] },
-            { id: 4,  name: "Basung", category: "Ikan", imgUrl: "images/basung.webp",
+            { id: 4,  name: "Basung", category: "Ikan", imgUrl: "images/basung.png",
               keywords: ["basong"] },
-            { id: 5,  name: "Bawal Emas (Golden Pomfret)", category: "Ikan", imgUrl: "images/bawal-emas.webp",
+            { id: 5,  name: "Bawal Emas | Golden Pomfret", category: "Ikan", imgUrl: "images/bawal-emas.png",
               keywords: ["golden pomfret", "golden pompano"] },
-            { id: 6,  name: "Bawal Hitam (Black Pomfret)", category: "Ikan", imgUrl: "images/bawal-hitam.webp",
+            { id: 6,  name: "Bawal Hitam | Black Pomfret", category: "Ikan", imgUrl: "images/bawal-hitam.png",
               keywords: ["black pomfret", "black pompano"] },
-            { id: 7,  name: "Bilis Mata Biru (Silverfish)", category: "Ikan", imgUrl: "images/bilis-mata-biru.webp",
+            { id: 7,  name: "Bilis Mata Biru | Silverfish", category: "Ikan", imgUrl: "images/bilis-mata-biru.png",
               keywords: ["silverfish", "noodlefish", "whitebait fish"] },
-            { id: 8,  name: "Geronggong (Torpedo Scad)", category: "Ikan", imgUrl: "images/geronggong.webp",
+            { id: 8,  name: "Geronggong | Torpedo Scad", category: "Ikan", imgUrl: "images/geronggong.png",
               keywords: ["torpedo scad", "cencaru", "hardtail scad"] },
-            { id: 9,  name: "Isi Dori (Dory Fillet)", category: "Ikan", imgUrl: "images/isi-dori.webp",
+            { id: 9,  name: "Isi Dori | Dory Fillet", category: "Ikan", imgUrl: "images/isi-dori.png",
               keywords: ["dory fillet"] },
-            { id: 10, name: "Isi Jenahak (Golden Snapper Fillet)", category: "Ikan", imgUrl: "images/isi-jenahak.webp",
+            { id: 10, name: "Isi Jenahak | Golden Snapper Fillet", category: "Ikan", imgUrl: "images/isi-jenahak.png",
               keywords: ["golden snapper fillet", "ang"] },
-            { id: 11, name: "Isi Merah (Red Snapper Fillet)", category: "Ikan", imgUrl: "images/isi-merah.webp",
+            { id: 11, name: "Isi Merah | Red Snapper Fillet", category: "Ikan", imgUrl: "images/isi-merah.png",
               keywords: ["red snapper fillet", "merah pucat", "ang"] },
-            { id: 12, name: "Isi Siakap (Barramundi Fillet)", category: "Ikan", imgUrl: "images/isi-siakap.webp",
+            { id: 12, name: "Isi Siakap | Barramundi Fillet", category: "Ikan", imgUrl: "images/isi-siakap.png",
               keywords: ["barramundi fillet", "seabass fillet"] },
-            { id: 13, name: "Jenahak (Golden Snapper)", category: "Ikan", imgUrl: "images/jenahak.webp",
+            { id: 13, name: "Jenahak | Golden Snapper", category: "Ikan", imgUrl: "images/jenahak.png",
               keywords: ["golden snapper", "john snapper"] },
-            { id: 14, name: "Keli (Walking Catfish)", category: "Ikan", imgUrl: "images/keli.webp",
+            { id: 14, name: "Keli | Walking Catfish", category: "Ikan", imgUrl: "images/keli.png",
               keywords: ["walking catfish"] },
-            { id: 15, name: "Kerapu Hibrid (Hybrid Grouper)", category: "Ikan", imgUrl: "images/kerapu-hybrid.webp",
+            { id: 15, name: "Kerapu Hibrid | Hybrid Grouper", category: "Ikan", imgUrl: "images/kerapu-hybrid.png",
               keywords: ["hybrid grouper", "kerapu hibrid"] },
-            { id: 16, name: "Ketam Kalok (Mud Crab)", category: "Ketam", imgUrl: "images/ketam-kalok.webp",
+            { id: 16, name: "Ketam Kalok | Mud Crab", category: "Ketam", imgUrl: "images/ketam-kalok.png",
               keywords: ["mud crab", "ketam nipah"] },
-            { id: 17, name: "Ketam Suri (Flower Crab)", category: "Ketam", imgUrl: "images/ketam-suri.webp",
+            { id: 17, name: "Ketam Suri | Flower Crab", category: "Ketam", imgUrl: "images/ketam-suri.png",
               keywords: ["flower crab", "blue swimmer crab", "ketam bunga"] },
-            { id: 18, name: "Ketumbang (Maori Snapper)", category: "Ikan", imgUrl: "images/ketumbang.webp",
+            { id: 18, name: "Ketumbang | Maori Snapper", category: "Ikan", imgUrl: "images/ketumbang.png",
               keywords: ["maori snapper", "blubberlip snapper", "speckled snapper", "blue-spotted seaperch"] },
-            { id: 19, name: "Kupang Hitam (Black Mussels)", category: "Kerangan", imgUrl: "images/kupang-hitam.webp",
+            { id: 19, name: "Kupang Hitam | Black Mussels", category: "Kerang", imgUrl: "images/kupang-hitam.png",
               keywords: ["black mussels", "kerang hitam"] },
-            { id: 20, name: "Lala Putih (White Clam)", category: "Kerangan", imgUrl: "images/lala-putih.webp",
+            { id: 20, name: "Lala Putih | White Clam", category: "Kerang", imgUrl: "images/lala-putih.png",
               keywords: ["white clam", "lala bunga", "flower clam"] },
-            { id: 21, name: "Lamading (Korean Seerfish)", category: "Ikan", imgUrl: "images/lamading.webp",
+            { id: 21, name: "Lamading | Korean Seerfish", category: "Ikan", imgUrl: "images/lamading.png",
               keywords: ["korean seerfish", "tenggiri papan", "tua pan", "tat pan"] },
-            { id: 22, name: "Mata Besar Merah", category: "Ikan", imgUrl: "images/mata-besar-merah.webp",
+            { id: 22, name: "Mata Besar Merah", category: "Ikan", imgUrl: "images/mata-besar-merah.png",
               keywords: [] },
-            { id: 23, name: "Merah (Red Snapper)", category: "Ikan", imgUrl: "images/merah.webp",
+            { id: 23, name: "Merah | Red Snapper", category: "Ikan", imgUrl: "images/merah.png",
               keywords: ["red snapper", "crimson snapper", "merah pucat"] },
-            { id: 24, name: "Patin (Pangasius)", category: "Ikan", imgUrl: "images/patin.webp",
+            { id: 24, name: "Patin | Pangasius", category: "Ikan", imgUrl: "images/patin.png",
               keywords: ["pangasius", "silver catfish"] },
-            { id: 25, name: "Putih", category: "Ikan", imgUrl: "images/putih.webp",
+            { id: 25, name: "Putih", category: "Ikan", imgUrl: "images/putih.png",
               keywords: [] },
-            { id: 26, name: "Rumahan", category: "Ikan", imgUrl: "images/rumahan.webp",
+            { id: 26, name: "Rumahan", category: "Ikan", imgUrl: "images/rumahan.png",
               keywords: ["kembung", "pelaling", "mabong"] },
-            { id: 27, name: "Satak (Slipper Lobster)", category: "Kerangan", imgUrl: "images/satak.webp",
+            { id: 27, name: "Satak | Slipper Lobster", category: "Ikan", imgUrl: "images/satak.png",
               keywords: ["slipper lobster", "flathead lobster"] },
-            { id: 28, name: "Siakap (Barramundi)", category: "Ikan", imgUrl: "images/siakap.webp",
+            { id: 28, name: "Siakap | Barramundi", category: "Ikan", imgUrl: "images/siakap.png",
               keywords: ["barramundi", "asian seabass", "seabass"] },
-            { id: 29, name: "Siput Buluh (Razor Clam)", category: "Kerangan", imgUrl: "images/siput-buluh.webp",
+            { id: 29, name: "Siput Buluh | Razor Clam", category: "Kerang", imgUrl: "images/siput buluh.png",
               keywords: ["razor clam"] },
-            { id: 30, name: "Sotong Bulat", category: "Sotong", imgUrl: "images/sotong-bulat.webp",
+            { id: 30, name: "Sotong Bulat", category: "Sotong", imgUrl: "images/sotong-bulat.png",
               keywords: ["sotong putih", "苏东"] },
-            { id: 31, name: "Sotong Bunga (Squid Flower)", category: "Sotong", imgUrl: "images/sotong-bunga.webp",
+            { id: 31, name: "Sotong Bunga | Squid Flower", category: "Sotong", imgUrl: "images/sotong-bunga.png",
               keywords: ["squid flower"] },
-            { id: 32, name: "Sotong Cincin (Squid Ring)", category: "Sotong", imgUrl: "images/sotong-cincin.webp",
+            { id: 32, name: "Sotong Cincin | Squid Ring", category: "Sotong", imgUrl: "images/sotong-cincin.png",
               keywords: ["squid ring"] },
-            { id: 33, name: "Sotong Janggut (Squid Tentacles)", category: "Sotong", imgUrl: "images/sotong-janggut.webp",
+            { id: 33, name: "Sotong Janggut | Squid Tentacles", category: "Sotong", imgUrl: "images/sotong-janggut.png",
               keywords: ["squid tentacle", "squid tentacles"] },
-            { id: 34, name: "Sotong Kelabutan (Cuttlefish)", category: "Sotong", imgUrl: "images/sotong-kelabutan.webp",
+            { id: 34, name: "Sotong Kelabutan | Cuttlefish", category: "Sotong", imgUrl: "images/sotong-kelabutan.png",
               keywords: ["cuttlefish", "sotong katak"] },
-            { id: 35, name: "Sotong Pen", category: "Sotong", imgUrl: "images/sotong-pen.webp",
+            { id: 35, name: "Sotong Pen", category: "Sotong", imgUrl: "images/sotong-pen.png",
               keywords: [] },
-            { id: 36, name: "Sotong Tube (Squid Tube)", category: "Sotong", imgUrl: "images/sotong-tube.webp",
+            { id: 36, name: "Sotong Tube | Squid Tube", category: "Sotong", imgUrl: "images/sotong-tube.png",
               keywords: ["squid tube"] },
-            { id: 37, name: "Susu (Milkfish)", category: "Ikan", imgUrl: "images/susu.webp",
+            { id: 37, name: "Susu | Milkfish", category: "Ikan", imgUrl: "images/susu.png",
               keywords: ["milkfish", "bahulu"] },
-            { id: 38, name: "Talapia Hitam (Black Tilapia)", category: "Ikan", imgUrl: "images/talapia-hitam.webp",
+            { id: 38, name: "Talapia Hitam | Black Tilapia", category: "Ikan", imgUrl: "images/talapia-hitam.png",
               keywords: ["black tilapia"] },
-            { id: 39, name: "Talapia Merah (Red Tilapia)", category: "Ikan", imgUrl: "images/talapia-merah.webp",
+            { id: 39, name: "Talapia Merah | Red Tilapia", category: "Ikan", imgUrl: "images/talapia-merah.png",
               keywords: ["red tilapia", "red hybrid tilapia"] },
-            { id: 40, name: "Tamban | Sardine", category: "Ikan", imgUrl: "images/tamban.webp",
+            { id: 40, name: "Tamban | Sardine", category: "Ikan", imgUrl: "images/tamban.png",
               keywords: ["sardine", "tamban nipis"] },
-            { id: 41, name: "Udang Bunga (Flower Prawn)", category: "Udang", imgUrl: "images/udang-bunga.webp",
+            { id: 41, name: "Udang Bunga | Flower Prawn", category: "Udang", imgUrl: "images/udang-bunga.png",
               keywords: ["flower prawn", "flower shrimp", "花虾"] },
-            { id: 42, name: "Udang Harimau (Tiger Prawn)", category: "Udang", imgUrl: "images/udang-harimau.webp",
+            { id: 42, name: "Udang Harimau | Tiger Prawn", category: "Udang", imgUrl: "images/udang-harimau.png",
               keywords: ["tiger prawn", "asian tiger shrimp", "老虎虾", "udang kuning", "yellow prawn", "yellow shrimp", "虾"] },
-            { id: 43, name: "Udang Pasir (Sand Prawn)", category: "Udang", imgUrl: "images/udang-pasir.webp",
+            { id: 43, name: "Udang Pasir | Sand Prawn", category: "Udang", imgUrl: "images/udang-pasir.png",
               keywords: ["sand prawn", "sand shrimp", "虾"] },
-            { id: 44, name: "Udang Vannamei (Vannamei Prawn) - HLSO", category: "Udang", imgUrl: "images/udang-vannamei-hlso.webp",
+            { id: 44, name: "Udang Vannamei | Vannamei Prawn (HLSO)", category: "Udang", imgUrl: "images/udang-vannamei-hlso.png",
               keywords: ["vannamei prawn", "headless shell on", "hlso", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
-            { id: 45, name: "Udang Vannamei (Vannamei Prawn) - PTO", category: "Udang", imgUrl: "images/udang-vannamei-pdto-pto.webp",
+            { id: 45, name: "Udang Vannamei | Vannamei Prawn (PTO)", category: "Udang", imgUrl: "images/udang-vannamei-ptopdto.png",
               keywords: ["vannamei prawn", "peeled tail-on", "pto", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
-            { id: 46, name: "Udang Vannamei (Vannamei Prawn) - PDTO", category: "Udang", imgUrl: "images/udang-vannamei-pdto-pto.webp",
+            { id: 46, name: "Udang Vannamei | Vannamei Prawn (PDTO)", category: "Udang", imgUrl: "images/udang-vannamei-ptopdto.png",
               keywords: ["vannamei prawn", "peeled deveined tail-on", "pdto", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
-            { id: 47, name: "Udang Vannamei (Vannamei Prawn)", category: "Udang", imgUrl: "images/udang-vannamei.webp",
+            { id: 47, name: "Udang Vannamei | Vannamei Prawn", category: "Udang", imgUrl: "images/udang-vannamei.png",
               keywords: ["vannamei prawn", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
-            { id: 48, name: "Kerang (Blood Cockles)", category: "Kerangan", imgUrl: "images/kerang.webp",
+            { id: 48, name: "Kerang | Blood Cockles", category: "Kerang", imgUrl: "images/kerang.png",
               keywords: ["blood cockles"] }
         ];
 
@@ -1185,6 +1201,9 @@
 
         let cart = [];
         const fallbackImg = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
+        // productId -> { card, section } for fast show/hide on search
+        const productNodes = new Map();
 
         function getCategoryCount(cat) {
             if (cat === "Semua") return products.length;
@@ -1229,11 +1248,14 @@
             localStorage.setItem('pcy_delivery_date', document.getElementById('deliveryDateInput').value);
         }
 
+        // Debounce search: avoids re-rendering 48 cards on every keystroke
+        let searchDebounce;
         function handleSearchInput() {
             const input = document.getElementById("searchInput");
             const clearBtn = document.getElementById("searchClear");
             clearBtn.classList.toggle("visible", input.value.length > 0);
-            filterProducts();
+            clearTimeout(searchDebounce);
+            searchDebounce = setTimeout(filterProducts, 120);
         }
 
         function clearSearch() {
@@ -1250,7 +1272,7 @@
 
             loadCart();
             renderTabs();
-            filterProducts();
+            buildGrid();
             updateCartBadge();
 
             document.getElementById('companyNameInput').addEventListener('input', persistForm);
@@ -1261,10 +1283,20 @@
             return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
 
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         function highlightText(text, query) {
-            if (!query) return text;
+            if (!query) return escapeHtml(text);
+            const safeText = escapeHtml(text);
             const regex = new RegExp(`(${escapeRegExp(query)})`, 'gi');
-            return text.replace(regex, '<span class="highlight">$1</span>');
+            return safeText.replace(regex, '<span class="highlight">$1</span>');
         }
 
         function renderTabs() {
@@ -1290,7 +1322,7 @@
                 const activeBtn = document.querySelector('.cat-btn.active');
                 if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
             }, 10);
-            filterProducts();
+            buildGrid();
         }
 
         function updateResultsCount(count) {
@@ -1309,19 +1341,18 @@
             return cart.some(item => item.id === productId);
         }
 
-        function createProductCard(p, query) {
+        function createProductCard(p) {
             const card = document.createElement('div');
             card.className = "product-card" + (isInCart(p.id) ? " in-cart" : "");
-            const displayName = highlightText(p.name, query);
-            const inCart = isInCart(p.id);
+            card.dataset.productId = p.id;
 
             card.innerHTML = `
                 <div class="img-wrap">
-                    <img src="${p.imgUrl}" alt="${p.name}" class="product-img" loading="lazy" width="400" height="400" onerror="this.onerror=null; this.src='${fallbackImg}'; this.parentElement.style.background='#e5e3da';">
+                    <img src="${p.imgUrl}" alt="${p.name}" class="product-img" loading="lazy" decoding="async" width="400" height="400" onerror="this.onerror=null; this.src='${fallbackImg}'; this.parentElement.style.background='#e5e3da';">
                 </div>
                 <div class="product-info">
                     <span class="product-category">${p.category}</span>
-                    <h3 class="product-name">${displayName}</h3>
+                    <h3 class="product-name">${escapeHtml(p.name)}</h3>
                     <div class="card-controls">
                         <button type="button" class="size-toggle" data-id="${p.id}" onclick="toggleSizeField(${p.id}, this)">+ Size</button>
                         <input type="text" class="size-input hidden" id="size-${p.id}" placeholder="Size / grade (e.g. 300/500)">
@@ -1333,8 +1364,9 @@
                             </div>
                             <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, 5)" aria-label="Increase">+</button>
                         </div>
-                        <button class="add-btn ${inCart ? 'added' : ''}" onclick="addToOrder(${p.id}, this)">
-                            ${inCart ? '<svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Added' : '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Add to Order'}
+                        <button class="add-btn" onclick="addToOrder(${p.id}, this)">
+                            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                            Add to Order
                         </button>
                     </div>
                 </div>
@@ -1342,50 +1374,102 @@
             return card;
         }
 
-        function filterProducts() {
-            const query = document.getElementById("searchInput").value.toLowerCase().trim();
-
-            const filtered = products.filter(p => {
-                const matchCategory = currentCategory === "Semua" || p.category === currentCategory;
-                if (!query) return matchCategory;
-                // Search the visible name AND the hidden keywords array
-                const inName = p.name.toLowerCase().includes(query);
-                const inKeywords = (p.keywords || []).some(k => k.toLowerCase().includes(query));
-                return matchCategory && (inName || inKeywords);
-            });
-
+        // Build the entire grid once. Search just toggles .is-hidden on existing nodes.
+        function buildGrid() {
             const grid = document.getElementById("productGrid");
             grid.innerHTML = '';
+            productNodes.clear();
 
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">🔍</div>
-                        <h3>No matches found</h3>
-                        <p>Try a different keyword or category</p>
-                    </div>`;
-                updateResultsCount(0);
-                return;
-            }
+            const sectionsToRender = currentCategory === "Semua"
+                ? categories.slice(1)
+                : [currentCategory];
 
-            updateResultsCount(filtered.length);
+            sectionsToRender.forEach(cat => {
+                const catProducts = products.filter(p => p.category === cat);
+                if (catProducts.length === 0) return;
 
-            if (currentCategory === "Semua") {
-                categories.slice(1).forEach(cat => {
-                    const catProducts = filtered.filter(p => p.category === cat);
-                    if (catProducts.length === 0) return;
+                const section = document.createElement('div');
+                section.className = 'category-section';
+                section.dataset.category = cat;
 
-                    const icon = categoryIcons[cat] || "";
-                    const header = document.createElement('div');
-                    header.className = 'section-header';
-                    header.innerHTML = `<span class="cat-icon">${icon}</span> ${cat} <span>${catProducts.length} item${catProducts.length !== 1 ? 's' : ''}</span>`;
-                    grid.appendChild(header);
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                const icon = categoryIcons[cat] || '';
+                header.innerHTML = `<span class="cat-icon">${icon}</span> ${cat} <span class="count">${catProducts.length} item${catProducts.length !== 1 ? 's' : ''}</span>`;
+                section.appendChild(header);
 
-                    catProducts.forEach(p => grid.appendChild(createProductCard(p, query)));
+                catProducts.forEach(p => {
+                    const card = createProductCard(p);
+                    section.appendChild(card);
+                    productNodes.set(p.id, { card, section });
                 });
-            } else {
-                filtered.forEach(p => grid.appendChild(createProductCard(p, query)));
+
+                grid.appendChild(section);
+            });
+
+            filterProducts();
+        }
+
+        // Toggle visibility of already-rendered cards based on search.
+        // No DOM rebuild — this is the perf win on low-end devices.
+        function filterProducts() {
+            const query = document.getElementById("searchInput").value.toLowerCase().trim();
+            const grid = document.getElementById("productGrid");
+
+            const sectionCounts = {};
+            let totalVisible = 0;
+
+            products.forEach(p => {
+                const node = productNodes.get(p.id);
+                if (!node) return;
+
+                const inName = p.name.toLowerCase().includes(query);
+                const inKeywords = (p.keywords || []).some(k => k.toLowerCase().includes(query));
+                const visible = !query || inName || inKeywords;
+
+                node.card.classList.toggle('is-hidden', !visible);
+
+                // Refresh the highlight in the product name
+                const nameEl = node.card.querySelector('.product-name');
+                if (nameEl) {
+                    nameEl.innerHTML = highlightText(p.name, query);
+                }
+
+                if (visible) {
+                    totalVisible++;
+                    sectionCounts[p.category] = (sectionCounts[p.category] || 0) + 1;
+                }
+            });
+
+            // Update each section's visibility and its item count
+            grid.querySelectorAll('.category-section').forEach(section => {
+                const cat = section.dataset.category;
+                const count = sectionCounts[cat] || 0;
+                const catTotal = products.filter(p => p.category === cat).length;
+
+                section.classList.toggle('is-hidden', !!query && count === 0);
+
+                const countEl = section.querySelector('.count');
+                if (countEl) {
+                    const displayCount = query ? count : catTotal;
+                    countEl.textContent = `${displayCount} item${displayCount !== 1 ? 's' : ''}`;
+                }
+            });
+
+            // Empty state
+            let empty = grid.querySelector('.empty-state');
+            if (totalVisible === 0 && query) {
+                if (!empty) {
+                    empty = document.createElement('div');
+                    empty.className = 'empty-state';
+                    empty.innerHTML = `<div class="empty-icon">🔍</div><h3>No matches found</h3><p>Try a different keyword or category</p>`;
+                    grid.appendChild(empty);
+                }
+            } else if (empty) {
+                empty.remove();
             }
+
+            updateResultsCount(totalVisible);
         }
 
         function adjustWeight(productId, delta) {
@@ -1451,12 +1535,13 @@
 
             updateCartBadge();
 
-            setTimeout(() => {
-                if (!isInCart(productId) || existing) {
-                    buttonElement.classList.remove('added');
-                    buttonElement.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Add to Order';
-                }
-            }, 1500);
+            // Revert button text when the CSS animation finishes.
+            // The .in-cart class on the card stays — it controls the persistent "In Order" badge.
+            buttonElement.addEventListener('animationend', function onEnd() {
+                buttonElement.classList.remove('added');
+                buttonElement.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Add to Order';
+                buttonElement.removeEventListener('animationend', onEnd);
+            }, { once: true });
 
             if (weightInput) weightInput.value = "5";
             if (sizeInput) {
@@ -1574,7 +1659,7 @@
                 const sizeBadge = item.size ? `<span class="cart-item-meta">Size: ${item.size}</span>` : '';
                 el.innerHTML = `
                     <div class="cart-item-top">
-                        <img src="${item.imgUrl}" alt="${item.name}" class="cart-item-img" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImg}'; this.style.background='#e5e3da';">
+                        <img src="${item.imgUrl}" alt="${item.name}" class="cart-item-img" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='${fallbackImg}'; this.style.background='#e5e3da';">
                         <div class="cart-item-details">
                             <div class="cart-item-name">${item.name}</div>
                             ${sizeBadge}
@@ -1638,11 +1723,16 @@
         }
 
         function removeFromCart(cartUniqueId) {
+            const removedItem = cart.find(i => i.cartUniqueId === cartUniqueId);
             cart = cart.filter(item => item.cartUniqueId !== cartUniqueId);
             saveCart();
             renderCartItems();
             updateCartBadge();
-            filterProducts();
+            // Update the corresponding product card's "in-cart" visual state
+            if (removedItem) {
+                const node = productNodes.get(removedItem.id);
+                if (node) node.card.classList.toggle('in-cart', isInCart(removedItem.id));
+            }
         }
 
         function sendToWhatsApp() {
@@ -1686,6 +1776,18 @@
             const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
 
             window.open(whatsappUrl, "_blank");
+        }
+
+        // Service worker for offline caching.
+        // This DOES NOT use any Netlify database or credits — it caches assets
+        // in the user's browser via the Cache Storage API. It actually REDUCES
+        // Netlify bandwidth on repeat visits.
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(() => {
+                    /* silent fail — site works fine without SW */
+                });
+            });
         }
     </script>
 </body>
