@@ -252,6 +252,126 @@
             color: white;
         }
 
+        /* ============ HOW IT WORKS ============ */
+        .how-it-works {
+            background: var(--primary-soft);
+            padding: 1.1rem 1.1rem 1.25rem;
+            margin: 0.85rem 1.25rem 0;
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+        }
+
+        .how-it-works-title {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 0.85rem;
+        }
+
+        .how-steps {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.85rem;
+        }
+
+        @media (min-width: 640px) {
+            .how-steps { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+            .how-it-works { padding: 1.35rem 1.5rem; }
+        }
+
+        .how-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            text-align: left;
+        }
+
+        .how-step-num {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.82rem;
+        }
+
+        .how-step-content h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.2rem;
+            line-height: 1.2;
+        }
+
+        .how-step-content p {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* ============ CUT-OFF BANNER ============ */
+        .cutoff-banner {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.7rem 1rem;
+            margin: 0.85rem 1.25rem 0;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid transparent;
+            transition: background 0.25s, border-color 0.25s, color 0.25s;
+        }
+
+        .cutoff-icon { font-size: 1.1rem; line-height: 1; flex-shrink: 0; }
+
+        .cutoff-text { flex: 1; line-height: 1.35; min-width: 0; }
+        .cutoff-text strong { font-weight: 700; }
+        .cutoff-countdown {
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+        }
+        .cutoff-sub {
+            display: block;
+            font-size: 0.72rem;
+            color: inherit;
+            opacity: 0.75;
+            margin-top: 0.1rem;
+            font-weight: 500;
+        }
+
+        .cutoff-banner.state-open {
+            background: #DCFCE7;
+            border-color: #86EFAC;
+            color: #14532D;
+        }
+
+        .cutoff-banner.state-urgent {
+            background: #FEF3C7;
+            border-color: #FCD34D;
+            color: #78350F;
+            animation: urgentPulse 2.4s ease-in-out infinite;
+        }
+
+        .cutoff-banner.state-info {
+            background: var(--primary-soft);
+            border-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        @keyframes urgentPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(252, 211, 77, 0); }
+            50%      { box-shadow: 0 0 0 4px rgba(252, 211, 77, 0.35); }
+        }
+
         /* ============ RESULTS BAR ============ */
         .results-bar {
             margin: 1rem 0 0.25rem;
@@ -362,6 +482,87 @@
         @keyframes shimmer {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
+        }
+
+        /* ============ FAVOURITE HEART BUTTON ============ */
+        .fav-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.92);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 3;
+            transition: background 0.15s, transform 0.15s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            padding: 0;
+        }
+
+        .fav-btn:hover {
+            background: white;
+            transform: scale(1.08);
+        }
+
+        .fav-btn:active { transform: scale(0.92); }
+
+        .fav-btn svg {
+            width: 18px;
+            height: 18px;
+            color: var(--text-muted);
+            stroke-width: 2;
+            transition: color 0.15s, fill 0.15s;
+        }
+
+        .fav-btn.active svg {
+            color: var(--accent);
+            fill: var(--accent);
+        }
+
+        .fav-btn.pop { animation: favPop 0.4s ease; }
+
+        @keyframes favPop {
+            0%   { transform: scale(1); }
+            40%  { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .cat-btn.fav-tab {
+            background: white;
+            border: 1.5px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .cat-btn.fav-tab .cat-icon { color: var(--accent); }
+
+        .cat-btn.fav-tab:hover {
+            background: #FEF2F2;
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .cat-btn.fav-tab.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .cat-btn.fav-tab.active .cat-icon { color: white; }
+
+        .cat-btn.fav-tab.active .cat-count {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .cat-btn.fav-tab.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
         }
 
         .product-info {
@@ -969,6 +1170,179 @@
             border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 1.25rem;
         }
+
+        /* ============ WHATSAPP PREVIEW MODAL ============ */
+        .preview-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(7, 22, 40, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 1100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+        }
+
+        .preview-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .preview-modal {
+            background: var(--bg-elevated);
+            width: 100%;
+            max-width: 460px;
+            max-height: 90vh;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.92) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+        }
+
+        .preview-overlay.active .preview-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .preview-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-soft);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .preview-header h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .preview-close {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            transition: all 0.15s;
+        }
+
+        .preview-close:hover { background: var(--border-soft); }
+
+        .preview-body {
+            padding: 1rem 1.25rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            flex-grow: 1;
+        }
+
+        .preview-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .preview-ref {
+            display: inline-block;
+            align-self: flex-start;
+            background: var(--primary-soft);
+            color: var(--primary);
+            padding: 0.3rem 0.65rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.72rem;
+            font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+            letter-spacing: 0.02em;
+        }
+
+        .preview-to { color: var(--text-muted); font-size: 0.78rem; }
+
+        .preview-slot-banner {
+            background: #DCFCE7;
+            color: #14532D;
+            border: 1px solid #86EFAC;
+            padding: 0.55rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .preview-message {
+            background: #ECE5DD;
+            border-radius: 10px;
+            padding: 0.85rem 0.95rem;
+            font-size: 0.82rem;
+            line-height: 1.55;
+            color: #111;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-height: 260px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+        }
+
+        .preview-footer {
+            padding: 0.85rem 1.25rem 1rem;
+            border-top: 1px solid var(--border-soft);
+            background: white;
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .preview-edit-btn {
+            flex: 0 0 auto;
+            background: white;
+            color: var(--text);
+            border: 1.5px solid var(--border);
+            padding: 0.85rem 1.1rem;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.15s;
+        }
+
+        .preview-edit-btn:hover { background: var(--bg); border-color: var(--text-soft); }
+
+        .preview-send-btn {
+            flex: 1;
+            background: var(--whatsapp);
+            color: white;
+            border: none;
+            padding: 0.85rem 1.1rem;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: inherit;
+            transition: background 0.15s;
+            box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
+        }
+
+        .preview-send-btn:hover { background: var(--whatsapp-hover); }
+        .preview-send-btn svg { width: 18px; height: 18px; }
     </style>
 </head>
 <body>
@@ -995,6 +1369,43 @@
     <nav class="category-nav">
         <div class="category-scroll" id="categoryTabs" role="tablist" aria-label="Product categories"></div>
     </nav>
+
+    <!-- How It Works -->
+    <section class="how-it-works" aria-label="How ordering works">
+        <div class="how-it-works-title">How It Works</div>
+        <div class="how-steps">
+            <div class="how-step">
+                <div class="how-step-num">1</div>
+                <div class="how-step-content">
+                    <h4>Browse &amp; Add</h4>
+                    <p>Pick from 50+ fresh seafood. Set your size and weight in seconds.</p>
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="how-step-num">2</div>
+                <div class="how-step-content">
+                    <h4>Send via WhatsApp</h4>
+                    <p>One tap sends your order list. We reply with a confirmed quote in minutes.</p>
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="how-step-num">3</div>
+                <div class="how-step-content">
+                    <h4>Fresh Delivery</h4>
+                    <p>Same-day or next-day. Cut-off 10 AM (morning) or 3 PM (afternoon).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cut-off Countdown Banner -->
+    <div class="cutoff-banner state-info" id="cutoffBanner" role="status" aria-live="polite" aria-atomic="true">
+        <span class="cutoff-icon" id="cutoffIcon">🌙</span>
+        <div class="cutoff-text">
+            <div id="cutoffMain"></div>
+            <span class="cutoff-sub" id="cutoffSub"></span>
+        </div>
+    </div>
 
     <!-- Results bar -->
     <div class="results-bar">
@@ -1056,6 +1467,31 @@
                     Send via WhatsApp
                 </button>
                 <p class="footer-note">We'll reply with a confirmed quote within minutes.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Preview Modal -->
+    <div class="preview-overlay" id="previewOverlay" role="dialog" aria-modal="true" aria-labelledby="previewTitle" onclick="closePreviewOnOutside(event)">
+        <div class="preview-modal" onclick="event.stopPropagation()">
+            <div class="preview-header">
+                <h3 id="previewTitle">Ready to send?</h3>
+                <button class="preview-close" onclick="closePreview()" aria-label="Close">✕</button>
+            </div>
+            <div class="preview-body">
+                <div class="preview-meta">
+                    <span class="preview-ref" id="previewRef">PCY-—</span>
+                    <span class="preview-to">→ To: PCY Seafood · +60 11-7429 3823</span>
+                </div>
+                <div class="preview-slot-banner" id="previewSlotBanner">Delivery: —</div>
+                <pre class="preview-message" id="previewMessage">—</pre>
+            </div>
+            <div class="preview-footer">
+                <button class="preview-edit-btn" onclick="closePreview()">Edit order</button>
+                <button class="preview-send-btn" id="previewSendBtn" onclick="confirmSendToWhatsApp()">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                    Looks good, send
+                </button>
             </div>
         </div>
     </div>
@@ -1195,6 +1631,7 @@
         products.sort((a, b) => a.name.localeCompare(b.name));
 
         let cart = [];
+        let favorites = [];
         const fallbackImg = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
         function getCategoryCount(cat) {
@@ -1240,6 +1677,202 @@
             localStorage.setItem('pcy_delivery_date', document.getElementById('deliveryDateInput').value);
         }
 
+        /* ============ FAVOURITES ============ */
+        function loadFavorites() {
+            try {
+                const raw = localStorage.getItem('pcy_favorites');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) {
+                        // Filter out any IDs that no longer exist in the catalog
+                        favorites = parsed.filter(id => products.some(p => p.id === id));
+                    }
+                }
+            } catch (e) { favorites = []; }
+        }
+
+        function saveFavorites() {
+            localStorage.setItem('pcy_favorites', JSON.stringify(favorites));
+        }
+
+        function isFavorited(productId) {
+            return favorites.includes(productId);
+        }
+
+        function toggleFavorite(productId, btnElement) {
+            const idx = favorites.indexOf(productId);
+            if (idx >= 0) {
+                favorites.splice(idx, 1);
+                if (btnElement) {
+                    btnElement.classList.remove('active');
+                    btnElement.setAttribute('aria-label', 'Add to favorites');
+                    btnElement.setAttribute('aria-pressed', 'false');
+                    const svg = btnElement.querySelector('svg');
+                    if (svg) svg.setAttribute('fill', 'none');
+                }
+            } else {
+                favorites.push(productId);
+                if (btnElement) {
+                    btnElement.classList.add('active', 'pop');
+                    btnElement.setAttribute('aria-label', 'Remove from favorites');
+                    btnElement.setAttribute('aria-pressed', 'true');
+                    const svg = btnElement.querySelector('svg');
+                    if (svg) svg.setAttribute('fill', 'currentColor');
+                    setTimeout(() => btnElement.classList.remove('pop'), 400);
+                }
+            }
+            saveFavorites();
+            renderTabs(); // Update favourites count badge in nav
+            // If we're currently viewing favourites only, re-filter (card may disappear)
+            if (currentCategory === 'Favourites') {
+                filterProducts();
+            }
+        }
+
+        /* ============ MALAYSIA TIMEZONE & CUT-OFF ============ */
+        function getMYTime() {
+            // Always returns Malaysia time, regardless of the buyer's device timezone.
+            // A chef traveling in Bangkok still sees MY cut-off times.
+            return new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' }));
+        }
+
+        function getCutoffState() {
+            const my = getMYTime();
+            const totalMinutes = my.getHours() * 60 + my.getMinutes();
+            const MORNING_START = 6 * 60;     // 6:00 AM
+            const MORNING_END = 10 * 60;      // 10:00 AM
+            const AFTERNOON_START = 14 * 60;  // 2:00 PM
+            const AFTERNOON_END = 15 * 60;    // 3:00 PM
+
+            if (totalMinutes >= MORNING_START && totalMinutes < MORNING_END) {
+                return {
+                    state: 'morning-open',
+                    icon: '🌅',
+                    minutesUntilCutoff: MORNING_END - totalMinutes,
+                    cutoffLabel: '10:00 AM',
+                    slotLabel: 'This morning',
+                    dateOffset: 0
+                };
+            } else if (totalMinutes >= MORNING_END && totalMinutes < AFTERNOON_START) {
+                return {
+                    state: 'midday',
+                    icon: '☀️',
+                    minutesUntilOpen: AFTERNOON_START - totalMinutes,
+                    slotLabel: 'This afternoon',
+                    dateOffset: 0
+                };
+            } else if (totalMinutes >= AFTERNOON_START && totalMinutes < AFTERNOON_END) {
+                return {
+                    state: 'afternoon-open',
+                    icon: '☀️',
+                    minutesUntilCutoff: AFTERNOON_END - totalMinutes,
+                    cutoffLabel: '3:00 PM',
+                    slotLabel: 'This afternoon',
+                    dateOffset: 0
+                };
+            } else {
+                return {
+                    state: 'next-day',
+                    icon: '🌙',
+                    slotLabel: 'Tomorrow morning',
+                    dateOffset: 1
+                };
+            }
+        }
+
+        function formatCountdown(totalMinutes, includeSeconds) {
+            if (totalMinutes < 0) totalMinutes = 0;
+            if (totalMinutes >= 60) {
+                const h = Math.floor(totalMinutes / 60);
+                const m = totalMinutes % 60;
+                return `${h}h ${String(m).padStart(2, '0')}m`;
+            }
+            if (includeSeconds) {
+                const secs = getMYTime().getSeconds();
+                return `${totalMinutes}m ${String(secs).padStart(2, '0')}s`;
+            }
+            return `${totalMinutes}m`;
+        }
+
+        function renderCutoffBanner() {
+            const banner = document.getElementById('cutoffBanner');
+            const iconEl = document.getElementById('cutoffIcon');
+            const mainEl = document.getElementById('cutoffMain');
+            const subEl = document.getElementById('cutoffSub');
+            if (!banner || !iconEl || !mainEl || !subEl) return;
+
+            const cs = getCutoffState();
+            iconEl.textContent = cs.icon;
+
+            let isUrgent = false;
+            let stateClass = 'state-info';
+
+            if (cs.state === 'morning-open' || cs.state === 'afternoon-open') {
+                const isMorning = cs.state === 'morning-open';
+                const windowLabel = isMorning ? 'Morning' : 'Afternoon';
+                if (cs.minutesUntilCutoff < 30) {
+                    isUrgent = true;
+                    const cd = formatCountdown(cs.minutesUntilCutoff, cs.minutesUntilCutoff < 5);
+                    mainEl.innerHTML = `<strong>Last call for ${windowLabel.toLowerCase()} delivery</strong> · <span class="cutoff-countdown">${cd}</span> left`;
+                } else {
+                    const cd = formatCountdown(cs.minutesUntilCutoff, false);
+                    mainEl.innerHTML = `<strong>${windowLabel} delivery</strong> · Order in <span class="cutoff-countdown">${cd}</span> · Cut-off ${cs.cutoffLabel}`;
+                }
+                subEl.textContent = '';
+                stateClass = isUrgent ? 'state-urgent' : 'state-open';
+            } else if (cs.state === 'midday') {
+                mainEl.innerHTML = `<strong>Order now for this afternoon delivery</strong>`;
+                const cd = formatCountdown(cs.minutesUntilOpen, false);
+                subEl.textContent = `Same-day window opens 2:00 PM (in ${cd})`;
+                stateClass = 'state-open';
+            } else {
+                mainEl.innerHTML = `<strong>Next delivery: tomorrow morning</strong>`;
+                subEl.textContent = `Or pick a future date in your order`;
+                stateClass = 'state-info';
+            }
+
+            banner.classList.remove('state-open', 'state-urgent', 'state-info');
+            banner.classList.add(stateClass);
+        }
+
+        function startCutoffTimer() {
+            renderCutoffBanner();
+            // Re-render every 30s for state transitions and minute-level countdown updates
+            setInterval(renderCutoffBanner, 30000);
+            // Re-render every 1s during the final 5 minutes (sub-minute countdown)
+            setInterval(() => {
+                const cs = getCutoffState();
+                if ((cs.state === 'morning-open' || cs.state === 'afternoon-open') && cs.minutesUntilCutoff < 5) {
+                    renderCutoffBanner();
+                }
+            }, 1000);
+        }
+
+        function autoFillDeliveryDate() {
+            const dateInput = document.getElementById('deliveryDateInput');
+            if (!dateInput || dateInput.value) return; // Don't override a user-set value
+            const cs = getCutoffState();
+            const my = getMYTime();
+            const target = new Date(my);
+            target.setDate(target.getDate() + cs.dateOffset);
+            const dateStr = target.getFullYear() + '-' +
+                String(target.getMonth() + 1).padStart(2, '0') + '-' +
+                String(target.getDate()).padStart(2, '0');
+            dateInput.value = dateStr;
+        }
+
+        function formatDateForDisplay(dateStr) {
+            // dateStr is in YYYY-MM-DD format
+            if (!dateStr) return '';
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return dateStr;
+            const y = parts[0];
+            const m = parseInt(parts[1], 10);
+            const d = parseInt(parts[2], 10);
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${d} ${months[m - 1]} ${y}`;
+        }
+
         function handleSearchInput() {
             const input = document.getElementById("searchInput");
             const clearBtn = document.getElementById("searchClear");
@@ -1260,12 +1893,26 @@
             document.getElementById('deliveryDateInput').setAttribute('min', today);
 
             loadCart();
+            loadFavorites();
             renderTabs();
             filterProducts();
             updateCartBadge();
+            renderCutoffBanner();
+            startCutoffTimer();
+            autoFillDeliveryDate();
 
             document.getElementById('companyNameInput').addEventListener('input', persistForm);
             document.getElementById('deliveryDateInput').addEventListener('change', persistForm);
+
+            // Close preview modal on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    const preview = document.getElementById('previewOverlay');
+                    if (preview && preview.classList.contains('active')) {
+                        closePreview();
+                    }
+                }
+            });
         });
 
         function escapeRegExp(string) {
@@ -1280,21 +1927,36 @@
 
         function renderTabs() {
             const tabsContainer = document.getElementById("categoryTabs");
-            tabsContainer.innerHTML = categories.map((cat) => {
+            const favCount = favorites.length;
+            const favDisabled = favCount === 0 ? 'disabled' : '';
+            const favActive = currentCategory === 'Favourites' ? 'active' : '';
+            const favBtn = `<button class="cat-btn fav-tab ${favActive} ${favDisabled}"
+                                onclick="setCategory('Favourites')"
+                                role="tab"
+                                aria-selected="${currentCategory === 'Favourites'}"
+                                ${favDisabled ? 'aria-disabled="true"' : ''}>
+                            <span class="cat-icon" aria-hidden="true">♥</span>
+                            Favourites
+                            <span class="cat-count">${favCount}</span>
+                        </button>`;
+            const catBtns = categories.map((cat) => {
                 const count = getCategoryCount(cat);
                 const icon = categoryIcons[cat] || "";
-                return `<button class="cat-btn ${cat === currentCategory ? 'active' : ''}" 
+                return `<button class="cat-btn ${cat === currentCategory ? 'active' : ''}"
                             onclick="setCategory('${cat}')"
-                            role="tab" 
+                            role="tab"
                             aria-selected="${cat === currentCategory}">
                         <span class="cat-icon" aria-hidden="true">${icon}</span>
                         ${cat}
                         <span class="cat-count">${count}</span>
                     </button>`;
             }).join('');
+            tabsContainer.innerHTML = favBtn + catBtns;
         }
 
         function setCategory(cat) {
+            // Don't allow activation of the favourites tab if no favourites exist
+            if (cat === 'Favourites' && favorites.length === 0) return;
             currentCategory = cat;
             renderTabs();
             setTimeout(() => {
@@ -1309,7 +1971,13 @@
             if (!countEl) return;
             const query = document.getElementById("searchInput").value.trim();
 
-            if (query) {
+            if (currentCategory === 'Favourites') {
+                if (query) {
+                    countEl.innerHTML = `<strong>${count}</strong> favourite${count !== 1 ? 's' : ''} matching "${query}"`;
+                } else {
+                    countEl.innerHTML = `<strong>${count}</strong> favourite${count !== 1 ? 's' : ''}`;
+                }
+            } else if (query) {
                 countEl.innerHTML = `<strong>${count}</strong> result${count !== 1 ? 's' : ''} for "${query}"`;
             } else {
                 countEl.innerHTML = `<strong>${count}</strong> item${count !== 1 ? 's' : ''} in ${currentCategory === 'Semua' ? 'catalog' : currentCategory}`;
@@ -1322,16 +1990,19 @@
 
         function createProductCard(p, query) {
             const card = document.createElement('div');
-            // Card gets the .in-cart class (drives the persistent "In Order" badge)
-            // but the button always starts as "Add to Order" — the .added state is
-            // only ever set by the user's click, and reverted by animationend.
-            // This prevents a stale "Added" button when jumping to a new category
-            // (the rebuilt card would otherwise be born with .added but no listener).
+            const isFav = isFavorited(p.id);
             card.className = "product-card" + (isInCart(p.id) ? " in-cart" : "");
             const displayName = highlightText(p.name, query);
+            const favLabel = isFav ? 'Remove from favorites' : 'Add to favorites';
+            const favFill = isFav ? 'currentColor' : 'none';
 
             card.innerHTML = `
                 <div class="img-wrap">
+                    <button type="button" class="fav-btn ${isFav ? 'active' : ''}" data-id="${p.id}" onclick="toggleFavorite(${p.id}, this)" aria-label="${favLabel}" aria-pressed="${isFav}">
+                        <svg viewBox="0 0 24 24" fill="${favFill}" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                    </button>
                     <img src="${p.imgUrl}" alt="${p.name}" class="product-img" loading="lazy" decoding="async" width="400" height="400" onerror="this.onerror=null; this.src='${fallbackImg}'; this.parentElement.style.background='#e5e3da';">
                 </div>
                 <div class="product-info">
@@ -1360,26 +2031,46 @@
 
         function filterProducts() {
             const query = document.getElementById("searchInput").value.toLowerCase().trim();
+            const showOnlyFavs = currentCategory === 'Favourites';
 
-            const filtered = products.filter(p => {
-                const matchCategory = currentCategory === "Semua" || p.category === currentCategory;
+            let filtered = products.filter(p => {
+                const matchCategory = showOnlyFavs || currentCategory === "Semua" || p.category === currentCategory;
                 if (!query) return matchCategory;
-                // Search the visible name AND the hidden keywords array
                 const inName = p.name.toLowerCase().includes(query);
                 const inKeywords = (p.keywords || []).some(k => k.toLowerCase().includes(query));
                 return matchCategory && (inName || inKeywords);
             });
 
+            if (showOnlyFavs) {
+                filtered = filtered.filter(p => favorites.includes(p.id));
+            }
+
             const grid = document.getElementById("productGrid");
             grid.innerHTML = '';
 
             if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">🔍</div>
-                        <h3>No matches found</h3>
-                        <p>Try a different keyword or category</p>
-                    </div>`;
+                if (showOnlyFavs && favorites.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">♥</div>
+                            <h3>No favourites yet</h3>
+                            <p>Tap the ♥ on items you order often to see them here.</p>
+                        </div>`;
+                } else if (showOnlyFavs) {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">🔍</div>
+                            <h3>No favourites match your search</h3>
+                            <p>Try clearing the search or pick a different category.</p>
+                        </div>`;
+                } else {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">🔍</div>
+                            <h3>No matches found</h3>
+                            <p>Try a different keyword or category</p>
+                        </div>`;
+                }
                 updateResultsCount(0);
                 return;
             }
@@ -1416,7 +2107,6 @@
             const input = document.getElementById(`weight-${productId}`);
             let val = parseFloat(input.value);
             if (isNaN(val) || val < 10) {
-                // allow empty while typing — only force min on blur
                 if (input.value !== "" && val < 10) input.value = 10;
                 if (input.value === "") input.value = 10;
             }
@@ -1467,8 +2157,6 @@
 
             updateCartBadge();
 
-            // Revert button text when the CSS animation finishes.
-            // The .in-cart class on the card stays — it controls the persistent "In Order" badge.
             buttonElement.addEventListener('animationend', function onEnd() {
                 buttonElement.classList.remove('added');
                 buttonElement.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Add to Order';
@@ -1601,7 +2289,7 @@
                     <div class="cart-item-inputs">
                         <div class="input-group">
                             <label>Size</label>
-                            <input type="text" placeholder="e.g. 300/500" value="${item.size}" 
+                            <input type="text" placeholder="e.g. 300/500" value="${item.size}"
                                    oninput="updateCartItemData(${item.cartUniqueId}, 'size', this.value)">
                         </div>
                         <div class="input-group">
@@ -1637,7 +2325,6 @@
             const v = parseFloat(value);
             item.weight = isNaN(v) ? 10 : Math.max(0, v);
             saveCart();
-            // Recompute footer total only
             const totalKg = cart.reduce((sum, it) => sum + (parseFloat(it.weight) || 0), 0);
             document.getElementById("cartTotalKg").textContent = `${totalKg.toFixed(1)} KG`;
             updateOrderBar();
@@ -1683,11 +2370,30 @@
                 return;
             }
 
+            // Validation passed — open the preview modal instead of jumping straight to WhatsApp
+            openPreview();
+        }
+
+        /* ============ WHATSAPP PREVIEW MODAL ============ */
+        function generateOrderRef() {
+            const my = getMYTime();
+            const dateStr = my.getFullYear() +
+                String(my.getMonth() + 1).padStart(2, '0') +
+                String(my.getDate()).padStart(2, '0');
+            const key = `pcy_ref_${dateStr}`;
+            let seq = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+            localStorage.setItem(key, String(seq));
+            return `PCY-${dateStr}-${String(seq).padStart(3, '0')}`;
+        }
+
+        function buildWhatsAppMessage(companyName, deliveryDate, ref, slotLabel) {
             const totalKg = cart.reduce((sum, item) => sum + (parseFloat(item.weight) || 0), 0);
+            const slotText = `${slotLabel}, ${formatDateForDisplay(deliveryDate)}`;
 
             let message = `Hello PCY! 👋\n\n`;
+            message += `*Ref:* ${ref}\n`;
             message += `*Company:* ${companyName}\n`;
-            message += `*Delivery Date:* ${deliveryDate}\n\n`;
+            message += `*Delivery:* ${slotText}\n\n`;
             message += `*Order List:*\n`;
 
             cart.forEach((item, idx) => {
@@ -1698,10 +2404,52 @@
 
             message += `\n*Total: ${cart.length} item${cart.length > 1 ? 's' : ''} · ${totalKg.toFixed(1)} KG*`;
             message += `\n\nPlease confirm availability and pricing. Thank you!`;
+            return message;
+        }
 
+        function openPreview() {
+            const overlay = document.getElementById("previewOverlay");
+            const ref = generateOrderRef();
+            const companyName = document.getElementById("companyNameInput").value.trim();
+            const deliveryDate = document.getElementById("deliveryDateInput").value.trim();
+            const cs = getCutoffState();
+            const slotText = `${cs.slotLabel}, ${formatDateForDisplay(deliveryDate)}`;
+            const message = buildWhatsAppMessage(companyName, deliveryDate, ref, cs.slotLabel);
+
+            document.getElementById("previewRef").textContent = `Order ref: ${ref}`;
+            document.getElementById("previewSlotBanner").textContent = `Delivery: ${slotText}`;
+            document.getElementById("previewMessage").textContent = message;
+
+            // Stash on the overlay so confirmSend can grab them
+            overlay.dataset.message = message;
+
+            overlay.classList.add("active");
+            document.body.style.overflow = 'hidden';
+
+            setTimeout(() => {
+                const sendBtn = document.getElementById("previewSendBtn");
+                if (sendBtn) sendBtn.focus();
+            }, 100);
+        }
+
+        function closePreview() {
+            const overlay = document.getElementById("previewOverlay");
+            overlay.classList.remove("active");
+            document.body.style.overflow = '';
+        }
+
+        function closePreviewOnOutside(event) {
+            if (event.target.id === "previewOverlay") {
+                closePreview();
+            }
+        }
+
+        function confirmSendToWhatsApp() {
+            const overlay = document.getElementById("previewOverlay");
+            const message = overlay.dataset.message || '';
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-
+            closePreview();
             window.open(whatsappUrl, "_blank");
         }
 
