@@ -1341,12 +1341,12 @@
                         <button type="button" class="size-toggle" data-id="${p.id}" onclick="toggleSizeField(${p.id}, this)">+ Size</button>
                         <input type="text" class="size-input hidden" id="size-${p.id}" placeholder="Size / grade (e.g. 300/500)">
                         <div class="stepper" aria-label="Weight in kilograms">
-                            <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, -5)" aria-label="Decrease">−</button>
+                            <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, -10)" aria-label="Decrease">−</button>
                             <div class="stepper-value">
-                                <input type="number" class="stepper-input" id="weight-${p.id}" value="5" min="5" step="1" oninput="clampWeight(${p.id})" aria-label="Weight">
+                                <input type="number" class="stepper-input" id="weight-${p.id}" value="10" min="10" step="1" oninput="clampWeight(${p.id})" aria-label="Weight">
                                 <span class="stepper-unit">KG</span>
                             </div>
-                            <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, 5)" aria-label="Increase">+</button>
+                            <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, 10)" aria-label="Increase">+</button>
                         </div>
                         <button class="add-btn" onclick="addToOrder(${p.id}, this)">
                             <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
@@ -1406,19 +1406,19 @@
 
         function adjustWeight(productId, delta) {
             const input = document.getElementById(`weight-${productId}`);
-            let val = parseFloat(input.value) || 5;
+            let val = parseFloat(input.value) || 10;
             val += delta;
-            if (val < 5) val = 5;
+            if (val < 10) val = 10;
             input.value = val;
         }
 
         function clampWeight(productId) {
             const input = document.getElementById(`weight-${productId}`);
             let val = parseFloat(input.value);
-            if (isNaN(val) || val < 5) {
+            if (isNaN(val) || val < 10) {
                 // allow empty while typing — only force min on blur
-                if (input.value !== "" && val < 5) input.value = 5;
-                if (input.value === "") input.value = 5;
+                if (input.value !== "" && val < 10) input.value = 10;
+                if (input.value === "") input.value = 10;
             }
         }
 
@@ -1441,7 +1441,7 @@
             const weightInput = document.getElementById(`weight-${productId}`);
 
             const size = sizeInput ? sizeInput.value.trim() : "";
-            const weight = weightInput ? parseFloat(weightInput.value) || 5 : 5;
+            const weight = weightInput ? parseFloat(weightInput.value) || 10 : 10;
 
             const existing = cart.find(item => item.id === productId && item.size === size);
 
@@ -1475,7 +1475,7 @@
                 buttonElement.removeEventListener('animationend', onEnd);
             }, { once: true });
 
-            if (weightInput) weightInput.value = "5";
+            if (weightInput) weightInput.value = "10";
             if (sizeInput) {
                 sizeInput.value = "";
                 sizeInput.classList.add('hidden');
@@ -1607,12 +1607,12 @@
                         <div class="input-group">
                             <label>Weight</label>
                             <div class="stepper">
-                                <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, -5, this)" aria-label="Decrease">−</button>
+                                <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, -10, this)" aria-label="Decrease">−</button>
                                 <div class="stepper-value">
-                                    <input type="number" class="stepper-input" value="${item.weight}" min="1" step="0.1" oninput="updateCartWeight(${item.cartUniqueId}, this.value)" aria-label="Weight">
+                                    <input type="number" class="stepper-input" value="${item.weight}" min="10" step="0.1" oninput="updateCartWeight(${item.cartUniqueId}, this.value)" aria-label="Weight">
                                     <span class="stepper-unit">KG</span>
                                 </div>
-                                <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, 5, this)" aria-label="Increase">+</button>
+                                <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, 10, this)" aria-label="Increase">+</button>
                             </div>
                         </div>
                     </div>
@@ -1635,7 +1635,7 @@
             const item = cart.find(i => i.cartUniqueId === cartUniqueId);
             if (!item) return;
             const v = parseFloat(value);
-            item.weight = isNaN(v) ? 5 : Math.max(0, v);
+            item.weight = isNaN(v) ? 10 : Math.max(0, v);
             saveCart();
             // Recompute footer total only
             const totalKg = cart.reduce((sum, it) => sum + (parseFloat(it.weight) || 0), 0);
@@ -1646,8 +1646,8 @@
         function adjustCartWeight(cartUniqueId, delta) {
             const item = cart.find(i => i.cartUniqueId === cartUniqueId);
             if (!item) return;
-            let val = (parseFloat(item.weight) || 5) + delta;
-            if (val < 1) val = 1;
+            let val = (parseFloat(item.weight) || 10) + delta;
+            if (val < 10) val = 10;
             item.weight = val;
             saveCart();
             renderCartItems();
@@ -1692,7 +1692,7 @@
 
             cart.forEach((item, idx) => {
                 const itemSize = item.size.trim() === "" ? "" : ` (${item.size.trim()})`;
-                const itemWeight = item.weight || 5;
+                const itemWeight = item.weight || 10;
                 message += `${idx + 1}. ${item.name}${itemSize} — ${itemWeight} KG\n`;
             });
 
