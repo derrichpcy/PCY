@@ -1378,7 +1378,7 @@
                 <div class="how-step-num">1</div>
                 <div class="how-step-content">
                     <h4>Browse &amp; Add</h4>
-                    <p>Pick from 50+ fresh seafood. Set your size and weight in seconds.</p>
+                    <p>Pick from 50+ seafood products. Set your size and weight in seconds.</p>
                 </div>
             </div>
             <div class="how-step">
@@ -1480,8 +1480,7 @@
             </div>
             <div class="preview-body">
                 <div class="preview-meta">
-                    <span class="preview-ref" id="previewRef">PCY-—</span>
-                    <span class="preview-to">→ To: PCY Seafood · +60 11-7429 3823</span>
+                    <span class="preview-to">→ To: PCY Jaya Enterprise · +60 11-7429 3823</span>
                 </div>
                 <div class="preview-slot-banner" id="previewSlotBanner">Delivery: —</div>
                 <pre class="preview-message" id="previewMessage">—</pre>
@@ -1490,7 +1489,7 @@
                 <button class="preview-edit-btn" onclick="closePreview()">Edit order</button>
                 <button class="preview-send-btn" id="previewSendBtn" onclick="confirmSendToWhatsApp()">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-                    Looks good, send
+                    Send Now
                 </button>
             </div>
         </div>
@@ -1500,7 +1499,7 @@
         <div class="footer-content">
             <div class="footer-brand">PCY</div>
             <p class="footer-text">"Be Sourced, Be Selected"</p>
-            <div class="footer-meta">© 2026 PCY Seafood. All rights reserved.</div>
+            <div class="footer-meta">© 2026 PCY. All rights reserved.</div>
         </div>
     </footer>
 
@@ -1870,6 +1869,27 @@
             const m = parseInt(parts[1], 10);
             const d = parseInt(parts[2], 10);
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${d} ${months[m - 1]} ${y}`;
+        }
+
+        function formatDateAsDDMMYYYY(dateStr) {
+            // dateStr is in YYYY-MM-DD format → returns "02/09/2026"
+            if (!dateStr) return '';
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return dateStr;
+            return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+
+        function formatDateLong(dateStr) {
+            // dateStr is in YYYY-MM-DD format → returns "2 September 2026"
+            if (!dateStr) return '';
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return dateStr;
+            const y = parts[0];
+            const m = parseInt(parts[1], 10);
+            const d = parseInt(parts[2], 10);
+            const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                            'July', 'August', 'September', 'October', 'November', 'December'];
             return `${d} ${months[m - 1]} ${y}`;
         }
 
@@ -2375,25 +2395,10 @@
         }
 
         /* ============ WHATSAPP PREVIEW MODAL ============ */
-        function generateOrderRef() {
-            const my = getMYTime();
-            const dateStr = my.getFullYear() +
-                String(my.getMonth() + 1).padStart(2, '0') +
-                String(my.getDate()).padStart(2, '0');
-            const key = `pcy_ref_${dateStr}`;
-            let seq = parseInt(localStorage.getItem(key) || '0', 10) + 1;
-            localStorage.setItem(key, String(seq));
-            return `PCY-${dateStr}-${String(seq).padStart(3, '0')}`;
-        }
-
-        function buildWhatsAppMessage(companyName, deliveryDate, ref, slotLabel) {
-            const totalKg = cart.reduce((sum, item) => sum + (parseFloat(item.weight) || 0), 0);
-            const slotText = `${slotLabel}, ${formatDateForDisplay(deliveryDate)}`;
-
+        function buildWhatsAppMessage(companyName, deliveryDate) {
             let message = `Hello PCY! 👋\n\n`;
-            message += `*Ref:* ${ref}\n`;
-            message += `*Company:* ${companyName}\n`;
-            message += `*Delivery:* ${slotText}\n\n`;
+            message += `${companyName}\n`;
+            message += `${formatDateAsDDMMYYYY(deliveryDate)}\n\n`;
             message += `*Order List:*\n`;
 
             cart.forEach((item, idx) => {
@@ -2402,27 +2407,20 @@
                 message += `${idx + 1}. ${item.name}${itemSize} — ${itemWeight} KG\n`;
             });
 
-            message += `\n*Total: ${cart.length} item${cart.length > 1 ? 's' : ''} · ${totalKg.toFixed(1)} KG*`;
-            message += `\n\nPlease confirm availability and pricing. Thank you!`;
+            message += `\nPlease confirm availability and pricing.`;
             return message;
         }
 
         function openPreview() {
             const overlay = document.getElementById("previewOverlay");
-            const ref = generateOrderRef();
             const companyName = document.getElementById("companyNameInput").value.trim();
             const deliveryDate = document.getElementById("deliveryDateInput").value.trim();
-            const cs = getCutoffState();
-            const slotText = `${cs.slotLabel}, ${formatDateForDisplay(deliveryDate)}`;
-            const message = buildWhatsAppMessage(companyName, deliveryDate, ref, cs.slotLabel);
+            const message = buildWhatsAppMessage(companyName, deliveryDate);
 
-            document.getElementById("previewRef").textContent = `Order ref: ${ref}`;
-            document.getElementById("previewSlotBanner").textContent = `Delivery: ${slotText}`;
+            document.getElementById("previewSlotBanner").textContent = `Deliver on ${formatDateLong(deliveryDate)}`;
             document.getElementById("previewMessage").textContent = message;
 
-            // Stash on the overlay so confirmSend can grab them
             overlay.dataset.message = message;
-
             overlay.classList.add("active");
             document.body.style.overflow = 'hidden';
 
