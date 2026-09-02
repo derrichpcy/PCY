@@ -41,7 +41,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.5;
@@ -74,6 +74,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 0.7rem 1.25rem;
+            gap: 0.75rem;
         }
 
         .brand {
@@ -81,6 +82,52 @@
             font-weight: 800;
             color: white;
             letter-spacing: -0.01em;
+            flex-shrink: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        /* ============ LANGUAGE TOGGLE (segmented pill) ============ */
+        .lang-toggle {
+            display: inline-flex;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 999px;
+            padding: 2px;
+            gap: 0;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.32rem 0.5rem;
+            border-radius: 999px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.15s, color 0.15s;
+            min-width: 32px;
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+        }
+
+        .lang-btn:hover { color: white; }
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+        /* When header is --primary navy, active button is white so it's visible */
+        .lang-btn.active {
+            background: white;
+            color: var(--primary);
         }
 
         .icon-btn {
@@ -137,30 +184,51 @@
 
         .search-bar {
             background: white;
-            border-radius: 10px;
-            padding: 0.4rem 0.5rem 0.4rem 1rem;
+            border-radius: 999px;
+            padding: 0.3rem 0.4rem 0.3rem 0.3rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            border: 1.5px solid transparent;
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
 
-        .search-bar svg {
-            width: 18px;
-            height: 18px;
-            color: var(--text-soft);
-            flex-shrink: 0;
+        .search-bar:focus-within {
+            border-color: var(--primary-light);
+            box-shadow: 0 2px 14px rgba(7, 22, 40, 0.2);
         }
+
+        .search-icon-btn {
+            background: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: background 0.15s, transform 0.1s;
+        }
+
+        .search-icon-btn:hover { background: var(--primary-light); }
+        .search-icon-btn:active { transform: scale(0.94); }
+
+        .search-icon-btn svg { width: 16px; height: 16px; color: white; }
 
         .search-bar input {
             flex: 1;
             border: none;
             outline: none;
             background: transparent;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text);
             font-family: inherit;
-            padding: 0.45rem 0;
+            padding: 0.4rem 0;
             min-width: 0;
         }
 
@@ -170,24 +238,24 @@
             background: var(--border-soft);
             border: none;
             border-radius: 50%;
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             display: none;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             flex-shrink: 0;
         }
 
         .search-clear:hover { background: var(--border); }
         .search-clear.visible { display: flex; }
 
-        /* ============ CATEGORY TABS (rectangular, sticky) ============ */
+        /* ============ CATEGORY TABS (compact, scrollable, sticky) ============ */
         .category-nav {
             background: white;
-            padding: 0.7rem 0;
+            padding: 0.4rem 0;
             position: sticky;
             top: 105px;
             z-index: 90;
@@ -196,11 +264,11 @@
 
         .category-scroll {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.35rem;
             overflow-x: auto;
             padding: 0 1.25rem;
             scrollbar-width: none;
-            scroll-snap-type: x mandatory;
+            scroll-snap-type: x proximity;
             -webkit-overflow-scrolling: touch;
             justify-content: flex-start;
         }
@@ -210,19 +278,20 @@
         .cat-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.45rem;
+            gap: 0.3rem;
             background: var(--bg);
             border: 1px solid var(--border);
             color: var(--text);
-            padding: 0.5rem 0.8rem;
+            padding: 0.32rem 0.55rem;
             border-radius: 6px;
-            font-size: 0.82rem;
+            font-size: 0.72rem;
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.15s;
             scroll-snap-align: start;
             font-family: inherit;
+            line-height: 1.2;
         }
 
         .cat-btn:hover {
@@ -236,21 +305,160 @@
             border-color: var(--primary);
         }
 
-        .cat-icon { font-size: 1rem; line-height: 1; }
+        .cat-icon { font-size: 0.88rem; line-height: 1; }
+
+        .cat-label-sep {
+            opacity: 0.45;
+            margin: 0 1px;
+            font-weight: 500;
+        }
+
+        .cat-btn.active .cat-label-sep { opacity: 0.55; }
 
         .cat-count {
             background: rgba(0,0,0,0.06);
             color: var(--text-muted);
-            font-size: 0.65rem;
-            padding: 1px 6px;
-            border-radius: 6px;
+            font-size: 0.6rem;
+            padding: 0 5px;
+            border-radius: 4px;
             font-weight: 700;
+            min-width: 18px;
+            text-align: center;
         }
 
         .cat-btn.active .cat-count {
             background: rgba(255,255,255,0.2);
             color: white;
         }
+
+        /* ============ FEATURED STRIP (high-margin preview) ============ */
+        .featured-strip {
+            margin: 0.85rem 1.25rem 0;
+            background: linear-gradient(135deg, #FEF3C7 0%, #FEE2E2 60%, #FECACA 100%);
+            border: 1px solid #FCD34D;
+            border-radius: 12px;
+            padding: 0.8rem 0.95rem 0.9rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(252, 211, 77, 0.18);
+        }
+
+        /* Soft glow accent in the top-right */
+        .featured-strip::after {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -30px;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(252, 211, 77, 0.35) 0%, transparent 70%);
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        .featured-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.7rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .featured-icon {
+            font-size: 1.25rem;
+            line-height: 1;
+            filter: drop-shadow(0 1px 2px rgba(220, 38, 38, 0.3));
+        }
+
+        .featured-title {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.01em;
+        }
+
+        .featured-scroll {
+            display: flex;
+            gap: 0.55rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -0.4rem;
+            padding: 0 0.4rem 0.15rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .featured-scroll::-webkit-scrollbar { display: none; }
+
+        .featured-item {
+            flex: 0 0 108px;
+            background: white;
+            border: 1px solid rgba(252, 211, 77, 0.4);
+            border-radius: 10px;
+            padding: 0.45rem;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+        }
+
+        .featured-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.12);
+            border-color: var(--accent);
+        }
+
+        .featured-item-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
+            background: var(--bg);
+            object-fit: cover;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .featured-item-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.3;
+            margin-bottom: 0.45rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 1.8em;
+        }
+
+        .featured-item-add {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.32rem 0.45rem;
+            border-radius: 6px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            transition: background 0.15s, transform 0.1s;
+            line-height: 1.2;
+        }
+
+        .featured-item-add:hover { background: var(--primary-light); }
+        .featured-item-add:active { transform: scale(0.96); }
+        .featured-item-add.added { background: var(--success); }
+
+        .featured-item-add svg { width: 10px; height: 10px; flex-shrink: 0; }
 
         /* ============ HOW IT WORKS ============ */
         .how-it-works {
@@ -409,18 +617,6 @@
             .product-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
         }
 
-        @media (min-width: 640px) {
-            .product-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-        }
-
-        @media (min-width: 900px) {
-            .product-grid { grid-template-columns: repeat(4, 1fr); }
-        }
-
-        @media (min-width: 1200px) {
-            .product-grid { grid-template-columns: repeat(5, 1fr); }
-        }
-
         /* ============ PRODUCT CARD ============ */
         .product-card {
             background: var(--bg-elevated);
@@ -446,8 +642,9 @@
             box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.1);
         }
 
-        .product-card.in-cart::after {
-            content: 'In Order';
+        /* In Order label — now a real element so it can be translated */
+        .card-in-order {
+            display: none;
             position: absolute;
             top: 0.6rem;
             left: 0.6rem;
@@ -460,7 +657,12 @@
             z-index: 2;
             text-transform: uppercase;
             letter-spacing: 0.04em;
+            pointer-events: none;
         }
+
+        .product-card.in-cart .card-in-order { display: block; }
+
+        /* (No per-card bestseller badge — the Featured Strip is the home for that signal) */
 
         .img-wrap {
             position: relative;
@@ -482,87 +684,6 @@
         @keyframes shimmer {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
-        }
-
-        /* ============ FAVOURITE HEART BUTTON ============ */
-        .fav-btn {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.92);
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 3;
-            transition: background 0.15s, transform 0.15s;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-            padding: 0;
-        }
-
-        .fav-btn:hover {
-            background: white;
-            transform: scale(1.08);
-        }
-
-        .fav-btn:active { transform: scale(0.92); }
-
-        .fav-btn svg {
-            width: 18px;
-            height: 18px;
-            color: var(--text-muted);
-            stroke-width: 2;
-            transition: color 0.15s, fill 0.15s;
-        }
-
-        .fav-btn.active svg {
-            color: var(--accent);
-            fill: var(--accent);
-        }
-
-        .fav-btn.pop { animation: favPop 0.4s ease; }
-
-        @keyframes favPop {
-            0%   { transform: scale(1); }
-            40%  { transform: scale(1.3); }
-            100% { transform: scale(1); }
-        }
-
-        .cat-btn.fav-tab {
-            background: white;
-            border: 1.5px solid var(--border);
-            color: var(--text-muted);
-        }
-
-        .cat-btn.fav-tab .cat-icon { color: var(--accent); }
-
-        .cat-btn.fav-tab:hover {
-            background: #FEF2F2;
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .cat-btn.fav-tab.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-
-        .cat-btn.fav-tab.active .cat-icon { color: white; }
-
-        .cat-btn.fav-tab.active .cat-count {
-            background: rgba(255, 255, 255, 0.25);
-            color: white;
-        }
-
-        .cat-btn.fav-tab.disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            pointer-events: none;
         }
 
         .product-info {
@@ -1351,14 +1472,19 @@
     <header class="app-header">
         <div class="header-top">
             <div class="brand">PCY</div>
-            <button class="icon-btn" onclick="toggleCart()" aria-label="Open inquiry list">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8 2a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/></svg>
-                <span class="cart-badge" id="cartBadge">0</span>
-            </button>
+            <div class="header-actions">
+                <div class="lang-toggle" id="langToggle" role="group" aria-label="Language selection"></div>
+                <button class="icon-btn" onclick="toggleCart()" aria-label="Open inquiry list" id="cartBtn">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8 2a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/></svg>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+            </div>
         </div>
         <div class="header-search">
             <div class="search-bar">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                <button type="button" class="search-icon-btn" aria-label="Search" tabindex="-1">
+                    <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
                 <input type="text" id="searchInput" placeholder="Search fish, prawn, squid..." oninput="handleSearchInput()" enterkeyhint="search" aria-label="Search seafood">
                 <button type="button" class="search-clear" id="searchClear" onclick="clearSearch()" aria-label="Clear search">✕</button>
             </div>
@@ -1370,33 +1496,11 @@
         <div class="category-scroll" id="categoryTabs" role="tablist" aria-label="Product categories"></div>
     </nav>
 
-    <!-- How It Works -->
-    <section class="how-it-works" aria-label="How ordering works">
-        <div class="how-it-works-title">How It Works</div>
-        <div class="how-steps">
-            <div class="how-step">
-                <div class="how-step-num">1</div>
-                <div class="how-step-content">
-                    <h4>Browse &amp; Add</h4>
-                    <p>Pick from 50+ seafood products. Set your size and weight in seconds.</p>
-                </div>
-            </div>
-            <div class="how-step">
-                <div class="how-step-num">2</div>
-                <div class="how-step-content">
-                    <h4>Send via WhatsApp</h4>
-                    <p>One tap sends your order list. We reply with a confirmed quote in minutes.</p>
-                </div>
-            </div>
-            <div class="how-step">
-                <div class="how-step-num">3</div>
-                <div class="how-step-content">
-                    <h4>Fresh Delivery</h4>
-                    <p>Same-day or next-day. Cut-off 10 AM (morning) or 3 PM (afternoon).</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Featured Strip (high-margin picks, rendered via JS) -->
+    <section class="featured-strip" id="featuredStrip" aria-label="Featured products"></section>
+
+    <!-- How It Works (rendered via JS so it can be translated) -->
+    <section class="how-it-works" id="howItWorks" aria-label="How ordering works"></section>
 
     <!-- Cut-off Countdown Banner -->
     <div class="cutoff-banner state-info" id="cutoffBanner" role="status" aria-live="polite" aria-atomic="true">
@@ -1426,8 +1530,8 @@
                 <small id="orderBarWeight">0 KG total</small>
             </div>
         </div>
-        <button class="order-bar-btn" onclick="event.stopPropagation(); toggleCart()">
-            Review Order
+        <button class="order-bar-btn" id="orderBarBtn" onclick="event.stopPropagation(); toggleCart()">
+            <span id="orderBarBtnLabel">Review Order</span>
             <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
         </button>
     </div>
@@ -1448,25 +1552,25 @@
             <div class="cart-footer">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Company Name *</label>
+                        <label id="companyNameLabel">Company Name *</label>
                         <input type="text" id="companyNameInput" placeholder="e.g. Restoran XYZ" autocomplete="organization">
                     </div>
                     <div class="form-group">
-                        <label>Delivery Date *</label>
+                        <label id="deliveryDateLabel">Delivery Date *</label>
                         <input type="date" id="deliveryDateInput">
                     </div>
                 </div>
 
                 <div class="order-summary">
-                    <span>Total quantity</span>
+                    <span id="totalQtyLabel">Total quantity</span>
                     <span class="total-kg" id="cartTotalKg">0 KG</span>
                 </div>
 
-                <button class="whatsapp-btn" onclick="sendToWhatsApp()">
+                <button class="whatsapp-btn" id="whatsappBtn" onclick="sendToWhatsApp()">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-                    Send via WhatsApp
+                    <span id="whatsappBtnLabel">Send via WhatsApp</span>
                 </button>
-                <p class="footer-note">We'll reply with a confirmed quote within minutes.</p>
+                <p class="footer-note" id="replyNote">We'll reply with a confirmed quote within minutes.</p>
             </div>
         </div>
     </div>
@@ -1480,16 +1584,16 @@
             </div>
             <div class="preview-body">
                 <div class="preview-meta">
-                    <span class="preview-to">→ To: PCY Jaya Enterprise · +60 11-7429 3823</span>
+                    <span class="preview-to" id="previewTo">→ To: PCY Jaya Enterprise · +60 11-7429 3823</span>
                 </div>
                 <div class="preview-slot-banner" id="previewSlotBanner">Delivery: —</div>
                 <pre class="preview-message" id="previewMessage">—</pre>
             </div>
             <div class="preview-footer">
-                <button class="preview-edit-btn" onclick="closePreview()">Edit order</button>
+                <button class="preview-edit-btn" id="previewEditBtn" onclick="closePreview()">Edit order</button>
                 <button class="preview-send-btn" id="previewSendBtn" onclick="confirmSendToWhatsApp()">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-                    Send Now
+                    <span id="previewSendBtnLabel">Send Now</span>
                 </button>
             </div>
         </div>
@@ -1506,7 +1610,423 @@
     <script>
         const WHATSAPP_NUMBER = "601174293823";
 
-        // Inline SVG placeholder for products without a photo yet
+        /* ============ i18n: FLAT TRANSLATION TABLE ============ */
+        const T = {
+            // Search
+            search:       { en: 'Search fish, prawn, squid…',         ms: 'Cari ikan, udang, sotong…',         zh: '搜索鱼、虾、鱿鱼…' },
+
+            // Tabs
+            bestseller:   { en: 'Bestsellers',                         ms: 'Paling Laris',                      zh: '热销' },
+            catAll:       { en: 'All',                                 ms: 'Semua',                             zh: '全部' },
+            catIkan:      { en: 'Fish',                                ms: 'Ikan',                              zh: '鱼' },
+            catSotong:    { en: 'Squid',                               ms: 'Sotong',                            zh: '鱿鱼' },
+            catUdang:     { en: 'Prawn',                               ms: 'Udang',                             zh: '虾' },
+            catShell:     { en: 'Shellfish',                           ms: 'Kerang²an',                         zh: '贝类' },
+            catCrab:      { en: 'Crab',                                ms: 'Ketam',                             zh: '蟹' },
+
+            // How It Works
+            howItWorks:      { en: 'How It Works',                     ms: 'Cara Pesan',                        zh: '订购流程' },
+            howStep1Title:   { en: 'Browse & Add',                     ms: 'Pilih & Tambah',                    zh: '浏览并加入' },
+            howStep1Desc:    { en: 'Pick from 50+ seafood products. Set your size and weight in seconds.', ms: 'Pilih daripada 50+ produk makanan laut. Tetapkan saiz dan berat dalam beberapa saat.', zh: '从50多种海鲜产品中选择，几秒内设置尺寸和重量。' },
+            howStep2Title:   { en: 'Send via WhatsApp',                ms: 'Hantar via WhatsApp',               zh: '通过 WhatsApp 发送' },
+            howStep2Desc:    { en: "One tap sends your order list. We reply with a confirmed quote in minutes.", ms: 'Satu hantar senarai pesanan. Kami balas dengan sebut harga dalam minit.', zh: '一键发送订单列表，我们将在几分钟内回复确认报价。' },
+            howStep3Title:   { en: 'Fresh Delivery',                   ms: 'Penghantaran Segar',                zh: '新鲜配送' },
+            howStep3Desc:    { en: 'Same-day or next-day. Cut-off 10 AM (morning) or 3 PM (afternoon).', ms: 'Hari yang sama atau keesokkan. Had 10 pagi atau 3 petang.', zh: '当天或次日配送，截单时间上午10点或下午3点。' },
+
+            // Card / stepper
+            addToOrder:    { en: 'Add to Order',                       ms: 'Tambah ke Pesanan',                 zh: '加入订单' },
+            added:         { en: 'Added',                              ms: 'Ditambah',                          zh: '已加入' },
+            inOrder:       { en: 'In Order',                           ms: 'Dalam Pesanan',                     zh: '已下单' },
+            addSize:       { en: '+ Size',                             ms: '+ Saiz',                            zh: '+ 尺寸' },
+            sizePh:        { en: 'Size / grade (e.g. 300/500)',        ms: 'Saiz / gred (cth. 300/500)',        zh: '尺寸/规格（例如 300/500）' },
+            size:          { en: 'Size',                               ms: 'Saiz',                              zh: '尺寸' },
+            weight:        { en: 'Weight',                             ms: 'Berat',                             zh: '重量' },
+            kg:            { en: 'KG',                                 ms: 'KG',                                zh: '公斤' },
+
+            // Order bar
+            reviewOrder:   { en: 'Review Order',                       ms: 'Semak Pesanan',                     zh: '查看订单' },
+            itemsLabel:    { en: 'items',                              ms: 'item',                              zh: '件' },
+            kgTotal:       { en: 'KG total',                           ms: 'KG jumlah',                         zh: '公斤 共' },
+
+            // Cart drawer
+            yourOrder:     { en: 'Your Order List',                    ms: 'Senarai Pesanan',                   zh: '您的订单' },
+            itemsAdded:    { en: 'items added',                        ms: 'item ditambah',                     zh: '件已添加' },
+            emptyOrder:    { en: 'Your order list is empty',           ms: 'Senarai pesanan kosong',            zh: '订单列表为空' },
+            emptyOrderDesc:{ en: 'Browse the catalog and tap "Add to Order" on the items you need.', ms: 'Layari katalog dan ketik "Tambah ke Pesanan" pada item yang diperlukan.', zh: '浏览目录，点击所需商品上的"加入订单"。' },
+            browseButton:  { en: 'Browse Seafood',                     ms: 'Layari Makanan Laut',               zh: '浏览海鲜' },
+            companyName:   { en: 'Company Name *',                     ms: 'Nama Syarikat *',                   zh: '公司名称 *' },
+            deliveryDate:  { en: 'Delivery Date *',                    ms: 'Tarikh Penghantaran *',             zh: '送货日期 *' },
+            totalKg:       { en: 'Total quantity',                     ms: 'Jumlah kuantiti',                   zh: '总数量' },
+            sendWhatsApp:  { en: 'Send via WhatsApp',                  ms: 'Hantar via WhatsApp',               zh: '通过 WhatsApp 发送' },
+            replyQuote:    { en: "We'll reply with a confirmed quote within minutes.", ms: 'Kami akan balas dengan sebut harga dalam beberapa minit.', zh: '我们将在几分钟内回复确认报价。' },
+            remove:        { en: 'Remove',                             ms: 'Buang',                             zh: '移除' },
+
+            // Preview modal
+            readyToSend:   { en: 'Ready to send?',                     ms: 'Sedia untuk hantar?',               zh: '准备发送？' },
+            editOrder:     { en: 'Edit order',                         ms: 'Sunting pesanan',                   zh: '编辑订单' },
+            sendNow:       { en: 'Send Now',                           ms: 'Hantar Sekarang',                   zh: '立即发送' },
+            deliverOn:     { en: 'Deliver on',                         ms: 'Hantar pada',                       zh: '送货日期' },
+
+            // WhatsApp message
+            helloPcy:      { en: 'Hello PCY!',                         ms: 'Hai PCY!',                          zh: '你好 PCY！' },
+            orderList:     { en: 'Order List:',                        ms: 'Senarai Pesanan:',                  zh: '订单列表：' },
+            confirmAvail:  { en: 'Please confirm availability and pricing.', ms: 'Sila sahkan ketersediaan dan harga.', zh: '请确认供应情况和价格。' },
+
+            // Empty states
+            noMatches:     { en: 'No matches found',                   ms: 'Tiada padanan',                     zh: '未找到匹配项' },
+            tryKeyword:    { en: 'Try a different keyword or category', ms: 'Cuba kata kunci atau kategori lain', zh: '请尝试其他关键词或分类' },
+
+            // Results count
+            resultsIn:     { en: 'in',                                 ms: 'dalam',                             zh: '在' },
+            resultsFor:    { en: 'for',                                ms: 'untuk',                             zh: '搜索' },
+            resultsMatch:  { en: 'matching',                           ms: 'sepadan dengan',                    zh: '匹配' },
+            catalogue:     { en: 'catalog',                            ms: 'katalog',                           zh: '目录' },
+            result:        { en: 'result',                             ms: 'keputusan',                         zh: '个结果' },
+            results:       { en: 'results',                            ms: 'keputusan',                         zh: '个结果' },
+            item:          { en: 'item',                               ms: 'item',                              zh: '件商品' },
+            items:         { en: 'items',                              ms: 'item',                              zh: '件商品' },
+
+            // Errors / alerts
+            errEmpty:      { en: 'Please add at least one item before sending.', ms: 'Sila tambah sekurang-kurangnya satu item sebelum hantar.', zh: '请在发送前至少添加一件商品。' },
+            errCompany:    { en: 'Please enter your company name.',   ms: 'Sila masukkan nama syarikat.',      zh: '请输入您的公司名称。' },
+            errDate:       { en: 'Please select a delivery date.',     ms: 'Sila pilih tarikh penghantaran.',   zh: '请选择送货日期。' },
+
+            // Aria
+            openInquiry:   { en: 'Open inquiry list',                  ms: 'Buka senarai pertanyaan',            zh: '打开询价列表' },
+            clearSearchA:  { en: 'Clear search',                       ms: 'Padam carian',                      zh: '清除搜索' }
+        };
+
+        // Detect / load language
+        function detectLang() {
+            try {
+                const saved = localStorage.getItem('pcy_lang');
+                if (saved && ['en', 'ms', 'zh'].includes(saved)) return saved;
+            } catch (e) {}
+            const lang = (navigator.language || 'en').toLowerCase();
+            if (lang.startsWith('zh')) return 'zh';
+            if (lang.startsWith('ms') || lang.startsWith('id')) return 'ms';
+            return 'en';
+        }
+        let currentLang = detectLang();
+        function t(key) { return (T[key] && T[key][currentLang]) || (T[key] && T[key].en) || key; }
+
+        /* ============ LANGUAGE TOGGLE ============ */
+        function renderLangToggle() {
+            const container = document.getElementById('langToggle');
+            if (!container) return;
+            const langs = [
+                { code: 'en', label: 'EN', aria: 'English' },
+                { code: 'ms', label: 'BM', aria: 'Bahasa Melayu' },
+                { code: 'zh', label: '中', aria: '中文' }
+            ];
+            container.innerHTML = langs.map(l => `
+                <button type="button"
+                        class="lang-btn ${currentLang === l.code ? 'active' : ''}"
+                        onclick="setLang('${l.code}')"
+                        aria-label="${l.aria}"
+                        aria-pressed="${currentLang === l.code}">${l.label}</button>
+            `).join('');
+        }
+
+        function setLang(lang) {
+            if (!['en', 'ms', 'zh'].includes(lang)) return;
+            currentLang = lang;
+            try { localStorage.setItem('pcy_lang', lang); } catch (e) {}
+            document.documentElement.lang = (lang === 'zh') ? 'zh' : (lang === 'ms' ? 'ms' : 'en');
+            renderLangToggle();
+            applyStaticTranslations();
+            renderHowItWorks();
+            renderFeaturedStrip();
+            renderTabs();
+            filterProducts();
+            renderCartItems();
+            // Re-render preview if open
+            const preview = document.getElementById('previewOverlay');
+            if (preview && preview.classList.contains('active')) {
+                const companyName = document.getElementById('companyNameInput').value.trim();
+                const deliveryDate = document.getElementById('deliveryDateInput').value.trim();
+                const message = buildWhatsAppMessage(companyName, deliveryDate);
+                document.getElementById('previewMessage').textContent = message;
+                preview.dataset.message = message;
+            }
+        }
+
+        function applyStaticTranslations() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.placeholder = t('search');
+            const clearBtn = document.getElementById('searchClear');
+            if (clearBtn) clearBtn.setAttribute('aria-label', t('clearSearchA'));
+            const cartBtn = document.getElementById('cartBtn');
+            if (cartBtn) cartBtn.setAttribute('aria-label', t('openInquiry'));
+            const cartTitle = document.getElementById('cartTitle');
+            if (cartTitle) cartTitle.textContent = t('yourOrder');
+            const totalQty = document.getElementById('totalQtyLabel');
+            if (totalQty) totalQty.textContent = t('totalKg');
+            const waLabel = document.getElementById('whatsappBtnLabel');
+            if (waLabel) waLabel.textContent = t('sendWhatsApp');
+            const replyNote = document.getElementById('replyNote');
+            if (replyNote) replyNote.textContent = t('replyQuote');
+            const previewTitle = document.getElementById('previewTitle');
+            if (previewTitle) previewTitle.textContent = t('readyToSend');
+            const editBtn = document.getElementById('previewEditBtn');
+            if (editBtn) editBtn.textContent = t('editOrder');
+            const sendBtnLabel = document.getElementById('previewSendBtnLabel');
+            if (sendBtnLabel) sendBtnLabel.textContent = t('sendNow');
+            const orderBarBtnLabel = document.getElementById('orderBarBtnLabel');
+            if (orderBarBtnLabel) orderBarBtnLabel.textContent = t('reviewOrder');
+            const companyLabel = document.getElementById('companyNameLabel');
+            if (companyLabel) companyLabel.textContent = t('companyName');
+            const deliveryLabel = document.getElementById('deliveryDateLabel');
+            if (deliveryLabel) deliveryLabel.textContent = t('deliveryDate');
+        }
+
+        function renderHowItWorks() {
+            const section = document.getElementById('howItWorks');
+            if (!section) return;
+            section.innerHTML = `
+                <div class="how-it-works-title">${t('howItWorks')}</div>
+                <div class="how-steps">
+                    <div class="how-step">
+                        <div class="how-step-num">1</div>
+                        <div class="how-step-content">
+                            <h4>${t('howStep1Title')}</h4>
+                            <p>${t('howStep1Desc')}</p>
+                        </div>
+                    </div>
+                    <div class="how-step">
+                        <div class="how-step-num">2</div>
+                        <div class="how-step-content">
+                            <h4>${t('howStep2Title')}</h4>
+                            <p>${t('howStep2Desc')}</p>
+                        </div>
+                    </div>
+                    <div class="how-step">
+                        <div class="how-step-num">3</div>
+                        <div class="how-step-content">
+                            <h4>${t('howStep3Title')}</h4>
+                            <p>${t('howStep3Desc')}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* ============ PRODUCT NAME LOOKUP (for cart + WhatsApp) ============ */
+        function getProductName(p) {
+            if (currentLang === 'zh' && p && p.nameZh) return p.nameZh;
+            return (p && p.name) || '';
+        }
+        function getProductById(id) { return products.find(p => p.id === id); }
+
+        /* ============ FEATURED STRIP (high-margin picks) ============ */
+        // Compact horizontal carousel of 10 hand-picked products.
+        // Each card has image + name + a quick-add button (defaults to 10 KG,
+        // no size). The strip is the single "promoted" surface — the main grid
+        // stays uniform with no per-card badges.
+        function renderFeaturedStrip() {
+            const strip = document.getElementById('featuredStrip');
+            if (!strip) return;
+            const featured = products
+                .filter(p => p.featured)
+                .sort((a, b) => (a.featuredRank || 99) - (b.featuredRank || 99));
+            if (!featured.length) {
+                strip.style.display = 'none';
+                return;
+            }
+            strip.style.display = '';
+            strip.innerHTML = `
+                <div class="featured-header">
+                    <span class="featured-icon" aria-hidden="true">🔥</span>
+                    <span class="featured-title">${t('bestseller')}</span>
+                </div>
+                <div class="featured-scroll" role="list">
+                    ${featured.map(p => `
+                        <div class="featured-item" role="listitem">
+                            <img src="${p.imgUrl}" alt="${p.name}" class="featured-item-img" loading="lazy" decoding="async" width="100" height="100" onerror="this.onerror=null; this.src='${fallbackImg}'; this.style.background='#e5e3da';">
+                            <div class="featured-item-name">${p.name}</div>
+                            <button type="button" class="featured-item-add" onclick="quickAddToOrder(${p.id}, this)" aria-label="${t('addToOrder')} ${p.name}">
+                                <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                                <span>${t('addToOrder')}</span>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Quick add — 10 KG, no size, jumps straight to the cart.
+        // Keeps the strip's flow light: tap → done. Buyer can fine-tune in the cart.
+        function quickAddToOrder(productId, btnElement) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            const existing = cart.find(item => item.id === productId && !item.size);
+            if (existing) {
+                existing.weight += 10;
+            } else {
+                cart.push({
+                    cartUniqueId: Date.now() + Math.random(),
+                    id: product.id,
+                    name: product.name,
+                    nameZh: product.nameZh || product.name,
+                    imgUrl: product.imgUrl,
+                    size: '',
+                    weight: 10
+                });
+            }
+            saveCart();
+            updateCartBadge();
+
+            if (btnElement) {
+                const labelSpan = btnElement.querySelector('span');
+                if (labelSpan) {
+                    const original = labelSpan.textContent;
+                    btnElement.classList.add('added');
+                    labelSpan.textContent = t('added');
+                    setTimeout(() => {
+                        btnElement.classList.remove('added');
+                        labelSpan.textContent = original;
+                    }, 1200);
+                }
+            }
+        }
+
+        /* ============ CART STATE ============ */
+        let cart = [];
+        const fallbackImg = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
+        /* ============ CATEGORY LABELS ============ */
+        // Each canonical Malay category name maps to a T key that holds the
+        // translation for the current language. Only ONE name shows at a time,
+        // based on the language toggle the user picked.
+        const catLabelKeys = {
+            "Semua":     'catAll',
+            "Ikan":      'catIkan',
+            "Sotong":    'catSotong',
+            "Udang":     'catUdang',
+            "Kerang²an": 'catShell',
+            "Ketam":     'catCrab'
+        };
+        function getCatLabel(canonical) {
+            const key = catLabelKeys[canonical];
+            return key ? t(key) : canonical;
+        }
+
+        /* ============ PRODUCTS ============ */
+        // keywords: search terms (EN + Malay + Chinese variants)
+        // nameZh: Chinese display name (used in WhatsApp message when lang=zh)
+        // featured + featuredRank: shown in the Featured Strip (high-margin picks)
+        const products = [
+            { id: 1,  name: "Bakalang (Queenfish)", nameZh: "皇后鱼", category: "Ikan", imgUrl: "images/bakalang.webp",
+              keywords: ["queenfish", "bakalang", "ikan", "鱼"] },
+            { id: 2,  name: "Bakulan Hitam (Longtail Tuna)", nameZh: "黑长尾鲔", category: "Ikan", imgUrl: "images/bakulan-hitam.webp",
+              keywords: ["longtail tuna", "tongkol hitam", "aya hitam", "kayu hitam", "tuna", "吞拿鱼", "金枪鱼"] },
+            { id: 3,  name: "Bakulan Putih (Mackerel Tuna)", nameZh: "白鲭吞拿", category: "Ikan", imgUrl: "images/bakulan-putih.webp",
+              keywords: ["mackerel tuna", "tongkol putih", "aya kurik", "kayu", "tuna", "鲭鱼", "鲐鱼", "吞拿鱼"],
+              featured: true, featuredRank: 6 },
+            { id: 4,  name: "Basung", nameZh: "巴松鱼", category: "Ikan", imgUrl: "images/basung.webp",
+              keywords: ["basong", "ikan", "鱼"] },
+            { id: 5,  name: "Bawal Emas (Golden Pomfret)", nameZh: "金鲳鱼", category: "Ikan", imgUrl: "images/bawal-emas.webp",
+              keywords: ["golden pomfret", "golden pompano", "bawal", "鲳鱼", "金鲳"] },
+            { id: 6,  name: "Bawal Hitam (Black Pomfret)", nameZh: "黑鲳鱼", category: "Ikan", imgUrl: "images/bawal-hitam.webp",
+              keywords: ["black pomfret", "black pompano", "bawal", "鲳鱼", "黑鲳"] },
+            { id: 7,  name: "Bilis Mata Biru (Silverfish)", nameZh: "银鱼", category: "Ikan", imgUrl: "images/bilis-mata-biru.webp",
+              keywords: ["silverfish", "white bait", "noodlefish", "whitebait fish", "anchovy", "bilis", "银鱼", "凤尾鱼"] },
+            { id: 8,  name: "Geronggong (Torpedo Scad)", nameZh: "圆鲹", category: "Ikan", imgUrl: "images/geronggong.webp",
+              keywords: ["torpedo scad", "cencaru", "hardtail scad", "selar", "鲹鱼", "圆鲹"] },
+            { id: 9,  name: "Isi Dori (Dory Fillet)", nameZh: "多利鱼片", category: "Ikan", imgUrl: "images/isi-dori.webp",
+              keywords: ["dory fillet", "dory", "isi", "fillet", "鱼片", "多利鱼"] },
+            { id: 10, name: "Isi Jenahak (Golden Snapper Fillet)", nameZh: "红鲷鱼片", category: "Ikan", imgUrl: "images/isi-jenahak.webp",
+              keywords: ["golden snapper fillet", "ang", "isi", "fillet", "鱼片", "红鲷"] },
+            { id: 11, name: "Isi Merah (Red Snapper Fillet)", nameZh: "红鸡鱼片", category: "Ikan", imgUrl: "images/isi-merah.webp",
+              keywords: ["red snapper fillet", "merah pucat", "ang", "isi", "fillet", "鱼片", "红鸡"] },
+            { id: 12, name: "Isi Siakap (Barramundi Fillet)", nameZh: "鲈鱼片", category: "Ikan", imgUrl: "images/isi-siakap.webp",
+              keywords: ["barramundi fillet", "seabass fillet", "isi", "fillet", "鱼片", "鲈鱼"] },
+            { id: 13, name: "Jenahak (Golden Snapper)", nameZh: "红鲷", category: "Ikan", imgUrl: "images/jenahak.webp",
+              keywords: ["golden snapper", "john snapper", "jenahak", "ang", "ikan", "红鲷"],
+              featured: true, featuredRank: 4 },
+            { id: 14, name: "Keli (Walking Catfish)", nameZh: "鲶鱼", category: "Ikan", imgUrl: "images/keli.webp",
+              keywords: ["walking catfish", "keli", "ikan", "鲶鱼", "胡子鲶"] },
+            { id: 15, name: "Kerapu Hibrid (Hybrid Grouper)", nameZh: "杂交石斑", category: "Ikan", imgUrl: "images/kerapu-hibrid.webp",
+              keywords: ["hybrid grouper", "kerapu hibrid", "kerapu", "ikan", "石斑鱼", "石斑"],
+              featured: true, featuredRank: 5 },
+            { id: 16, name: "Ketam Kalok (Mud Crab)", nameZh: "青蟹", category: "Ketam", imgUrl: "images/ketam-kalok.webp",
+              keywords: ["mud crab", "ketam nipah", "ketam", "螃蟹", "青蟹", "蟹"] },
+            { id: 17, name: "Ketam Suri (Flower Crab)", nameZh: "花蟹", category: "Ketam", imgUrl: "images/ketam-suri.webp",
+              keywords: ["flower crab", "blue swimmer crab", "ketam bunga", "ketam", "螃蟹", "花蟹", "蟹"] },
+            { id: 18, name: "Ketumbang (Maori Snapper)", nameZh: "毛利鲷", category: "Ikan", imgUrl: "images/ketumbang.webp",
+              keywords: ["maori snapper", "blubberlip snapper", "speckled snapper", "blue-spotted seaperch", "ikan", "鲷"] },
+            { id: 19, name: "Kupang Hitam (Black Mussels)", nameZh: "黑贻贝", category: "Kerang²an", imgUrl: "images/kupang-hitam.webp",
+              keywords: ["black mussels", "kerang hitam", "kupang", "贻贝", "黑贻贝", "青口"] },
+            { id: 20, name: "Lala Putih (White Clam)", nameZh: "白蛤", category: "Kerang²an", imgUrl: "images/lala-putih.webp",
+              keywords: ["white clam", "lala bunga", "flower clam", "lala", "kerang", "蛤", "白蛤", "花蛤"],
+              featured: true, featuredRank: 9 },
+            { id: 21, name: "Lamading (Korean Seerfish)", nameZh: "韩国马鲛", category: "Ikan", imgUrl: "images/lamading.webp",
+              keywords: ["korean seerfish", "tenggiri papan", "tua pan", "tat pan", "ikan", "马鲛", "鲅鱼"] },
+            { id: 22, name: "Mata Besar Merah", nameZh: "红目鲢", category: "Ikan", imgUrl: "images/mata-besar-merah.webp",
+              keywords: ["mata besar", "ikan", "红目鲢", "大眼鱼"] },
+            { id: 23, name: "Merah (Red Snapper)", nameZh: "红鸡鱼", category: "Ikan", imgUrl: "images/merah.webp",
+              keywords: ["red snapper", "crimson snapper", "merah pucat", "merah", "ikan", "红鸡", "红鲷"] },
+            { id: 24, name: "Patin (Pangasius)", nameZh: "巴丁鱼", category: "Ikan", imgUrl: "images/patin.webp",
+              keywords: ["pangasius", "silver catfish", "patin", "ikan", "巴丁鱼", "鲶鱼"] },
+            { id: 25, name: "Putih", nameZh: "白鱼", category: "Ikan", imgUrl: "images/putih.webp",
+              keywords: ["putih", "ikan", "白鱼"] },
+            { id: 26, name: "Rumahan", nameZh: "甘望鱼", category: "Ikan", imgUrl: "images/rumahan.webp",
+              keywords: ["kembung", "pelaling", "mabong", "rumahan", "ikan", "甘望鱼", "鲭鱼"] },
+            { id: 27, name: "Satak (Slipper Lobster)", nameZh: "拖鞋龙虾", category: "Kerang²an", imgUrl: "images/satak.webp",
+              keywords: ["slipper lobster", "flathead lobster", "satak", "龙虾", "拖鞋龙虾"] },
+            { id: 28, name: "Siakap (Barramundi)", nameZh: "金目鲈", category: "Ikan", imgUrl: "images/siakap.webp",
+              keywords: ["barramundi", "asian seabass", "seabass", "siakap", "kakap putih", "ikan", "鲈鱼", "金目鲈"],
+              featured: true, featuredRank: 2 },
+            { id: 29, name: "Siput Buluh (Razor Clam)", nameZh: "竹蛏", category: "Kerang²an", imgUrl: "images/siput-buluh.webp",
+              keywords: ["razor clam", "siput buluh", "siput", "kerang", "蛏子", "竹蛏"] },
+            { id: 30, name: "Sotong Bulat", nameZh: "苏东", category: "Sotong", imgUrl: "images/sotong-bulat.webp",
+              keywords: ["sotong putih", "苏东", "鱿鱼", "sotong"] },
+            { id: 31, name: "Sotong Bunga (Squid Flower)", nameZh: "鱿鱼花", category: "Sotong", imgUrl: "images/sotong-bunga.webp",
+              keywords: ["squid flower", "sotong bunga", "sotong", "鱿鱼", "鱿鱼花"],
+              featured: true, featuredRank: 7 },
+            { id: 32, name: "Sotong Cincin (Squid Ring)", nameZh: "鱿鱼圈", category: "Sotong", imgUrl: "images/sotong-cincin.webp",
+              keywords: ["squid ring", "sotong cincin", "sotong", "鱿鱼", "鱿鱼圈"],
+              featured: true, featuredRank: 3 },
+            { id: 33, name: "Sotong Janggut (Squid Tentacles)", nameZh: "鱿鱼须", category: "Sotong", imgUrl: "images/sotong-janggut.webp",
+              keywords: ["squid tentacle", "squid tentacles", "sotong janggut", "sotong", "鱿鱼", "鱿鱼须"] },
+            { id: 34, name: "Sotong Kelabutan (Cuttlefish)", nameZh: "墨鱼", category: "Sotong", imgUrl: "images/sotong-kelabutan.webp",
+              keywords: ["cuttlefish", "sotong katak", "sotong kelabutan", "sotong", "墨鱼", "鱿鱼"] },
+            { id: 35, name: "Sotong Pen", nameZh: "笔管鱿", category: "Sotong", imgUrl: "images/sotong-pen.webp",
+              keywords: ["sotong pen", "sotong", "笔管鱿", "鱿鱼"] },
+            { id: 36, name: "Sotong Tube (Squid Tube)", nameZh: "鱿鱼筒", category: "Sotong", imgUrl: "images/sotong-tube.webp",
+              keywords: ["squid tube", "sotong tube", "sotong", "鱿鱼", "鱿鱼筒"] },
+            { id: 37, name: "Susu (Milkfish)", nameZh: "虱目鱼", category: "Ikan", imgUrl: "images/susu.webp",
+              keywords: ["milkfish", "bahulu", "susu", "ikan", "虱目鱼", "牛奶鱼"] },
+            { id: 38, name: "Talapia Hitam (Black Tilapia)", nameZh: "黑罗非鱼", category: "Ikan", imgUrl: "images/talapia-hitam.webp",
+              keywords: ["black tilapia", "talapia hitam", "tilapia", "ikan", "罗非鱼", "黑罗非"] },
+            { id: 39, name: "Talapia Merah (Red Tilapia)", nameZh: "红罗非鱼", category: "Ikan", imgUrl: "images/talapia-merah.webp",
+              keywords: ["red tilapia", "red hybrid tilapia", "talapia merah", "tilapia", "ikan", "罗非鱼", "红罗非"] },
+            { id: 40, name: "Tamban (Sardine)", nameZh: "沙丁鱼", category: "Ikan", imgUrl: "images/tamban.webp",
+              keywords: ["sardine", "tamban nipis", "tamban", "sardin", "ikan", "沙丁鱼"] },
+            { id: 41, name: "Udang Bunga (Flower Prawn)", nameZh: "花虾", category: "Udang", imgUrl: "images/udang-bunga.webp",
+              keywords: ["flower prawn", "flower shrimp", "udang bunga", "udang", "花虾", "虾"] },
+            { id: 42, name: "Udang Harimau (Tiger Prawn)", nameZh: "老虎虾", category: "Udang", imgUrl: "images/udang-harimau.webp",
+              keywords: ["tiger prawn", "asian tiger shrimp", "老虎虾", "udang kuning", "yellow prawn", "yellow shrimp", "udang harimau", "udang", "虾"],
+              featured: true, featuredRank: 10 },
+            { id: 43, name: "Udang Pasir (Sand Prawn)", nameZh: "沙虾", category: "Udang", imgUrl: "images/udang-pasir.webp",
+              keywords: ["sand prawn", "sand shrimp", "udang pasir", "udang", "沙虾", "虾"] },
+            { id: 44, name: "Udang Vannamei (Vannamei Prawn) - Headless Shell-On (HLSO)", nameZh: "南美白虾 (去头带壳)", category: "Udang", imgUrl: "images/udang-vannamei-hlso.webp",
+              keywords: ["vannamei prawn", "headless shell on", "hlso", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei", "南美白虾", "udang"] },
+            { id: 45, name: "Udang Vannamei (Vannamei Prawn) - Peeled Tail-On (PTO)", nameZh: "南美白虾 (去壳留尾)", category: "Udang", imgUrl: "images/udang-vannamei-pdto-pto.webp",
+              keywords: ["vannamei prawn", "peeled tail-on", "pto", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei", "南美白虾", "udang"] },
+            { id: 46, name: "Udang Vannamei (Vannamei Prawn) - Peeled Deveined Tail-On (PDTO)", nameZh: "南美白虾 (去壳去肠留尾)", category: "Udang", imgUrl: "images/udang-vannamei-pdto-pto.webp",
+              keywords: ["vannamei prawn", "peeled deveined tail-on", "pdto", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei", "南美白虾", "udang"] },
+            { id: 47, name: "Udang Vannamei (Vannamei Prawn)", nameZh: "南美白虾", category: "Udang", imgUrl: "images/udang-vannamei.webp",
+              keywords: ["vannamei prawn", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei", "南美白虾", "udang", "虾"],
+              featured: true, featuredRank: 1 },
+            { id: 48, name: "Kerang (Blood Cockles)", nameZh: "血蚶", category: "Kerang²an", imgUrl: "images/kerang.webp",
+              keywords: ["blood cockles", "kerang", "蚶", "血蚶", "蛤"],
+              featured: true, featuredRank: 8 }
+        ];
+
+        products.sort((a, b) => a.name.localeCompare(b.name));
+
+        // Placeholder for products without a photo yet
         const placeholderImg = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(
             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">' +
             '<rect fill="#F1F5F9" width="200" height="200"/>' +
@@ -1526,112 +2046,6 @@
             "Ketam": "🦀"
         };
         let currentCategory = "Semua";
-
-        // Each product has hidden `keywords` for search. The visible name stays the same.
-        const products = [
-            { id: 1,  name: "Bakalang (Queenfish)", category: "Ikan", imgUrl: "images/bakalang.webp",
-              keywords: ["queenfish", "bakalang"] },
-            { id: 2,  name: "Bakulan Hitam (Longtail Tuna)", category: "Ikan", imgUrl: "images/bakulan-hitam.webp",
-              keywords: ["longtail tuna", "tongkol hitam", "aya hitam", "kayu hitam"] },
-            { id: 3,  name: "Bakulan Putih (Mackerel Tuna)", category: "Ikan", imgUrl: "images/bakulan-putih.webp",
-              keywords: ["mackerel tuna", "tongkol putih", "aya kurik", "kayu"] },
-            { id: 4,  name: "Basung", category: "Ikan", imgUrl: "images/basung.webp",
-              keywords: ["basong"] },
-            { id: 5,  name: "Bawal Emas (Golden Pomfret)", category: "Ikan", imgUrl: "images/bawal-emas.webp",
-              keywords: ["golden pomfret", "golden pompano"] },
-            { id: 6,  name: "Bawal Hitam (Black Pomfret)", category: "Ikan", imgUrl: "images/bawal-hitam.webp",
-              keywords: ["black pomfret", "black pompano"] },
-            { id: 7,  name: "Bilis Mata Biru (Silverfish)", category: "Ikan", imgUrl: "images/bilis-mata-biru.webp",
-              keywords: ["silverfish", "white bait", "noodlefish", "whitebait fish"] },
-            { id: 8,  name: "Geronggong (Torpedo Scad)", category: "Ikan", imgUrl: "images/geronggong.webp",
-              keywords: ["torpedo scad", "cencaru", "hardtail scad"] },
-            { id: 9,  name: "Isi Dori (Dory Fillet)", category: "Ikan", imgUrl: "images/isi-dori.webp",
-              keywords: ["dory fillet"] },
-            { id: 10, name: "Isi Jenahak (Golden Snapper Fillet)", category: "Ikan", imgUrl: "images/isi-jenahak.webp",
-              keywords: ["golden snapper fillet", "ang"] },
-            { id: 11, name: "Isi Merah (Red Snapper Fillet)", category: "Ikan", imgUrl: "images/isi-merah.webp",
-              keywords: ["red snapper fillet", "merah pucat", "ang"] },
-            { id: 12, name: "Isi Siakap (Barramundi Fillet)", category: "Ikan", imgUrl: "images/isi-siakap.webp",
-              keywords: ["barramundi fillet", "seabass fillet"] },
-            { id: 13, name: "Jenahak (Golden Snapper)", category: "Ikan", imgUrl: "images/jenahak.webp",
-              keywords: ["golden snapper", "john snapper"] },
-            { id: 14, name: "Keli (Walking Catfish)", category: "Ikan", imgUrl: "images/keli.webp",
-              keywords: ["walking catfish"] },
-            { id: 15, name: "Kerapu Hibrid (Hybrid Grouper)", category: "Ikan", imgUrl: "images/kerapu-hibrid.webp",
-              keywords: ["hybrid grouper", "kerapu hibrid"] },
-            { id: 16, name: "Ketam Kalok (Mud Crab)", category: "Ketam", imgUrl: "images/ketam-kalok.webp",
-              keywords: ["mud crab", "ketam nipah"] },
-            { id: 17, name: "Ketam Suri (Flower Crab)", category: "Ketam", imgUrl: "images/ketam-suri.webp",
-              keywords: ["flower crab", "blue swimmer crab", "ketam bunga"] },
-            { id: 18, name: "Ketumbang (Maori Snapper)", category: "Ikan", imgUrl: "images/ketumbang.webp",
-              keywords: ["maori snapper", "blubberlip snapper", "speckled snapper", "blue-spotted seaperch"] },
-            { id: 19, name: "Kupang Hitam (Black Mussels)", category: "Kerang²an", imgUrl: "images/kupang-hitam.webp",
-              keywords: ["black mussels", "kerang hitam"] },
-            { id: 20, name: "Lala Putih (White Clam)", category: "Kerang²an", imgUrl: "images/lala-putih.webp",
-              keywords: ["white clam", "lala bunga", "flower clam"] },
-            { id: 21, name: "Lamading (Korean Seerfish)", category: "Ikan", imgUrl: "images/lamading.webp",
-              keywords: ["korean seerfish", "tenggiri papan", "tua pan", "tat pan"] },
-            { id: 22, name: "Mata Besar Merah", category: "Ikan", imgUrl: "images/mata-besar-merah.webp",
-              keywords: [] },
-            { id: 23, name: "Merah (Red Snapper)", category: "Ikan", imgUrl: "images/merah.webp",
-              keywords: ["red snapper", "crimson snapper", "merah pucat"] },
-            { id: 24, name: "Patin (Pangasius)", category: "Ikan", imgUrl: "images/patin.webp",
-              keywords: ["pangasius", "silver catfish"] },
-            { id: 25, name: "Putih", category: "Ikan", imgUrl: "images/putih.webp",
-              keywords: [] },
-            { id: 26, name: "Rumahan", category: "Ikan", imgUrl: "images/rumahan.webp",
-              keywords: ["kembung", "pelaling", "mabong"] },
-            { id: 27, name: "Satak (Slipper Lobster)", category: "Kerang²an", imgUrl: "images/satak.webp",
-              keywords: ["slipper lobster", "flathead lobster"] },
-            { id: 28, name: "Siakap (Barramundi)", category: "Ikan", imgUrl: "images/siakap.webp",
-              keywords: ["barramundi", "asian seabass", "seabass"] },
-            { id: 29, name: "Siput Buluh (Razor Clam)", category: "Kerang²an", imgUrl: "images/siput-buluh.webp",
-              keywords: ["razor clam"] },
-            { id: 30, name: "Sotong Bulat", category: "Sotong", imgUrl: "images/sotong-bulat.webp",
-              keywords: ["sotong putih", "苏东"] },
-            { id: 31, name: "Sotong Bunga (Squid Flower)", category: "Sotong", imgUrl: "images/sotong-bunga.webp",
-              keywords: ["squid flower"] },
-            { id: 32, name: "Sotong Cincin (Squid Ring)", category: "Sotong", imgUrl: "images/sotong-cincin.webp",
-              keywords: ["squid ring"] },
-            { id: 33, name: "Sotong Janggut (Squid Tentacles)", category: "Sotong", imgUrl: "images/sotong-janggut.webp",
-              keywords: ["squid tentacle", "squid tentacles"] },
-            { id: 34, name: "Sotong Kelabutan (Cuttlefish)", category: "Sotong", imgUrl: "images/sotong-kelabutan.webp",
-              keywords: ["cuttlefish", "sotong katak"] },
-            { id: 35, name: "Sotong Pen", category: "Sotong", imgUrl: "images/sotong-pen.webp",
-              keywords: [] },
-            { id: 36, name: "Sotong Tube (Squid Tube)", category: "Sotong", imgUrl: "images/sotong-tube.webp",
-              keywords: ["squid tube"] },
-            { id: 37, name: "Susu (Milkfish)", category: "Ikan", imgUrl: "images/susu.webp",
-              keywords: ["milkfish", "bahulu"] },
-            { id: 38, name: "Talapia Hitam (Black Tilapia)", category: "Ikan", imgUrl: "images/talapia-hitam.webp",
-              keywords: ["black tilapia"] },
-            { id: 39, name: "Talapia Merah (Red Tilapia)", category: "Ikan", imgUrl: "images/talapia-merah.webp",
-              keywords: ["red tilapia", "red hybrid tilapia"] },
-            { id: 40, name: "Tamban (Sardine)", category: "Ikan", imgUrl: "images/tamban.webp",
-              keywords: ["sardine", "tamban nipis"] },
-            { id: 41, name: "Udang Bunga (Flower Prawn)", category: "Udang", imgUrl: "images/udang-bunga.webp",
-              keywords: ["flower prawn", "flower shrimp", "花虾"] },
-            { id: 42, name: "Udang Harimau (Tiger Prawn)", category: "Udang", imgUrl: "images/udang-harimau.webp",
-              keywords: ["tiger prawn", "asian tiger shrimp", "老虎虾", "udang kuning", "yellow prawn", "yellow shrimp", "虾"] },
-            { id: 43, name: "Udang Pasir (Sand Prawn)", category: "Udang", imgUrl: "images/udang-pasir.webp",
-              keywords: ["sand prawn", "sand shrimp", "虾"] },
-            { id: 44, name: "Udang Vannamei (Vannamei Prawn) - Headless Shell-On (HLSO)", category: "Udang", imgUrl: "images/udang-vannamei-hlso.webp",
-              keywords: ["vannamei prawn", "headless shell on", "hlso", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
-            { id: 45, name: "Udang Vannamei (Vannamei Prawn) - Peeled Tail-On (PTO)", category: "Udang", imgUrl: "images/udang-vannamei-pdto-pto.webp",
-              keywords: ["vannamei prawn", "peeled tail-on", "pto", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
-            { id: 46, name: "Udang Vannamei (Vannamei Prawn) - Peeled Deveined Tail-On (PDTO)", category: "Udang", imgUrl: "images/udang-vannamei-pdto-pto.webp",
-              keywords: ["vannamei prawn", "peeled deveined tail-on", "pdto", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
-            { id: 47, name: "Udang Vannamei (Vannamei Prawn)", category: "Udang", imgUrl: "images/udang-vannamei.webp",
-              keywords: ["vannamei prawn", "vannamei white prawn", "udang putih", "白虾", "udang putih vannamei"] },
-            { id: 48, name: "Kerang (Blood Cockles)", category: "Kerang²an", imgUrl: "images/kerang.webp",
-              keywords: ["blood cockles"] }
-        ];
-
-        products.sort((a, b) => a.name.localeCompare(b.name));
-
-        let cart = [];
-        let favorites = [];
-        const fallbackImg = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
         function getCategoryCount(cat) {
             if (cat === "Semua") return products.length;
@@ -1676,77 +2090,22 @@
             localStorage.setItem('pcy_delivery_date', document.getElementById('deliveryDateInput').value);
         }
 
-        /* ============ FAVOURITES ============ */
-        function loadFavorites() {
-            try {
-                const raw = localStorage.getItem('pcy_favorites');
-                if (raw) {
-                    const parsed = JSON.parse(raw);
-                    if (Array.isArray(parsed)) {
-                        // Filter out any IDs that no longer exist in the catalog
-                        favorites = parsed.filter(id => products.some(p => p.id === id));
-                    }
-                }
-            } catch (e) { favorites = []; }
-        }
-
-        function saveFavorites() {
-            localStorage.setItem('pcy_favorites', JSON.stringify(favorites));
-        }
-
-        function isFavorited(productId) {
-            return favorites.includes(productId);
-        }
-
-        function toggleFavorite(productId, btnElement) {
-            const idx = favorites.indexOf(productId);
-            if (idx >= 0) {
-                favorites.splice(idx, 1);
-                if (btnElement) {
-                    btnElement.classList.remove('active');
-                    btnElement.setAttribute('aria-label', 'Add to favorites');
-                    btnElement.setAttribute('aria-pressed', 'false');
-                    const svg = btnElement.querySelector('svg');
-                    if (svg) svg.setAttribute('fill', 'none');
-                }
-            } else {
-                favorites.push(productId);
-                if (btnElement) {
-                    btnElement.classList.add('active', 'pop');
-                    btnElement.setAttribute('aria-label', 'Remove from favorites');
-                    btnElement.setAttribute('aria-pressed', 'true');
-                    const svg = btnElement.querySelector('svg');
-                    if (svg) svg.setAttribute('fill', 'currentColor');
-                    setTimeout(() => btnElement.classList.remove('pop'), 400);
-                }
-            }
-            saveFavorites();
-            renderTabs(); // Update favourites count badge in nav
-            // If we're currently viewing favourites only, re-filter (card may disappear)
-            if (currentCategory === 'Favourites') {
-                filterProducts();
-            }
-        }
-
         /* ============ MALAYSIA TIMEZONE & CUT-OFF ============ */
         function getMYTime() {
-            // Always returns Malaysia time, regardless of the buyer's device timezone.
-            // A chef traveling in Bangkok still sees MY cut-off times.
             return new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' }));
         }
 
         function getCutoffState() {
             const my = getMYTime();
             const totalMinutes = my.getHours() * 60 + my.getMinutes();
-            const MORNING_START = 6 * 60;     // 6:00 AM
-            const MORNING_END = 10 * 60;      // 10:00 AM
-            const AFTERNOON_START = 14 * 60;  // 2:00 PM
-            const AFTERNOON_END = 15 * 60;    // 3:00 PM
+            const MORNING_START = 6 * 60;
+            const MORNING_END = 10 * 60;
+            const AFTERNOON_START = 14 * 60;
+            const AFTERNOON_END = 15 * 60;
 
             if (totalMinutes >= MORNING_START && totalMinutes < MORNING_END) {
                 return {
-                    state: 'morning-open',
-                    icon: '🌅',
+                    state: 'morning-open', icon: '🌅',
                     minutesUntilCutoff: MORNING_END - totalMinutes,
                     cutoffLabel: '10:00 AM',
                     slotLabel: 'This morning',
@@ -1754,16 +2113,14 @@
                 };
             } else if (totalMinutes >= MORNING_END && totalMinutes < AFTERNOON_START) {
                 return {
-                    state: 'midday',
-                    icon: '☀️',
+                    state: 'midday', icon: '☀️',
                     minutesUntilOpen: AFTERNOON_START - totalMinutes,
                     slotLabel: 'This afternoon',
                     dateOffset: 0
                 };
             } else if (totalMinutes >= AFTERNOON_START && totalMinutes < AFTERNOON_END) {
                 return {
-                    state: 'afternoon-open',
-                    icon: '☀️',
+                    state: 'afternoon-open', icon: '☀️',
                     minutesUntilCutoff: AFTERNOON_END - totalMinutes,
                     cutoffLabel: '3:00 PM',
                     slotLabel: 'This afternoon',
@@ -1771,8 +2128,7 @@
                 };
             } else {
                 return {
-                    state: 'next-day',
-                    icon: '🌙',
+                    state: 'next-day', icon: '🌙',
                     slotLabel: 'Tomorrow morning',
                     dateOffset: 1
                 };
@@ -1794,6 +2150,7 @@
         }
 
         function renderCutoffBanner() {
+            // Banner copy stays in English for ops clarity (per spec)
             const banner = document.getElementById('cutoffBanner');
             const iconEl = document.getElementById('cutoffIcon');
             const mainEl = document.getElementById('cutoffMain');
@@ -1802,20 +2159,19 @@
 
             const cs = getCutoffState();
             iconEl.textContent = cs.icon;
-
             let isUrgent = false;
             let stateClass = 'state-info';
 
             if (cs.state === 'morning-open' || cs.state === 'afternoon-open') {
                 const isMorning = cs.state === 'morning-open';
-                const windowLabel = isMorning ? 'Morning' : 'Afternoon';
+                const windowLabel = isMorning ? 'morning' : 'afternoon';
                 if (cs.minutesUntilCutoff < 30) {
                     isUrgent = true;
                     const cd = formatCountdown(cs.minutesUntilCutoff, cs.minutesUntilCutoff < 5);
-                    mainEl.innerHTML = `<strong>Last call for ${windowLabel.toLowerCase()} delivery</strong> · <span class="cutoff-countdown">${cd}</span> left`;
+                    mainEl.innerHTML = `<strong>Last call for ${windowLabel} delivery</strong> · <span class="cutoff-countdown">${cd}</span> left`;
                 } else {
                     const cd = formatCountdown(cs.minutesUntilCutoff, false);
-                    mainEl.innerHTML = `<strong>${windowLabel} delivery</strong> · Order in <span class="cutoff-countdown">${cd}</span> · Cut-off ${cs.cutoffLabel}`;
+                    mainEl.innerHTML = `<strong>${windowLabel.charAt(0).toUpperCase() + windowLabel.slice(1)} delivery</strong> · Order in <span class="cutoff-countdown">${cd}</span> · Cut-off ${cs.cutoffLabel}`;
                 }
                 subEl.textContent = '';
                 stateClass = isUrgent ? 'state-urgent' : 'state-open';
@@ -1836,9 +2192,7 @@
 
         function startCutoffTimer() {
             renderCutoffBanner();
-            // Re-render every 30s for state transitions and minute-level countdown updates
             setInterval(renderCutoffBanner, 30000);
-            // Re-render every 1s during the final 5 minutes (sub-minute countdown)
             setInterval(() => {
                 const cs = getCutoffState();
                 if ((cs.state === 'morning-open' || cs.state === 'afternoon-open') && cs.minutesUntilCutoff < 5) {
@@ -1849,7 +2203,7 @@
 
         function autoFillDeliveryDate() {
             const dateInput = document.getElementById('deliveryDateInput');
-            if (!dateInput || dateInput.value) return; // Don't override a user-set value
+            if (!dateInput || dateInput.value) return;
             const cs = getCutoffState();
             const my = getMYTime();
             const target = new Date(my);
@@ -1861,7 +2215,6 @@
         }
 
         function formatDateForDisplay(dateStr) {
-            // dateStr is in YYYY-MM-DD format
             if (!dateStr) return '';
             const parts = dateStr.split('-');
             if (parts.length !== 3) return dateStr;
@@ -1873,7 +2226,6 @@
         }
 
         function formatDateAsDDMMYYYY(dateStr) {
-            // dateStr is in YYYY-MM-DD format → returns "02/09/2026"
             if (!dateStr) return '';
             const parts = dateStr.split('-');
             if (parts.length !== 3) return dateStr;
@@ -1881,7 +2233,6 @@
         }
 
         function formatDateLong(dateStr) {
-            // dateStr is in YYYY-MM-DD format → returns "2 September 2026"
             if (!dateStr) return '';
             const parts = dateStr.split('-');
             if (parts.length !== 3) return dateStr;
@@ -1912,8 +2263,11 @@
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('deliveryDateInput').setAttribute('min', today);
 
+            renderLangToggle();
+            applyStaticTranslations();
+            renderHowItWorks();
+            renderFeaturedStrip();
             loadCart();
-            loadFavorites();
             renderTabs();
             filterProducts();
             updateCartBadge();
@@ -1924,7 +2278,6 @@
             document.getElementById('companyNameInput').addEventListener('input', persistForm);
             document.getElementById('deliveryDateInput').addEventListener('change', persistForm);
 
-            // Close preview modal on Escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     const preview = document.getElementById('previewOverlay');
@@ -1947,18 +2300,6 @@
 
         function renderTabs() {
             const tabsContainer = document.getElementById("categoryTabs");
-            const favCount = favorites.length;
-            const favDisabled = favCount === 0 ? 'disabled' : '';
-            const favActive = currentCategory === 'Favourites' ? 'active' : '';
-            const favBtn = `<button class="cat-btn fav-tab ${favActive} ${favDisabled}"
-                                onclick="setCategory('Favourites')"
-                                role="tab"
-                                aria-selected="${currentCategory === 'Favourites'}"
-                                ${favDisabled ? 'aria-disabled="true"' : ''}>
-                            <span class="cat-icon" aria-hidden="true">♥</span>
-                            Favourites
-                            <span class="cat-count">${favCount}</span>
-                        </button>`;
             const catBtns = categories.map((cat) => {
                 const count = getCategoryCount(cat);
                 const icon = categoryIcons[cat] || "";
@@ -1967,16 +2308,14 @@
                             role="tab"
                             aria-selected="${cat === currentCategory}">
                         <span class="cat-icon" aria-hidden="true">${icon}</span>
-                        ${cat}
+                        ${getCatLabel(cat)}
                         <span class="cat-count">${count}</span>
                     </button>`;
             }).join('');
-            tabsContainer.innerHTML = favBtn + catBtns;
+            tabsContainer.innerHTML = catBtns;
         }
 
         function setCategory(cat) {
-            // Don't allow activation of the favourites tab if no favourites exist
-            if (cat === 'Favourites' && favorites.length === 0) return;
             currentCategory = cat;
             renderTabs();
             setTimeout(() => {
@@ -1990,58 +2329,50 @@
             const countEl = document.getElementById("resultsCount");
             if (!countEl) return;
             const query = document.getElementById("searchInput").value.trim();
+            const noun = (n, key1, key2) => currentLang === 'zh' ? t(key2) : (n !== 1 ? t(key2) : t(key1));
 
-            if (currentCategory === 'Favourites') {
-                if (query) {
-                    countEl.innerHTML = `<strong>${count}</strong> favourite${count !== 1 ? 's' : ''} matching "${query}"`;
-                } else {
-                    countEl.innerHTML = `<strong>${count}</strong> favourite${count !== 1 ? 's' : ''}`;
-                }
-            } else if (query) {
-                countEl.innerHTML = `<strong>${count}</strong> result${count !== 1 ? 's' : ''} for "${query}"`;
+            if (query) {
+                countEl.innerHTML = `<strong>${count}</strong> ${noun(count, 'result', 'results')} ${t('resultsFor')} "${query}"`;
             } else {
-                countEl.innerHTML = `<strong>${count}</strong> item${count !== 1 ? 's' : ''} in ${currentCategory === 'Semua' ? 'catalog' : currentCategory}`;
+                const cat = currentCategory === "Semua" ? t('catalogue') : currentCategory;
+                countEl.innerHTML = `<strong>${count}</strong> ${noun(count, 'item', 'items')} ${t('resultsIn')} ${cat}`;
             }
         }
 
-        function isInCart(productId) {
-            return cart.some(item => item.id === productId);
-        }
+        function isInCart(productId) { return cart.some(item => item.id === productId); }
 
         function createProductCard(p, query) {
             const card = document.createElement('div');
-            const isFav = isFavorited(p.id);
-            card.className = "product-card" + (isInCart(p.id) ? " in-cart" : "");
+            const inCart = isInCart(p.id);
+            card.className = "product-card" + (inCart ? " in-cart" : "");
             const displayName = highlightText(p.name, query);
-            const favLabel = isFav ? 'Remove from favorites' : 'Add to favorites';
-            const favFill = isFav ? 'currentColor' : 'none';
+            const inOrderHtml = inCart ? `<div class="card-in-order" data-i18n="inOrder">${t('inOrder')}</div>` : '';
+            const sizePh = t('sizePh');
+            const addLabel = t('addToOrder');
+            const addSizeLabel = t('addSize');
 
             card.innerHTML = `
                 <div class="img-wrap">
-                    <button type="button" class="fav-btn ${isFav ? 'active' : ''}" data-id="${p.id}" onclick="toggleFavorite(${p.id}, this)" aria-label="${favLabel}" aria-pressed="${isFav}">
-                        <svg viewBox="0 0 24 24" fill="${favFill}" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                        </svg>
-                    </button>
+                    ${inOrderHtml}
                     <img src="${p.imgUrl}" alt="${p.name}" class="product-img" loading="lazy" decoding="async" width="400" height="400" onerror="this.onerror=null; this.src='${fallbackImg}'; this.parentElement.style.background='#e5e3da';">
                 </div>
                 <div class="product-info">
                     <span class="product-category">${p.category}</span>
                     <h3 class="product-name">${displayName}</h3>
                     <div class="card-controls">
-                        <button type="button" class="size-toggle" data-id="${p.id}" onclick="toggleSizeField(${p.id}, this)">+ Size</button>
-                        <input type="text" class="size-input hidden" id="size-${p.id}" placeholder="Size / grade (e.g. 300/500)">
+                        <button type="button" class="size-toggle" data-id="${p.id}" onclick="toggleSizeField(${p.id}, this)">${addSizeLabel}</button>
+                        <input type="text" class="size-input hidden" id="size-${p.id}" placeholder="${sizePh}">
                         <div class="stepper" aria-label="Weight in kilograms">
                             <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, -10)" aria-label="Decrease">−</button>
                             <div class="stepper-value">
                                 <input type="number" class="stepper-input" id="weight-${p.id}" value="10" min="10" step="1" oninput="clampWeight(${p.id})" aria-label="Weight">
-                                <span class="stepper-unit">KG</span>
+                                <span class="stepper-unit">${t('kg')}</span>
                             </div>
                             <button type="button" class="stepper-btn" onclick="adjustWeight(${p.id}, 10)" aria-label="Increase">+</button>
                         </div>
                         <button class="add-btn" onclick="addToOrder(${p.id}, this)">
                             <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-                            Add to Order
+                            <span data-i18n="addToOrder">${addLabel}</span>
                         </button>
                     </div>
                 </div>
@@ -2051,46 +2382,27 @@
 
         function filterProducts() {
             const query = document.getElementById("searchInput").value.toLowerCase().trim();
-            const showOnlyFavs = currentCategory === 'Favourites';
 
             let filtered = products.filter(p => {
-                const matchCategory = showOnlyFavs || currentCategory === "Semua" || p.category === currentCategory;
+                const matchCategory = (currentCategory === "Semua" || p.category === currentCategory);
                 if (!query) return matchCategory;
+                // Search across name + all keyword variants (EN/BM/ZH)
                 const inName = p.name.toLowerCase().includes(query);
                 const inKeywords = (p.keywords || []).some(k => k.toLowerCase().includes(query));
-                return matchCategory && (inName || inKeywords);
+                const inNameZh = (p.nameZh || '').toLowerCase().includes(query);
+                return matchCategory && (inName || inNameZh || inKeywords);
             });
-
-            if (showOnlyFavs) {
-                filtered = filtered.filter(p => favorites.includes(p.id));
-            }
 
             const grid = document.getElementById("productGrid");
             grid.innerHTML = '';
 
             if (filtered.length === 0) {
-                if (showOnlyFavs && favorites.length === 0) {
-                    grid.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">♥</div>
-                            <h3>No favourites yet</h3>
-                            <p>Tap the ♥ on items you order often to see them here.</p>
-                        </div>`;
-                } else if (showOnlyFavs) {
-                    grid.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">🔍</div>
-                            <h3>No favourites match your search</h3>
-                            <p>Try clearing the search or pick a different category.</p>
-                        </div>`;
-                } else {
-                    grid.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">🔍</div>
-                            <h3>No matches found</h3>
-                            <p>Try a different keyword or category</p>
-                        </div>`;
-                }
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h3>${t('noMatches')}</h3>
+                        <p>${t('tryKeyword')}</p>
+                    </div>`;
                 updateResultsCount(0);
                 return;
             }
@@ -2101,13 +2413,11 @@
                 categories.slice(1).forEach(cat => {
                     const catProducts = filtered.filter(p => p.category === cat);
                     if (catProducts.length === 0) return;
-
                     const icon = categoryIcons[cat] || "";
                     const header = document.createElement('div');
                     header.className = 'section-header';
-                    header.innerHTML = `<span class="cat-icon">${icon}</span> ${cat} <span>${catProducts.length} item${catProducts.length !== 1 ? 's' : ''}</span>`;
+                    header.innerHTML = `<span class="cat-icon" aria-hidden="true">${icon}</span> ${getCatLabel(cat)} <span>${catProducts.length} ${catProducts.length !== 1 ? t('items') : t('item')}</span>`;
                     grid.appendChild(header);
-
                     catProducts.forEach(p => grid.appendChild(createProductCard(p, query)));
                 });
             } else {
@@ -2162,6 +2472,7 @@
                     cartUniqueId: Date.now() + Math.random(),
                     id: product.id,
                     name: product.name,
+                    nameZh: product.nameZh || product.name,
                     imgUrl: product.imgUrl,
                     size: size,
                     weight: weight
@@ -2171,15 +2482,30 @@
             saveCart();
 
             const card = buttonElement.closest('.product-card');
-            if (card) card.classList.add('in-cart');
+            if (card) {
+                card.classList.add('in-cart');
+                // Inject In Order label if missing
+                if (!card.querySelector('.card-in-order')) {
+                    const imgWrap = card.querySelector('.img-wrap');
+                    if (imgWrap) {
+                        const inOrderEl = document.createElement('div');
+                        inOrderEl.className = 'card-in-order';
+                        inOrderEl.textContent = t('inOrder');
+                        imgWrap.appendChild(inOrderEl);
+                    }
+                }
+            }
             buttonElement.classList.add('added');
-            buttonElement.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Added';
+            const labelSpan = buttonElement.querySelector('[data-i18n="addToOrder"]');
+            if (labelSpan) {
+                buttonElement.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> ' + t('added');
+            }
 
             updateCartBadge();
 
             buttonElement.addEventListener('animationend', function onEnd() {
                 buttonElement.classList.remove('added');
-                buttonElement.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Add to Order';
+                buttonElement.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> <span data-i18n="addToOrder">' + t('addToOrder') + '</span>';
                 buttonElement.removeEventListener('animationend', onEnd);
             }, { once: true });
 
@@ -2201,10 +2527,10 @@
             if (cart.length > 0) {
                 badge.classList.add('visible');
                 badge.textContent = cart.length;
-                headerCount.textContent = `${cart.length} item${cart.length > 1 ? 's' : ''} added`;
+                headerCount.textContent = `${cart.length} ${cart.length > 1 ? t('items') : t('item')}`;
             } else {
                 badge.classList.remove('visible');
-                headerCount.textContent = '0 items added';
+                headerCount.textContent = `0 ${t('items')}`;
             }
             updateOrderBar();
         }
@@ -2221,8 +2547,8 @@
             }
 
             const totalKg = cart.reduce((sum, item) => sum + (parseFloat(item.weight) || 0), 0);
-            countEl.textContent = `${cart.length} item${cart.length > 1 ? 's' : ''}`;
-            weightEl.textContent = `${totalKg.toFixed(1)} KG total`;
+            countEl.textContent = `${cart.length} ${cart.length > 1 ? t('items') : t('item')}`;
+            weightEl.textContent = `${totalKg.toFixed(1)} ${t('kgTotal')}`;
             iconEl.setAttribute('data-count', cart.length);
             bar.classList.add("visible");
         }
@@ -2282,11 +2608,11 @@
                 container.innerHTML = `
                     <div class="cart-empty">
                         <div class="empty-icon">🛒</div>
-                        <h3>Your order list is empty</h3>
-                        <p>Browse the catalog and tap "Add to Order" on the items you need.</p>
-                        <button onclick="toggleCart()">Browse Seafood</button>
+                        <h3>${t('emptyOrder')}</h3>
+                        <p>${t('emptyOrderDesc')}</p>
+                        <button onclick="toggleCart()">${t('browseButton')}</button>
                     </div>`;
-                document.getElementById("cartTotalKg").textContent = "0 KG";
+                document.getElementById("cartTotalKg").textContent = `0 ${t('kg')}`;
                 return;
             }
 
@@ -2296,29 +2622,30 @@
                 totalKg += parseFloat(item.weight) || 0;
                 const el = document.createElement("div");
                 el.className = "cart-item";
-                const sizeBadge = item.size ? `<span class="cart-item-meta">Size: ${item.size}</span>` : '';
+                const itemName = getProductName(getProductById(item.id)) || item.name;
+                const sizeBadge = item.size ? `<span class="cart-item-meta">${t('size')}: ${item.size}</span>` : '';
                 el.innerHTML = `
                     <div class="cart-item-top">
-                        <img src="${item.imgUrl}" alt="${item.name}" class="cart-item-img" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='${fallbackImg}'; this.style.background='#e5e3da';">
+                        <img src="${item.imgUrl}" alt="${itemName}" class="cart-item-img" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='${fallbackImg}'; this.style.background='#e5e3da';">
                         <div class="cart-item-details">
-                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-name">${itemName}</div>
                             ${sizeBadge}
                         </div>
-                        <button class="remove-btn" onclick="removeFromCart(${item.cartUniqueId})">Remove</button>
+                        <button class="remove-btn" onclick="removeFromCart(${item.cartUniqueId})">${t('remove')}</button>
                     </div>
                     <div class="cart-item-inputs">
                         <div class="input-group">
-                            <label>Size</label>
+                            <label>${t('size')}</label>
                             <input type="text" placeholder="e.g. 300/500" value="${item.size}"
                                    oninput="updateCartItemData(${item.cartUniqueId}, 'size', this.value)">
                         </div>
                         <div class="input-group">
-                            <label>Weight</label>
+                            <label>${t('weight')}</label>
                             <div class="stepper">
                                 <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, -10, this)" aria-label="Decrease">−</button>
                                 <div class="stepper-value">
                                     <input type="number" class="stepper-input" value="${item.weight}" min="10" step="0.1" oninput="updateCartWeight(${item.cartUniqueId}, this.value)" aria-label="Weight">
-                                    <span class="stepper-unit">KG</span>
+                                    <span class="stepper-unit">${t('kg')}</span>
                                 </div>
                                 <button type="button" class="stepper-btn" onclick="adjustCartWeight(${item.cartUniqueId}, 10, this)" aria-label="Increase">+</button>
                             </div>
@@ -2328,7 +2655,7 @@
                 container.appendChild(el);
             });
 
-            document.getElementById("cartTotalKg").textContent = `${totalKg.toFixed(1)} KG`;
+            document.getElementById("cartTotalKg").textContent = `${totalKg.toFixed(1)} ${t('kg')}`;
         }
 
         function updateCartItemData(cartUniqueId, field, value) {
@@ -2346,7 +2673,7 @@
             item.weight = isNaN(v) ? 10 : Math.max(0, v);
             saveCart();
             const totalKg = cart.reduce((sum, it) => sum + (parseFloat(it.weight) || 0), 0);
-            document.getElementById("cartTotalKg").textContent = `${totalKg.toFixed(1)} KG`;
+            document.getElementById("cartTotalKg").textContent = `${totalKg.toFixed(1)} ${t('kg')}`;
             updateOrderBar();
         }
 
@@ -2371,7 +2698,7 @@
 
         function sendToWhatsApp() {
             if (cart.length === 0) {
-                alert("Please add at least one item before sending.");
+                alert(t('errEmpty'));
                 return;
             }
 
@@ -2379,35 +2706,39 @@
             const deliveryDate = document.getElementById("deliveryDateInput").value.trim();
 
             if (!companyName) {
-                alert("Please enter your company name.");
+                alert(t('errCompany'));
                 document.getElementById("companyNameInput").focus();
                 return;
             }
 
             if (!deliveryDate) {
-                alert("Please select a delivery date.");
+                alert(t('errDate'));
                 document.getElementById("deliveryDateInput").focus();
                 return;
             }
 
-            // Validation passed — open the preview modal instead of jumping straight to WhatsApp
             openPreview();
         }
 
         /* ============ WHATSAPP PREVIEW MODAL ============ */
         function buildWhatsAppMessage(companyName, deliveryDate) {
-            let message = `Hello PCY! 👋\n\n`;
+            // Use current language for greeting, list label, and confirm line.
+            // Item names use Chinese name when lang is zh, otherwise default name.
+            const dateStr = formatDateAsDDMMYYYY(deliveryDate);
+            let message = `${t('helloPcy')} 👋\n\n`;
             message += `${companyName}\n`;
-            message += `${formatDateAsDDMMYYYY(deliveryDate)}\n\n`;
-            message += `*Order List:*\n`;
+            message += `${dateStr}\n\n`;
+            message += `*${t('orderList')}*\n`;
 
             cart.forEach((item, idx) => {
-                const itemSize = item.size.trim() === "" ? "" : ` (${item.size.trim()})`;
+                const product = getProductById(item.id);
+                const itemName = getProductName(product) || item.name;
+                const itemSize = (item.size || "").trim() === "" ? "" : ` (${item.size.trim()})`;
                 const itemWeight = item.weight || 10;
-                message += `${idx + 1}. ${item.name}${itemSize} — ${itemWeight} KG\n`;
+                message += `${idx + 1}. ${itemName}${itemSize} — ${itemWeight} ${t('kg')}\n`;
             });
 
-            message += `\nPlease confirm availability and pricing.`;
+            message += `\n${t('confirmAvail')}`;
             return message;
         }
 
@@ -2417,7 +2748,7 @@
             const deliveryDate = document.getElementById("deliveryDateInput").value.trim();
             const message = buildWhatsAppMessage(companyName, deliveryDate);
 
-            document.getElementById("previewSlotBanner").textContent = `Deliver on ${formatDateLong(deliveryDate)}`;
+            document.getElementById("previewSlotBanner").textContent = `${t('deliverOn')} ${formatDateLong(deliveryDate)}`;
             document.getElementById("previewMessage").textContent = message;
 
             overlay.dataset.message = message;
@@ -2452,7 +2783,6 @@
         }
 
         // Service worker for offline caching.
-        // Browser-side cache only — does not use any Netlify database or credits.
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').catch(() => {});
