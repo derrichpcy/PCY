@@ -1257,6 +1257,154 @@
             margin-top: 0.7rem;
         }
 
+
+        /* ============ LANGUAGE POPUP ============ */
+        .lang-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(7, 22, 40, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .lang-overlay.active { opacity: 1; pointer-events: auto; }
+        .lang-modal {
+            background: var(--bg-elevated);
+            width: 100%;
+            max-width: 380px;
+            border-radius: 16px;
+            padding: 2rem 1.5rem 1.75rem;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            transform: scale(0.92) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .lang-overlay.active .lang-modal { transform: scale(1) translateY(0); }
+        .lang-modal h2 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 0.35rem;
+            letter-spacing: -0.01em;
+        }
+        .lang-modal p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .lang-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .lang-option-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.15s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .lang-option-btn:hover { background: var(--primary-light); }
+        .lang-option-btn:active { transform: scale(0.98); }
+        .lang-option-btn.secondary {
+            background: white;
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+        .lang-option-btn.secondary:hover { background: var(--bg); border-color: var(--text-soft); }
+
+        /* ============ HOW IT WORKS MODAL ============ */
+        .hiw-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(7, 22, 40, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 1100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+        }
+        .hiw-overlay.active { opacity: 1; pointer-events: auto; }
+        .hiw-modal {
+            background: var(--bg-elevated);
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.92) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+        }
+        .hiw-overlay.active .hiw-modal { transform: scale(1) translateY(0); }
+        .hiw-header {
+            padding: 1.1rem 1.25rem;
+            border-bottom: 1px solid var(--border-soft);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+        }
+        .hiw-header h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .hiw-close {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            transition: all 0.15s;
+        }
+        .hiw-close:hover { background: var(--border-soft); }
+        .hiw-body {
+            padding: 1.25rem;
+            overflow-y: auto;
+        }
+        .hiw-trigger-btn {
+            background: none;
+            border: 1.5px dashed var(--border);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.35rem 0.7rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-family: inherit;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .hiw-trigger-btn:hover { color: var(--primary); border-color: var(--primary); background: var(--primary-soft); }
         /* ============ FOOTER ============ */
         footer {
             background: var(--primary);
@@ -1467,6 +1615,20 @@
     </style>
 </head>
 <body>
+    <!-- Language Selection Popup -->
+    <div class="lang-overlay" id="langOverlay">
+        <div class="lang-modal">
+            <h2>Choose your language</h2>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.5rem;">Pilih bahasa anda &nbsp;·&nbsp; 选择您的语言</p>
+            <div class="lang-options">
+                <button class="lang-option-btn" onclick="setLang('en'); closeLangPopup()">🇬🇧 &nbsp;English</button>
+                <button class="lang-option-btn secondary" onclick="setLang('ms'); closeLangPopup()">🇲🇾 &nbsp;Bahasa Melayu</button>
+                <button class="lang-option-btn secondary" onclick="setLang('zh'); closeLangPopup()">🇨🇳 &nbsp;中文</button>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- Sticky Header with Search -->
     <header class="app-header">
@@ -1499,8 +1661,24 @@
     <!-- Featured Strip (high-margin picks, rendered via JS) -->
     <section class="featured-strip" id="featuredStrip" aria-label="Featured products"></section>
 
-    <!-- How It Works (rendered via JS so it can be translated) -->
-    <section class="how-it-works" id="howItWorks" aria-label="How ordering works"></section>
+    <!-- How It Works Trigger -->
+    <div style="padding: 0.6rem 1.25rem 0;">
+        <button class="hiw-trigger-btn" onclick="openHiwModal()" id="hiwTriggerBtn">
+            <span style="font-size:0.9rem;">❓</span>
+            <span id="hiwTriggerLabel">How It Works</span>
+        </button>
+    </div>
+
+    <!-- How It Works Modal -->
+    <div class="hiw-overlay" id="hiwOverlay" onclick="closeHiwOnOutside(event)" role="dialog" aria-modal="true" aria-labelledby="hiwTitle">
+        <div class="hiw-modal" onclick="event.stopPropagation()">
+            <div class="hiw-header">
+                <h3 id="hiwTitle">How It Works</h3>
+                <button class="hiw-close" onclick="closeHiwModal()" aria-label="Close">✕</button>
+            </div>
+            <div class="hiw-body" id="hiwBody"></div>
+        </div>
+    </div>
 
     <!-- Cut-off Countdown Banner -->
     <div class="cutoff-banner state-info" id="cutoffBanner" role="status" aria-live="polite" aria-atomic="true">
@@ -1707,6 +1885,22 @@
             if (lang.startsWith('ms') || lang.startsWith('id')) return 'ms';
             return 'en';
         }
+
+        /* ============ LANGUAGE POPUP ============ */
+        function showLangPopup() {
+            const overlay = document.getElementById('langOverlay');
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        function closeLangPopup() {
+            const overlay = document.getElementById('langOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
         let currentLang = detectLang();
         function t(key) { return (T[key] && T[key][currentLang]) || (T[key] && T[key].en) || key; }
 
@@ -1740,6 +1934,7 @@
             renderTabs();
             filterProducts();
             renderCartItems();
+            closeLangPopup(); // Ensure popup closes after selection
             // Re-render preview if open
             const preview = document.getElementById('previewOverlay');
             if (preview && preview.classList.contains('active')) {
@@ -1781,38 +1976,69 @@
         }
 
         function renderHowItWorks() {
-            const section = document.getElementById('howItWorks');
-            if (!section) return;
-            section.innerHTML = `
-                <div class="how-it-works-title">${t('howItWorks')}</div>
-                <div class="how-steps">
-                    <div class="how-step">
-                        <div class="how-step-num">1</div>
-                        <div class="how-step-content">
-                            <h4>${t('howStep1Title')}</h4>
-                            <p>${t('howStep1Desc')}</p>
+            const body = document.getElementById('hiwBody');
+            const triggerLabel = document.getElementById('hiwTriggerLabel');
+            if (triggerLabel) triggerLabel.textContent = t('howItWorks');
+            if (!body) return;
+            body.innerHTML = `
+                <div class="how-it-works" style="margin:0;padding:0;border:none;background:transparent;">
+                    <div class="how-steps" style="gap:1rem;">
+                        <div class="how-step">
+                            <div class="how-step-num">1</div>
+                            <div class="how-step-content">
+                                <h4>${t('howStep1Title')}</h4>
+                                <p>${t('howStep1Desc')}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="how-step">
-                        <div class="how-step-num">2</div>
-                        <div class="how-step-content">
-                            <h4>${t('howStep2Title')}</h4>
-                            <p>${t('howStep2Desc')}</p>
+                        <div class="how-step">
+                            <div class="how-step-num">2</div>
+                            <div class="how-step-content">
+                                <h4>${t('howStep2Title')}</h4>
+                                <p>${t('howStep2Desc')}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="how-step">
-                        <div class="how-step-num">3</div>
-                        <div class="how-step-content">
-                            <h4>${t('howStep3Title')}</h4>
-                            <p>${t('howStep3Desc')}</p>
+                        <div class="how-step">
+                            <div class="how-step-num">3</div>
+                            <div class="how-step-content">
+                                <h4>${t('howStep3Title')}</h4>
+                                <p>${t('howStep3Desc')}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
         }
 
+        function openHiwModal() {
+            const overlay = document.getElementById('hiwOverlay');
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => {
+                    const closeBtn = document.querySelector('.hiw-close');
+                    if (closeBtn) closeBtn.focus();
+                }, 100);
+            }
+        }
+        function closeHiwModal() {
+            const overlay = document.getElementById('hiwOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        function closeHiwOnOutside(event) {
+            if (event.target.id === 'hiwOverlay') closeHiwModal();
+        }
+
         /* ============ PRODUCT NAME LOOKUP (for cart + WhatsApp) ============ */
         function getProductName(p) {
+            // Always return the English/Malay name for cart and WhatsApp
+            // Chinese name (nameZh) is only used for search keywords, never display
+            return (p && p.name) || '';
+        }
+        function getDisplayName(p) {
+            // For UI display only — can show Chinese if user selected zh
             if (currentLang === 'zh' && p && p.nameZh) return p.nameZh;
             return (p && p.name) || '';
         }
@@ -2275,6 +2501,13 @@
             startCutoffTimer();
             autoFillDeliveryDate();
 
+            // Show language popup on first visit (no saved language)
+            let hasSavedLang = false;
+            try { hasSavedLang = !!localStorage.getItem('pcy_lang'); } catch (e) {}
+            if (!hasSavedLang) {
+                showLangPopup();
+            }
+
             document.getElementById('companyNameInput').addEventListener('input', persistForm);
             document.getElementById('deliveryDateInput').addEventListener('change', persistForm);
 
@@ -2283,6 +2516,10 @@
                     const preview = document.getElementById('previewOverlay');
                     if (preview && preview.classList.contains('active')) {
                         closePreview();
+                    }
+                    const hiw = document.getElementById('hiwOverlay');
+                    if (hiw && hiw.classList.contains('active')) {
+                        closeHiwModal();
                     }
                 }
             });
@@ -2622,7 +2859,7 @@
                 totalKg += parseFloat(item.weight) || 0;
                 const el = document.createElement("div");
                 el.className = "cart-item";
-                const itemName = getProductName(getProductById(item.id)) || item.name;
+                const itemName = item.name; // Always English/Malay, never Chinese
                 const sizeBadge = item.size ? `<span class="cart-item-meta">${t('size')}: ${item.size}</span>` : '';
                 el.innerHTML = `
                     <div class="cart-item-top">
@@ -2721,34 +2958,47 @@
         }
 
         /* ============ WHATSAPP PREVIEW MODAL ============ */
-        function buildWhatsAppMessage(companyName, deliveryDate) {
-            // Use current language for greeting, list label, and confirm line.
-            // Item names use Chinese name when lang is zh, otherwise default name.
-            const dateStr = formatDateAsDDMMYYYY(deliveryDate);
-            let message = `${t('helloPcy')} 👋\n\n`;
-            message += `${companyName}\n`;
-            message += `${dateStr}\n\n`;
-            message += `*${t('orderList')}*\n`;
-
-            cart.forEach((item, idx) => {
-                const product = getProductById(item.id);
-                const itemName = getProductName(product) || item.name;
-                const itemSize = (item.size || "").trim() === "" ? "" : ` (${item.size.trim()})`;
-                const itemWeight = item.weight || 10;
-                message += `${idx + 1}. ${itemName}${itemSize} — ${itemWeight} ${t('kg')}\n`;
-            });
-
-            message += `\n${t('confirmAvail')}`;
-            return message;
+        function tEn(key) {
+            // WhatsApp messages must never be in Chinese — fallback to English
+            return (T[key] && T[key]['en']) || (T[key] && T[key]['ms']) || key;
         }
 
+        function buildWhatsAppMessage(companyName, deliveryDate) {
+            // WhatsApp message is NEVER in Chinese. Uses English (or Malay if preferred).
+            // Product names always use the original English/Malay name (e.g. Bawal Emas (Golden Pomfret))
+            const dateStr = formatDateAsDDMMYYYY(deliveryDate);
+            let message = `${tEn('helloPcy')} 👋
+
+`;
+            message += `${companyName}
+`;
+            message += `${dateStr}
+
+`;
+            message += `*${tEn('orderList')}*
+`;
+
+            cart.forEach((item, idx) => {
+                // ALWAYS use the original English/Malay name, never Chinese
+                const itemName = item.name;
+                const itemSize = (item.size || "").trim() === "" ? "" : ` (${item.size.trim()})`;
+                const itemWeight = item.weight || 10;
+                message += `${idx + 1}. ${itemName}${itemSize} — ${itemWeight} ${tEn('kg')}
+`;
+            });
+
+            message += `
+${tEn('confirmAvail')}`;
+            return message;
+        }
         function openPreview() {
             const overlay = document.getElementById("previewOverlay");
             const companyName = document.getElementById("companyNameInput").value.trim();
             const deliveryDate = document.getElementById("deliveryDateInput").value.trim();
             const message = buildWhatsAppMessage(companyName, deliveryDate);
 
-            document.getElementById("previewSlotBanner").textContent = `${t('deliverOn')} ${formatDateLong(deliveryDate)}`;
+            // Preview banner also uses English for Chinese users
+            document.getElementById("previewSlotBanner").textContent = `${tEn('deliverOn')} ${formatDateLong(deliveryDate)}`;
             document.getElementById("previewMessage").textContent = message;
 
             overlay.dataset.message = message;
